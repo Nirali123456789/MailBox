@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/round_corner"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+
+        <RadioGroup
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:checked="true"
+                    android:padding="@dimen/_8sdp"
+                    android:text="System Default"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:text="English"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:text="German"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Spanish(Spain)"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="French"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Italian"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Japanese"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Portuguese"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Russian"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Chinese"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Ukrainian"
+                    android:fontFamily="@font/regular"/>
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

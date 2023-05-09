@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <Switch
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Color coding for Accounts"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black_med"
+            android:enabled="true"
+            android:checked="true"
+            android:theme="@style/ThemeOverlay.MySwitch"
+            android:padding="@dimen/_5sdp"/>
+    <RelativeLayout
+            android:id="@+id/add_account"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/add"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/pic4"
+
+                />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nirali Pandya"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_12sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:layout_below="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="nehavaidya@gmail.com"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/grey_regular"/>
+
+
+
+    </RelativeLayout>
+</LinearLayout>
