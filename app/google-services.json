@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "359794650065",
+    "project_id": "spark-386901",
+    "storage_bucket": "spark-386901.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359794650065:android:a72e3c69e22d802680cef0",
+        "android_client_info": {
+          "package_name": "com.omni.mailbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359794650065-be1jpgkgohqgfnia2eiqg1tln33ldks6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.omni.mailbox",
+            "certificate_hash": "7866af5d4494b635a2557d2236734d270acbd076"
+          }
+        },
+        {
+          "client_id": "359794650065-t9p7q1ne4i5fiqili00r5kpj68v6qckc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITBpjQHBAR8vR8U3Ws8gG-tDoAs6IVoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359794650065-t9p7q1ne4i5fiqili00r5kpj68v6qckc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

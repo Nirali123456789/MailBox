@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<provider
+        name="Gmail"
+        appPassword="true"
+        domain="gmail\\.com"
+        id="gmail"
+        link="https://github.com/M66B/FairEmail/blob/master/FAQ.md#user-content-faq6"
+        order="1"
+        type="com.google">
+    <imap
+            host="imap.gmail.com"
+            port="993"
+            starttls="false" />
+    <smtp
+            host="smtp.gmail.com"
+            port="465"
+            starttls="false" />
+    <pop
+            host="pop.gmail.com"
+            port="995"
+            starttls="false" />
+    <oauth
+            askAccount="true"
+            authorizationEndpoint="https://accounts.google.com/o/oauth2/auth"
+            clientId="359794650065-t9p7q1ne4i5fiqili00r5kpj68v6qckc.apps.googleusercontent.com"
+            enabled="true"
+            privacy="https://policies.google.com/privacy"
+            prompt="consent"
+            redirectUri="eu.faircode.email:/"
+            scopes="https://mail.google.com/"
+            tokenEndpoint="https://oauth2.googleapis.com/token">
+        <!-- https://developers.google.com/identity/protocols/oauth2/native-app -->
+        <!-- https://github.com/openid/AppAuth-Android/blob/master/app/README-Google.md -->
+        <parameter
+                key="access_type"
+                value="offline" />
+    </oauth>
+    <!-- https://oauth.faircode.eu/.well-known/assetlinks.json -->
+    <!-- https://developer.android.com/training/app-links/verify-site-associations -->
+    <!-- /opt/android-studio/jre/bin/keytool -keystore ~/.android/debug.keystore -list -v -->
+</provider>

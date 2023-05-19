@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Activities.TeamActivity">
+    <RelativeLayout
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/back"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_back"/>
+        <TextView
+                android:layout_toEndOf="@+id/back"
+
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create team accounts"
+                android:fontFamily="@font/medium"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/black_med"/>
+    </RelativeLayout>
+
+    <EditText
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:hint="Name your team"
+        />
+    <TextView
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_toEndOf="@+id/team"
+            android:id="@+id/personalization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your email in this team"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:fontFamily="@font/medium"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/grey_regular"/>
+    <RelativeLayout
+            android:id="@+id/add_account"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/add"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/pic4"
+
+                />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nirali Pandya"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/_12sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:layout_below="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="nehavaidya@gmail.com"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/grey_regular"/>
+
+
+
+    </RelativeLayout>
+    <TextView
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/remove"
+
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Create team"
+            android:layout_margin="@dimen/_12sdp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp"
+            android:background="@drawable/btn_bg"
+            android:fontFamily="@font/medium"
+            />
+
+</LinearLayout>
