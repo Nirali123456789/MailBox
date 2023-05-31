@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/drawer_bg"
+            app:cardCornerRadius="@dimen/_20sdp">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <ImageView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/ic_mail"
+                        android:padding="@dimen/_3sdp"/>
+                <TextView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Re:"
+                        android:textSize="@dimen/_13sdp"
+                        android:fontFamily="@font/medium"/>
+                <TextView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="viranchpandya@gmail.com"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/colorPurple"
+                        android:fontFamily="@font/medium"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_marginTop="@dimen/_15sdp"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sender Name"
+                        android:textSize="@dimen/_13sdp"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="@font/medium"
+                        android:layout_marginBottom="@dimen/_2sdp"/>
+                <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                <TextView
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Re:"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/medium"/>
+                <TextView
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subject"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/black_med"
+                        android:fontFamily="@font/bold"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email message body"
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/grey_regular"
+                    android:fontFamily="@font/regular"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="mark as read"
+                android:fontFamily="@font/bold"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/colorPurple"/>
+            <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Done"
+                    android:fontFamily="@font/bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/colorPurple"/>
+            <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Reply"
+                    android:fontFamily="@font/bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/colorPurple"/>
+        </LinearLayout>
+
+    </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/preview"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notification preview"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/grey_regular"
+                />
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_below="@+id/preview"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Full preview"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_13sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/primary"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Primary action"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/grey_regular"
+                />
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_below="@+id/primary"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mark as read"
+                android:textSize="@dimen/_13sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/secondary"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Secondary action"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/grey_regular"
+                />
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_below="@+id/secondary"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:textSize="@dimen/_13sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    <TextView
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/privatetxt"
+            android:padding="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Private accounts"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/grey_regular"
+            />
+        <RelativeLayout
+                android:layout_below="@+id/privatetxt"
+                android:id="@+id/add_account"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/add"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/pic4"
+
+                    />
+            <TextView
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/add"
+                    android:id="@+id/account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nirali Pandya"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/regular"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="@dimen/_12sdp"/>
+            <TextView
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/add"
+                    android:layout_below="@+id/account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="nehavaidya@gmail.com"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:background="@null"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/grey_regular"/>
+
+<ImageView
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+    android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_notification"
+        app:tint="@color/colorPurple" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,117 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory>
+    <Preference
+
+            android:key="@string/setting"
+            android:title="First Category"
+            android:textSize="20px"
+            android:layout="@layout/mylayout"/>
+</PreferenceCategory>
+
+    <EditTextPreference
+                app:key="signature"
+                app:title="@string/account"
+               android:key="nehavaidya@gmail.com"
+            android:layout="@layout/setting_account_layout"
+
+
+                app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+                app:icon="@drawable/ic_star"
+                app:defaultValue="reply"
+                app:entries="@array/reply_entries"
+                app:entryValues="@array/reply_values"
+                app:key="Free"
+                app:title="@string/subscription"
+                app:useSimpleSummaryProvider="true" />
+
+
+
+
+
+        <Preference
+                app:icon="@drawable/ic_all_inbox"
+                app:key="sync"
+                app:title="Email Accounts" />
+    <Preference
+            app:icon="@drawable/ic_account"
+            app:key="sync"
+            app:title="Teams" />
+
+    <PreferenceCategory app:title="Personalization">
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="Appearance" />
+        <Preference
+                app:icon="@drawable/ic_all_inbox"
+                app:key="sync"
+                app:title="Email viewer" />
+        <Preference
+                app:icon="@drawable/ic_share"
+                app:key="sync"
+                app:title="Smart Inbox" />
+
+        <Preference
+                app:icon="@drawable/ic_account"
+                app:key="sync"
+                app:title="Swipes" />
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="Shortcuts" />
+
+<!--        <SwitchPreferenceCompat-->
+<!--                app:icon="@drawable/ic_account"-->
+<!--                app:dependency="sync"-->
+<!--                app:key="attachment"-->
+<!--                app:summaryOff="@string/attachment_summary_off"-->
+<!--                app:summaryOn="@string/attachment_summary_on"-->
+<!--                app:title="@string/attachment_title" />-->
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="General">
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="Signatures" />
+        <Preference
+                app:icon="@drawable/ic_all_inbox"
+                app:key="sync"
+                app:title="@string/template" />
+        <Preference
+                app:icon="@drawable/ic_share"
+                app:key="sync"
+                app:title="Smart Inbox" />
+
+        <Preference
+                app:icon="@drawable/ic_account"
+                app:key="sync"
+                app:title="@string/badge" />
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="@string/schedule" />
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="@string/notification" />
+        <Preference
+                app:icon="@drawable/ic_star"
+                app:key="sync"
+                app:title="@string/spark" />
+
+        <!--        <SwitchPreferenceCompat-->
+        <!--                app:icon="@drawable/ic_account"-->
+        <!--                app:dependency="sync"-->
+        <!--                app:key="attachment"-->
+        <!--                app:summaryOff="@string/attachment_summary_off"-->
+        <!--                app:summaryOn="@string/attachment_summary_on"-->
+        <!--                app:title="@string/attachment_title" />-->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

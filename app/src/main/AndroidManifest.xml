@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.aiemail.superemail">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk android:minSdkVersion="26" />
+
+
+    <application
+
+            android:name="com.aiemail.superemail.MyApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppThemedrawer"
+            android:usesCleartextTraffic="true"
+
+            android:requestLegacyExternalStorage="true">
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false" />
+
+        <activity
+                android:name="com.aiemail.superemail.Activities.TeamActivity"
+                android:exported="false"></activity>
+        <activity android:name="com.aiemail.superemail.Activities.ColorCodeActivity" />
+        <activity android:name="com.aiemail.superemail.Activities.SnoozeActivity" />
+        <activity
+                android:name="com.aiemail.superemail.Activities.SettingSubcomponent"
+                android:exported="false" />
+        <activity
+                android:name="com.aiemail.superemail.Activities.DirectComposeActivity"
+                android:exported="false" />
+        <activity
+                android:name="com.aiemail.superemail.Activities.ComposeActivity"
+                android:exported="false" />
+        <activity
+                android:name="com.aiemail.superemail.Activities.SettingsActivity"
+                android:exported="false"
+                android:label="@string/title_activity_settings" />
+        <activity
+                android:name="com.aiemail.superemail.feature.Slideshow.OnBoardingActivity"
+                android:exported="false"
+                android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name="com.aiemail.superemail.Activities.LoginActivity"
+                android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                        android:scheme="http"
+                        android:host="www.supermail.com"
+                        android:path="/mailbox" />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data android:scheme="supermail"
+                        android:host="mailbox" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name="com.aiemail.superemail.Activities.FirstScreen"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.aiemail.superemail.Activities.MainActivity"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                        android:scheme="http"
+                        android:host="www.mail1.com"
+                        android:pathPattern="/mailbox" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinTopActivity" />
+        <activity android:name="com.aiemail.superemail.Activities.SearchActivity" />
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinHideActivity" />
+        <activity android:name="com.chinalwb.are.demo.ARE_MultiInstanceActivity" />
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_DefaultToolbarActivity" />
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_FullBottomActivity" />
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_FullTopActivity" />
+        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinBottomActivity"/>
+
+    </application>
+
+</manifest>

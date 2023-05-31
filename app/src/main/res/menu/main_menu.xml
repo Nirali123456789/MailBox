@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single"
+        android:id="@+id/group1"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:icon="@drawable/ic_all_inbox"
+            android:id="@+id/nav_home"
+            android:title="@string/home"
+            />
+    <item
+            android:icon="@drawable/ic_prem"
+            android:id="@+id/pre"
+            android:title="Premium" />
+    <item
+            android:icon="@drawable/ic_person"
+            android:id="@+id/settings"
+            android:title="@string/settings" />
+    <item
+            android:icon="@drawable/ic_contact"
+            android:id="@+id/nav_add_missing_place"
+            android:title="@string/add_missing_place" />
+</group>
+<item android:title="Profile" >
+        <group android:checkableBehavior="single"
+                android:id="@+id/group2"
+
+                >
+            <item
+                    android:icon="@drawable/ic_all_inbox"
+                    android:id="@+id/nav_login"
+                    android:title="@string/login" />
+            <item
+                    android:icon="@drawable/ic_all_inbox"
+                    android:id="@+id/nav_profile"
+                    android:title="@string/previous" />
+
+        </group>
+
+</item>
+
+    <item android:title="Sub items">
+        <menu>
+            <item
+                    android:icon="@drawable/ic_all_inbox"
+                    android:title="Sub item 1" />
+            <item
+                    android:icon="@drawable/ic_star"
+                    android:title="Sub item 2" />
+        </menu>
+    </item>
+
+
+
+</menu>
+
+
+
+

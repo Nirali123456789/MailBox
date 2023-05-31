@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_20sdp"
+        android:background="@drawable/dialog_bottom_bg"
+
+        >
+    <ImageView
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:id="@+id/textView"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/_20sdp"
+            android:fontFamily="@font/roboto_black"
+            android:lineSpacingExtra="@dimen/_1sdp"
+            android:text="Try Spark Premium Free\n for 7 days"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_pers"
+            android:layout_width="@dimen/_30sdp"
+            app:tint="@color/colorPurple" />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:id="@+id/text"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/black_med"
+            android:lineSpacingExtra="@dimen/_1sdp"
+            android:text="Spark would like to access your photos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_pers"
+            android:layout_width="wrap_content"
+            />
+    <TextView
+            android:gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:id="@+id/subtext"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black_med"
+            android:lineSpacingExtra="@dimen/_1sdp"
+            android:text="Allow Spark to access photos on your device."
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_person"
+            android:layout_width="wrap_content"
+            />
+    <TextView
+            android:layout_margin="@dimen/_20sdp"
+            android:id="@+id/continue1"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Continue"
+            android:fontFamily="@font/medium"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btn_bg"
+            />
+    </LinearLayout>
+    <LinearLayout
+            android:weightSum="3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_attach"
+                    app:tint="@color/black_med" />
+            <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="File"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black_med"
+                    />
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_gallery"
+                    app:tint="@color/black_med" />
+            <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gallery"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black_med"
+
+                    />
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_camera"
+                    app:tint="@color/black_med" />
+            <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Camera"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black_med"
+                    />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="top"
+            android:layout_centerVertical="true"
+            android:src="@drawable/smart_2"
+            android:layout_above="@+id/tab"
+            />
+
+    <TextView
+
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/_13sdp"
+
+
+            android:textColor="@color/black_med"
+            android:fontFamily="@font/bold"/>
+</LinearLayout>

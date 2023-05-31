@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <TextView
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_toEndOf="@+id/team"
+            android:id="@+id/personalization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Private accounts"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:fontFamily="@font/medium"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/grey_regular"/>
+    <RelativeLayout
+            android:id="@+id/add_account"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/add"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/pic4"
+
+                 />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nirali Pandya"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/_12sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:layout_below="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="nehavaidya@gmail.com"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/grey_regular"/>
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:id="@+id/add_layout"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/add_acc"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/colorPurple" />
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add_acc"
+                android:id="@+id/add_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Account"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/_12sdp"/>
+
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:id="@+id/signin_layout"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/sign_acc"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/colorPurple" />
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/sign_acc"
+                android:id="@+id/sign_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign in with Google"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/_12sdp"/>
+
+
+
+
+    </RelativeLayout>
+    <LinearLayout
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:id="@+id/acc_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Default email Address"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/grey_regular"
+                android:textSize="@dimen/_10sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/add"
+                android:layout_below="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Most Recent"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/black_med"/>
+    </LinearLayout>
+    <RelativeLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toStartOf="@+id/disable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Color coding"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="@color/grey_regular"
+                android:textSize="@dimen/_12sdp"/>
+        <TextView
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/disable"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disable"
+                android:layout_centerVertical="true"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/medium"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/colorPurple"/>
+    </RelativeLayout>
+</LinearLayout>

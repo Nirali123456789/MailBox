@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">Spark</string>
+
+    <string name="onboarding_slide1_title">Create an account</string>
+    <string name="onboarding_slide1_subtitle">Title one here</string>
+    <string name="onboarding_slide1_desc">Welcome onboard!!</string>
+
+    <string name="onboarding_slide2_title">Login to your account</string>
+    <string name="onboarding_slide2_subtitle">Title2 two here</string>
+    <string name="onboarding_slide2_desc">String 2 slide.</string>
+
+    <string name="onboarding_slide3_title">Login to your account </string>
+    <string name="onboarding_slide3_subtitle">Title3 three here</string>
+    <string name="onboarding_slide3_desc">String 3 side.</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get started</string>
+    <string name="setting">setting</string>
+
+    <string name="sign_in">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="new_user">New User?</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="invalid_password">Invalid password</string>
+
+    <string name="home_screen_title">Home</string>
+    <string name="home_screen_text">Can\'t walk? then fly!</string>
+    <string name="previous">Previous</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="home">Home\n</string>
+    <string name="search">Search\n</string>
+    <string name="all_categories">Categories</string>
+    <string name="add_missing_place">Place</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title"> signature</string>
+    <string name="template">Templates</string>
+    <string name="badge">Badges</string>
+    <string name="schedule">Scheduling</string>
+    <string name="notification">Notification</string>
+    <string name="spark">Spark Cloud</string>
+    <string name="Sound">Sound Prefrences</string>
+    <string name="security">Security</string>
+
+    <string name="reedle">Reddle</string>
+    <string name="help">Help </string>
+    <string name="wnew">What\'s new?</string>
+    <string name="support">Support</string>
+    <string name="policy">Default reply actionPrivacy Policy</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings">Settings</string>
+    <string name="account">Spark account</string>
+    <string name="subscription">Subscription</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="snack_bar_undo">Undo\n</string>
+    <string name="snack_bar_text">Undo delete</string>
+    <string name="no_image">No recent Searches</string>
+    <string name="display">Display \"Sent with Spark\" tagline</string>
+    <string name="privacy">Privacy policy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_id">390762603984-lbdjhgffolaq6eb6jemsljand6orptqs.apps.googleusercontent.com</string>
+
+</resources>

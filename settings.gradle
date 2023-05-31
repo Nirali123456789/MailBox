@@ -1,0 +1,38 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        jcenter()
+
+        maven { url "https://jitpack.io" }
+        maven { url "https://dl.bintray.com/muhammadmuzammilsharif/library" }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+
+        maven { url "https://jitpack.io" }
+    }
+}
+
+rootProject.name = "onBoarding"
+include ':app'
+include ':are'
+include ':expandableselectionview'
+include ':main'
+//include ':storage'
+//include ':core'
+//include ':crypto-openpgp'
+//include ':html-cleaner'
+//include ':api'
+//include ':providersxml'
+//include ':srvrecords'
+//include ':thunderbird'
+//include ':build-plugin'
+//include ':build.gradle.kts'
+//include ':common'

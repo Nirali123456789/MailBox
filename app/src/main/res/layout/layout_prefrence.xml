@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
+    <Switch
+            android:theme="@style/ThemeOverlay.MySwitch"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sent mail Sound"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black_med"
+            android:checked="true"
+            android:padding="@dimen/_5sdp"/>
+    <Switch
+            android:theme="@style/ThemeOverlay.MySwitch"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Haptic Feedback"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black_med"
+            android:enabled="true"
+            android:checked="true"
+            android:padding="@dimen/_5sdp"/>
+
+
+
+
+
+</LinearLayout>

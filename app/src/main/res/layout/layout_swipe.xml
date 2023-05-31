@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
+    <RelativeLayout
+            android:id="@+id/ls_layout"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/lsicon"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/leftshort"
+                />
+        <TextView
+
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/lsicon"
+                android:id="@+id/ls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Left short"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/medium"
+                android:textStyle="bold"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/lsicon"
+                android:layout_below="@+id/ls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Read/UnRead"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_14sdp"/>
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:id="@+id/ll_layout"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/llicon"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/rightlong"
+                />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/llicon"
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Left long"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/medium"
+                android:textStyle="bold"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/llicon"
+                android:layout_below="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Done/Not Done"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_14sdp"/>
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:id="@+id/rs_layout"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/rsicon"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/rightshort"
+                />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/rsicon"
+                android:id="@+id/rs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Right short"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/medium"
+                android:textStyle="bold"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/rsicon"
+                android:layout_below="@+id/rs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pin"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_14sdp"/>
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:id="@+id/rl_layout"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/rlicon"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/rightlongg"
+                />
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/rlicon"
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Right long"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/medium"
+                android:textStyle="bold"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"/>
+        <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/rlicon"
+                android:layout_below="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Read/UnRead"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_14sdp"/>
+
+
+
+    </RelativeLayout>
+</LinearLayout>

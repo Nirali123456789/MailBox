@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+    <androidx.constraintlayout.motion.widget.MotionLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:applyMotionScene="true"
+
+            app:layoutDescription="@xml/activity_main_scene"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:id="@+id/page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotsColor="@color/colorPurple"
+            app:dotsStrokeColor="@color/colorPurple"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="@dimen/margin_8"
+            app:dotsSpacing="@dimen/margin_8"
+            app:dotsStrokeWidth="1dp"
+            android:layout_centerHorizontal="true"
+            />
+    <LinearLayout
+            android:gravity="center"
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="fixed"
+            android:orientation="horizontal"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
+            android:weightSum="3"
+
+
+            >
+        <ProgressBar
+                android:id="@+id/progress1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+               android:progressDrawable="@drawable/line"
+                android:layout_margin="@dimen/_5sdp"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:progress="15"
+                />
+
+        <ProgressBar
+                android:id="@+id/progress2"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:progressDrawable="@drawable/line"
+                android:layout_margin="@dimen/_5sdp"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:progress="0"
+                />
+        <ProgressBar
+                android:id="@+id/progress3"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:progress="0"
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:progressDrawable="@drawable/line"
+
+                android:layout_margin="@dimen/_5sdp"
+                />
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:layout_below="@+id/tabs"
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+
+
+
+<RelativeLayout
+     android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="@+id/page_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:orientation="horizontal"
+        android:id="@+id/linear">
+
+    <com.google.android.material.button.MaterialButton
+
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:backgroundTint="@color/colorPurple"
+            app:cornerRadius="24dp"
+            android:paddingStart="@dimen/padding_30"
+            android:paddingEnd="@dimen/padding_30"
+            android:paddingTop="@dimen/margin_16"
+            android:paddingBottom="@dimen/margin_16"
+            android:text="@string/get_started"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/Widget.MaterialComponents.Button.TextButton.OnBoardTextButton"
+
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+    android:visibility="gone"
+            android:id="@+id/skipBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton.OnBoardTextButton"
+            android:text="@string/skip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"/>
+    <com.google.android.material.button.MaterialButton
+
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/nextBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton.OnBoardTextButton"
+            android:text="@string/next"
+            android:layout_marginBottom="@dimen/margin_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            />
+
+</RelativeLayout>
+    </RelativeLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+

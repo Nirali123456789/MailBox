@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_5sdp">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open Help Center"
+                android:textSize="@dimen/_12sdp"
+                />
+        <ImageView
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </ImageView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact us"
+                android:textSize="@dimen/_12sdp"
+                />
+        <ImageView
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </ImageView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Diagnostics"
+                android:textSize="@dimen/_12sdp"
+                />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Legal Notes"
+                android:textSize="@dimen/_12sdp"
+                />
+        <ImageView
+                android:visibility="gone"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </ImageView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resync Address Book"
+                android:textSize="@dimen/_12sdp"
+                />
+        <ImageView
+                android:visibility="gone"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_sharenew">
+
+        </ImageView>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/text"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="App version"
+                android:textSize="@dimen/_12sdp"
+                />
+        <TextView
+                android:layout_below="@+id/text"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1.0.1"
+                android:src="@drawable/ic_sharenew">
+
+        </TextView>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/setting_subcomponent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.main.SettingSubcomponentFragment">
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+  <de.hdodenhof.circleimageview.CircleImageView
+
+          android:layout_centerHorizontal="true"
+          android:id="@+id/profile_pic"
+          android:layout_margin="@dimen/_20sdp"
+          android:layout_gravity="center"
+          android:layout_width="@dimen/_200sdp"
+          android:layout_height="@dimen/_200sdp"
+      android:src="@drawable/pic4"/>
+    <TextView
+            android:layout_below="@+id/profile_pic"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="You don't have any teams \nyet"
+        android:textSize="@dimen/_18sdp"
+        android:fontFamily="@font/medium"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+  <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/email"
+          android:layout_gravity="center"
+          android:layout_marginStart="@dimen/_5sdp"
+          android:layout_marginTop="@dimen/_5sdp"
+          android:layout_marginEnd="@dimen/_5sdp"
+          android:layout_marginBottom="@dimen/_5sdp"
+          android:fontFamily="@font/regular"
+          android:gravity="center"
+          android:lineSpacingExtra="@dimen/_1sdp"
+          android:text="Create a team to collaborate on emails\nwith your colleagues."
+          android:textColor="@color/grey_regular"
+          android:textSize="@dimen/_12sdp" />
+
+
+</RelativeLayout>
+  <TextView
+          android:layout_marginTop="@dimen/_5sdp"
+          android:id="@+id/remove"
+          android:layout_centerHorizontal="true"
+          android:layout_alignParentBottom="true"
+          android:paddingLeft="@dimen/_10sdp"
+          android:paddingRight="@dimen/_10sdp"
+          android:layout_marginBottom="@dimen/_15sdp"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:layout_width="@dimen/_150sdp"
+          android:layout_height="@dimen/_35sdp"
+          android:text="Create team"
+          android:layout_margin="@dimen/_12sdp"
+          android:textColor="@color/colorWhite"
+          android:textSize="@dimen/_12sdp"
+          android:background="@drawable/btn_bg"
+          android:fontFamily="@font/medium"
+          />
+
+
+
+</LinearLayout>

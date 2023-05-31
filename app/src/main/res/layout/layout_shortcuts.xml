@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+            android:id="@+id/teamlayout"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/team"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_pin"
+                app:tint="@color/colorPurple" />
+        <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/team"
+                android:id="@+id/team_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pins"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_13sdp"/>
+
+
+
+    </RelativeLayout>
+</LinearLayout>

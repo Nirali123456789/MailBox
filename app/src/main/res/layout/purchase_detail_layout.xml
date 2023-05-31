@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/dialog_bottom_bg"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_black"
+            android:lineSpacingExtra="@dimen/_1sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Try Spark Premium Free\n for 7 days"
+            android:textSize="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/continue1">
+
+            <LinearLayout
+                    android:id="@+id/features"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/medium"
+                        android:lineSpacingExtra="@dimen/_1sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Features"
+                        android:textColor="@color/darkgrey"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="SUnlimited accounts"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Create Teams"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Block unwanted emails "
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Prioritize senders"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Mute threads"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Email large files"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/free"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_toEndOf="@+id/features"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/medium"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/_1sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Free"
+                        android:textColor="@color/darkgrey"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple"
+
+                        />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_dash"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_dash"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_dash"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_dash"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_dash"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/pre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_toEndOf="@+id/free"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/medium"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/_1sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Premium"
+                        android:textColor="@color/darkgrey"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+
+                <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/regular"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:src="@drawable/ic_check"
+                        android:text="Smart Inbox"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:tint="@color/colorPurple" />
+
+            </LinearLayout>
+
+            <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/features">
+
+                <RadioButton
+                        android:id="@+id/radio1"
+                        style="@style/MyRadioButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/regular"
+                        android:text="Monthly"
+                        android:textColor="@color/black_med"
+                        android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:fontFamily="@font/regular"
+                        android:text="$9.99/month"
+                        android:textColor="@color/grey_regular"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                <LinearLayout
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_below="@id/radio1"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:background="#B3B1B1"
+                        android:orientation="vertical" />
+
+
+                <RadioButton
+                        style="@style/MyRadioButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/bold"
+                        android:text="Annual"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:drawableRight="@drawable/ic_save"
+                        android:textColor="@color/black_med"
+                        android:textSize="@dimen/_12sdp" />
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_30sdp"
+                            android:fontFamily="@font/regular"
+                            android:text="$6.99/month"
+                            android:textColor="@color/grey_regular"
+                            android:textSize="@dimen/_14sdp" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:fontFamily="@font/bold"
+                            android:text="billed $76.99 /year"
+                            android:textColor="@color/black_med"
+                            android:textSize="@dimen/_14sdp" />
+                </LinearLayout>
+
+
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <TextView
+                android:id="@+id/continue1"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/btn_bg"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="Continue"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12sdp" />
+    </RelativeLayout>
+
+</LinearLayout>

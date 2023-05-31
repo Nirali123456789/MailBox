@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+<TextView
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_toEndOf="@+id/team"
+        android:id="@+id/personalization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inbox"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:fontFamily="@font/medium"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="@color/grey_regular"/>
+<RadioGroup
+android:layout_margin="@dimen/_5sdp"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@+id/imageView"
+android:weightSum="1"
+android:gravity="start"
+android:layout_gravity="start"
+android:id="@+id/radioGroup"
+        >
+
+<RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:text="New Messages Only"
+        android:id="@+id/radioButton"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/black_med"
+        android:padding="@dimen/_5sdp"/>
+
+<RadioButton
+        android:padding="@dimen/_5sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:text="All Messages"
+        android:id="@+id/radioButton2"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/black_med"
+        />
+
+</RadioGroup>
+</LinearLayout>

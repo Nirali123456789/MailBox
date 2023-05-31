@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+        <TextView
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:id="@+id/cardaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cloud Storage"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/black_med"/>
+        <TextView
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/disable"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1GB out of 5.00 GB used"
+                android:layout_centerVertical="true"
+                android:paddingStart="@dimen/_5sdp"
+                android:background="@null"
+                android:fontFamily="@font/medium"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/grey_regular"/>
+    </RelativeLayout>
+    <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_4sdp"
+            android:indeterminate="false"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:max="100"
+            android:progress="20"
+            android:progressDrawable="@drawable/progress_cloud"
+            android:visibility="visible" />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <ImageView
+            android:layout_margin="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_file"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp">
+
+    </ImageView>
+        <TextView
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cloud files will appear here"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/medium"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/black_med"/>
+        <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/_1sdp"
+                android:text="Spark Cloud allows you to send\n attachments larger than 25MB\n using 5 GBB of Storage."
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/black_med"/>
+    </LinearLayout>
+</LinearLayout>
