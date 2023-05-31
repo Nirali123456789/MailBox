@@ -1,4 +1,4 @@
-package com.omni.onboardingscreen.Dialog
+package com.aiemail.superemail.Dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.tabs.TabLayout
-import com.omni.onboardingscreen.R
+import com.aiemail.superemail.R
 
 
 class ChooseDialog() : DialogFragment() {

@@ -1,8 +1,8 @@
-package com.omni.onboardingscreen.Activities
+package com.aiemail.superemail.Activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.omni.onboardingscreen.R
+import com.aiemail.superemail.R
 
 class SnoozeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

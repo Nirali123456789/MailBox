@@ -1,4 +1,4 @@
-package com.omni.onboardingscreen.Activities
+package com.aiemail.superemail.Activities
 
 
 import android.app.Activity
@@ -45,21 +45,22 @@ import com.google.api.services.gmail.model.Label
 import com.google.api.services.gmail.model.ListMessagesResponse
 import com.google.api.services.gmail.model.Message
 import com.google.api.services.gmail.model.MessagePartHeader
-import com.omni.onboardingscreen.MyApplication
-import com.omni.onboardingscreen.R
-import com.omni.onboardingscreen.databinding.ActivityLoginBinding
-import com.omni.onboardingscreen.feature.Slideshow.OnBoardingActivity
-import com.omni.onboardingscreen.feature.Models.Article
-import com.omni.onboardingscreen.feature.Models.Source
-import com.omni.onboardingscreen.feature.utilis.Constant
-import com.omni.onboardingscreen.feature.viewmodel.CategoryViewModel
-import com.omni.onboardingscreen.prefs
+import com.aiemail.superemail.MyApplication
+
+import com.aiemail.superemail.feature.Slideshow.OnBoardingActivity
+import com.aiemail.superemail.feature.Models.Article
+import com.aiemail.superemail.feature.Models.Source
+import com.aiemail.superemail.feature.utilis.Constant
+import com.aiemail.superemail.feature.viewmodel.CategoryViewModel
+import com.aiemail.superemail.prefs
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
@@ -81,6 +82,11 @@ import kotlin.coroutines.CoroutineContext
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import kotlin.collections.ArrayList
+import android.net.Uri
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.aiemail.superemail.R
+import com.aiemail.superemail.databinding.ActivityLoginBinding
 
 
 class LoginActivity : AppCompatActivity() {
@@ -127,6 +133,39 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
+        // ATTENTION: This was auto-generated to handle app links.
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
+        var wv1 = binding.webview1
+
+        wv1.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+
+                // If you wnat to open url inside then use
+                view.loadUrl(url);
+
+                // if you wanna open outside of app
+                /*if (url.contains(URL)) {
+                        view.loadUrl(url)
+                        return false
+                    }else {
+                        // Otherwise, give the default behavior (open in browser)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
+                        return true
+                    }*/
+
+
+                return true
+            }
+
+
+        }
+        wv1.getSettings().setJavaScriptEnabled(true);
+
+
+       // wv1.loadData(html, "text/html", "UTF-8");
     }
     private val getResult =
         registerForActivityResult(
@@ -193,20 +232,17 @@ class LoginActivity : AppCompatActivity() {
         var idToken = verifier.verify(idToken1);
         if (idToken1 != null) {
             var payload = idToken.getPayload();
-
-
             var userId = payload.getSubject();
             System.out.println("User ID: " + userId);
-
-
             var email = payload.getEmail();
             var emailVerified = payload.getEmailVerified();
             var name = payload.get("name");
             Log.i("TAG33", "Signed in as: " + account.givenName)
-            GlobalScope.launch {
-                (application as MyApplication).repository.fetchMails(this@LoginActivity, email, email, acct)
-            }
-            model.insertAll()
+            updateUI()
+
+
+                (application as MyApplication).repository.fetchMails(this@LoginActivity, email, email, acct,4)
+                model.insertMail()
 
 
         } else {

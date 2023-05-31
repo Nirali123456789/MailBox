@@ -1,4 +1,4 @@
-package com.omni.onboardingscreen.feature.utilis
+package com.aiemail.superemail.feature.utilis
 
 import com.google.gson.Gson
 import java.lang.reflect.Type

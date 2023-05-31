@@ -1,8 +1,8 @@
-package com.omni.onboardingscreen.Activities
+package com.aiemail.superemail.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.omni.onboardingscreen.R
+import com.aiemail.superemail.R
 
 class TeamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

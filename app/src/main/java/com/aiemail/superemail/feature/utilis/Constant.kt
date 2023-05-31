@@ -1,4 +1,4 @@
-package com.omni.onboardingscreen.feature.utilis
+package com.aiemail.superemail.feature.utilis
 
 import android.view.Window
 import androidx.core.view.WindowCompat
