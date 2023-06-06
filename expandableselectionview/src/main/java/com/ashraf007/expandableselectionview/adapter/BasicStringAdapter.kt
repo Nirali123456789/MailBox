@@ -40,6 +40,7 @@ open class BasicStringAdapter(
             .setImageResource(icons.get(position))
 
         //itemView.findViewById<View>(R.id.selectionIV).isVisible = selected
+
     }
 
     override fun bindHeaderView(headerView: View, selectedIndices: List<Int>) {

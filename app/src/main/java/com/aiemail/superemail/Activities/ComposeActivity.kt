@@ -4,16 +4,12 @@ package com.aiemail.superemail.Activities
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.util.Linkify
 import android.util.Log
 import android.view.KeyEvent
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.aiemail.superemail.Bottomsheet.ActionBottomDialogFragment
@@ -22,14 +18,13 @@ import com.aiemail.superemail.Dialog.MyCustomDialog
 import com.aiemail.superemail.MyApplication
 import com.aiemail.superemail.R
 import com.aiemail.superemail.databinding.LayoutComposeBinding
-import com.aiemail.superemail.feature.viewmodel.CategoryViewModel
+import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.ByteArrayInputStream
 import java.io.IOException
-import java.nio.charset.StandardCharsets
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -190,8 +185,8 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
 
 
 
-        val model: CategoryViewModel by viewModels() {
-            CategoryViewModel.Factory(
+        val model: EmailViewmodel by viewModels() {
+            EmailViewmodel.Factory(
                 (application as MyApplication),
                 (application as MyApplication).repository
             )

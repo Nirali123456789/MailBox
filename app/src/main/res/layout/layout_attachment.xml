@@ -104,6 +104,7 @@
                 android:layout_weight="1">
 
             <ImageView
+                    android:id="@+id/file_attach"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"

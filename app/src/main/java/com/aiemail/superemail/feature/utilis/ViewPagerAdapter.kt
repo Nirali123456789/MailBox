@@ -3,7 +3,7 @@ package com.aiemail.superemail.feature.utilis
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.aiemail.superemail.Fragments.FirstFragment
+import com.aiemail.superemail.Fragments.RecentFrament
 import com.aiemail.superemail.Fragments.SecondFragment
 
 class ViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
@@ -12,9 +12,9 @@ class ViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
  
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> FirstFragment()
+            0 -> RecentFrament()
             1 -> SecondFragment()
-            else -> FirstFragment()
+            else -> RecentFrament()
         }
     }
  

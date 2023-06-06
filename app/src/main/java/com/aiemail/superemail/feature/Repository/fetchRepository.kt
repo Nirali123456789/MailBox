@@ -1,17 +1,19 @@
+//#Created by Nirali Pandya
+
 package com.aiemail.superemail.feature.Repository
 
-import android.R.id.message
+
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.text.Html
+import android.content.Context
+import android.text.format.DateFormat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.aiemail.superemail.feature.Models.Article
+import com.aiemail.superemail.MyApplication
+import com.aiemail.superemail.feature.Models.Email
 import com.aiemail.superemail.feature.Models.FullMessage
 import com.aiemail.superemail.feature.Models.Source
-import com.aiemail.superemail.feature.Rooms.CategoryDao
+import com.aiemail.superemail.feature.Rooms.EmailDao
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -20,53 +22,50 @@ import com.google.api.services.gmail.Gmail
 import com.google.api.services.gmail.GmailScopes
 import com.google.api.services.gmail.model.Label
 import com.google.api.services.gmail.model.Message
-import com.google.api.services.gmail.model.MessagePart
 import com.google.api.services.gmail.model.MessagePartHeader
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.net.SocketTimeoutException
-import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.mail.MessagingException
 import javax.mail.Session
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
+import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 
-
-class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
+class fetchRepository(private val foodItemDao: EmailDao, var page: Int = 1) {
 
     val TAG = javaClass.simpleName
-    var arrayList: ArrayList<Article> = arrayListOf()
+    var arrayList: ArrayList<Email> = arrayListOf()
     var messagelist: ArrayList<FullMessage> = arrayListOf()
     private val MAX_FETCH_THREADS = Runtime.getRuntime().availableProcessors()
     val executors = Executors.newFixedThreadPool(MAX_FETCH_THREADS)
     private val TIMEOUT = 1500
 
-    private val _todoListFlow: MutableLiveData<MutableList<Article>> = MutableLiveData()
-    val todoListFlow: LiveData<MutableList<Article>> get() = _todoListFlow
+    private val _todoListFlow: MutableLiveData<MutableList<Email>> = MutableLiveData()
+    val todoListFlow: LiveData<MutableList<Email>> get() = _todoListFlow
 
     private val _messageList: MutableLiveData<MutableList<FullMessage>> = MutableLiveData()
     val fullmessage: LiveData<MutableList<FullMessage>> get() = _messageList
 
-    private val _emaillist: MutableLiveData<MutableList<Article>> = MutableLiveData()
-    val emaillist: LiveData<MutableList<Article>> get() = _emaillist
+    private val _emaillist: MutableLiveData<MutableList<Email>> = MutableLiveData()
+    val emaillist: LiveData<MutableList<Email>> get() = _emaillist
 
 
     fun getCallData() {
         GlobalScope.launch {
-
             withContext(Dispatchers.Main) {
                 _todoListFlow.value = arrayList
 
@@ -75,28 +74,37 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         }
     }
 
-    fun adddata() {
+    fun adddata(articles: MutableList<Email>) {
+        foodItemDao.insertAll(articles as ArrayList<Email>)
+    }
 
-
-       // foodItemDao.insertAll(arrayList)
+    fun deletedata() {
+        foodItemDao.DeleteMails()
 
 
     }
 
-    fun getEmails(): LiveData<List<Article>> {
+    fun getEmails(): LiveData<List<Email>> {
         return foodItemDao.getAllMail()
     }
 
 
-
-
-
-    fun fetchMails(activity: Activity, label: String, email: String, account: GoogleSignInAccount,id:Int) {
+    fun fetchMails(
+        activity: Activity,
+        label: String,
+        email: String,
+        account: GoogleSignInAccount,
+        id: Int
+    ) {
+        val recipientEmail = "swainfo.nirali@gmail.com"
         GlobalScope.launch {
-            extract(activity, email, account.email!!,id)
-        }
+            ExtractMails(activity, email, account.email!!, id)
 
+
+        }
     }
+
+
 
 
 
@@ -106,7 +114,7 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         process: (String) -> Unit
     ) {
         runBlocking(dispatcher) {
-//            ExtractLablesData
+
             processMessages(user, label) { m ->
                 launch {
                     fun fetchAndProcess() {
@@ -114,9 +122,10 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
                         try {
 
                             var message1: Message
-                            var article4: Article = Article()
+                            var article4: Email = Email()
                             message1 =
-                                users().messages().get(user, m.id)
+                                users().messages().get(user, m.id).setFormat("full")
+
                                     .execute()
                             message1.payload.headers.find { it.name == "Subject" }?.let { from ->
 
@@ -132,176 +141,104 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
                                     .setFormat("full").execute()
                             val internalDateMillis = fullMessage.internalDate
                             val date = Date(internalDateMillis)
-                            val sdf = SimpleDateFormat("dd-MMM", Locale.getDefault())
-                            article4.date=sdf.format(date)
-                            article4.title=fullMessage.snippet
-                            Log.d(TAG, "fetchAndProcess: "+fullMessage.snippet+">>>snipet")
+                            val sdf = SimpleDateFormat("MMM", Locale.getDefault())
 
-                            Log.d(TAG, "mimetype: " + "")
+                            article4 = Email()
+                            article4.date = getFormattedDate(MyApplication.instance.context!!,internalDateMillis)
 
-
-
-
+                            article4.type=0
+                            Log.d(TAG, "dateitemmm: "+  article4.date )
+                            if (!arrayList.contains(article4)) {
+                                arrayList.add(article4)
+                                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                                    foodItemDao.insert(article4)
+                                    Log.d(TAG, "fetchAndProcess:inside "+article4)
+                                }
+                            }
 
 
 
 
 //
 
-
+                          var  article:Email = Email()
+                            article.title = fullMessage.snippet
+                            article.type=1
                             var title = fullMessage.payload.headers.stream()
                                 .filter { header: MessagePartHeader -> header.name == "Subject" }
                                 .findFirst()
                                 .map { obj: MessagePartHeader ->
-                                    Log.d(TAG, "fetchAndProcess: "+obj)
+
                                     //article4.content = obj.value
-                                    article4.author=obj.value
+                                    article.author = obj.value
 
 
                                 }
 
-
-
-//
-
-//                            val subject = fullMessage.payload.headers.stream()
-//
-//                                .filter { header: MessagePartHeader -> header.name == "From" }
-//                                .findFirst()
-//                                .map { obj: MessagePartHeader ->
-//                                    Log.d(TAG, "fetchAndProcess: "+obj)
-//                                    article4.title = obj.value
-//                                    obj.value
-//
-//                                }
-//                                .orElse("")
-
-//                            val parts1 = fullMessage.payload.parts
-//                            for (part in parts1) {
-//                                if (part.body.attachmentId != null) {
-//                                    val attachmentId = part.body.attachmentId
-//                                    var attachment =
-//                                        users().messages().attachments()
-//                                            .get("me", messageId, attachmentId).execute()
-//                                    val data = attachment.data
-//                                    Log.d(TAG, "Messagess: " + attachment)
-//                                    val bytes = com.google.api.client.util.Base64.decodeBase64(data)
-//                                    Log.d(TAG, "Messagess: " + bytes)
-//                                    article4.dataByteArray=bytes
-////                                    val imageUrl = convertByteArrayToBitmap(bytes)
-////                                    imageUrls.add(imageUrl!!)
-//
-//                                    var imagedata : ByteArray = byteArrayOf()
-//                                    for (i in bytes.indices) {
-//                                        imagedata[i] = bytes.get(i)
-//                                        Log.d(TAG, "Messagess: " + imagedata[i])
-//                                    }
-////                                    article4.setimagedata(imagedata)
-//
-//                                }
-//                            }
-
-
                             var body: String? = ""
 
                             if (fullMessage.payload.mimeType == "text/html") {
-                               // Log.d(TAG, "fetchAndProcess: "+fullMessage.payload.parts)
+                                // Log.d(TAG, "fetchAndProcess: "+fullMessage.payload.parts)
                                 body = fullMessage.payload.body.data
-//                                var body_attach =
-//                                    convertRawDataToPlainText(part.body.data)!!
-
-
-
-
-
-
-
-                                val decodedBytes: ByteArray =Base64.getUrlDecoder().decode(body)
-
-                                // Convert the decoded bytes to a string
+                                val decodedBytes: ByteArray = Base64.getUrlDecoder().decode(body)
                                 val decodedString = String(decodedBytes)
-                                article4.description = decodedString
-
-
-                              //  Log.d(TAG, "fetchAndProcess: minee" + decodedString)
-
-
-
+                                article.description = decodedString
 
                             } else if (fullMessage.payload.mimeType == "multipart/alternative") {
 
                                 val parts = fullMessage.payload.parts
                                 for (part in parts) {
-                                    Log.d(TAG, "fetchAndProcess: "+convertRawDataToPlainText(part.body.data))
+                                    //  Log.d(TAG, "fetchAndProcess: "+convertRawDataToPlainText(part.body.data))
 
-                                    if (part.mimeType=="text/x-amp-html")
-                                    {
+                                    if (part.mimeType == "text/x-amp-html") {
                                         var body_attach =
                                             convertRawDataToPlainText(part.body.data)!!
-
-
-                                        article4.description = body_attach
+                                        article.description = body_attach
 
                                     }
-                                      if (part.mimeType == "text/html") {
+                                    if (part.mimeType == "text/html") {
                                         var body_attach =
                                             convertRawDataToPlainText(part.body.data)!!
-
-
-                                        article4.description = body_attach
+                                        article.description = body_attach
 
 
                                     }
 
 
-                                     if (part.mimeType == "text/plain") {
-
-
+                                    if (part.mimeType == "text/plain") {
                                         var source = Source()
                                         source.id = "2"
-                                        article4.type = 1
+                                        article.type = 1
                                         var body_attach: String = ""
-
-                                            body_attach =
-                                                convertRawDataToPlainText(part.body.data)!!
-
-
-                                            article4.content = body_attach
-
-
-
-
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                        body_attach =
+                                            convertRawDataToPlainText(part.body.data)!!
+                                        article.content = body_attach
 
                                     }
-                                    arrayList.add(article4)
-
+                                    arrayList.add(article)
 
 
                                 }
                             }
+                            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+
+                                if (!article.title.isNullOrBlank() ||  !article.content.isNullOrBlank()|| !article.author.isNullOrBlank())
+                                {
+                                    Log.d(TAG, "alldata:" + article.title.isNullOrBlank()+">>"+article.content.isNullOrBlank()+">>>"+article.author.isNullOrBlank()+">")
+                                    if (article.title.equals("") &&!article.content.equals(""))
+                                    article.title=article.content
+                                    else if (article.title.equals("") &&!article.author.equals(""))
+                                        article.title=article.author
+                                    foodItemDao.insert(article)
+                                }
+
+
+
+                            }
 
 
                         } catch (e: SocketTimeoutException) {
-                            Log.d(TAG, "fetchAndProcess: "+e.message)
+
                             // Process eventual failures.
                             // Restart request on socket timeout.
                             e.printStackTrace()
@@ -310,272 +247,43 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
                             // Process eventual failures.
                             e.printStackTrace()
                         }
+
                     }
                     getCallData()
                     fetchAndProcess()
 
-
-                    if (label.equals("Inbox")) {
-
-//                processMessages(user, label) { m ->
-//                    launch {
-//                        fun fetchAndProcess() {
-//                            try {
-//                                var message1: Message
-//
-//                                message1 =
-//                                    users().messages().get(user, m.id).apply { format = "METADATA" }
-//                                        .execute()
-//                                message1.payload.headers.find { it.name == "From" }?.let { from ->
-//                                    process(from.value.parseAddress())
-//                                }
-//
-//                                var article4: Article = Article()
-//                                val messageId = m.id
-//                                val fullMessage: Message =
-//                                    users().messages().get(user, messageId)
-//                                        .setFormat("full").execute()
-//
-//                                // Retrieve email header information
-//                                val subject = fullMessage.payload.headers.stream()
-//
-////                                .filter { header: MessagePartHeader -> header.name == "Subject" }
-//                                    .findFirst()
-//                                    .map { obj: MessagePartHeader ->
-//                                        Log.d(
-//                                            TAG,
-//                                            "fetchAndProcess: " + obj.name + "??" + obj.value
-//                                        )
-//                                        obj.value
-//
-//                                    }
-//                                    .orElse("")
-//
-//                                // Retrieve email body content
-//                                var body: String? = ""
-//                                if (fullMessage.payload.mimeType == "text/plain") {
-//                                    body = fullMessage.payload.body.data
-//                                } else if (fullMessage.payload.mimeType == "multipart/alternative") {
-//                                    val parts = fullMessage.payload.parts
-//                                    for (part in parts) {
-//                                        if (part.mimeType == "text/plain") {
-//
-//                                            Log.d("TAG", "fetchAndProcess: " + "excutee")
-//
-//                                            var source = Source()
-//                                            source.id = "2"
-//                                            source.name = "Hey this is to inform you about event!!"
-//
-//                                            article4.type = 1
-//                                            article4.title = subject
-//                                            article4.author =
-//                                                "This is a sample news title which has no intent"
-//                                            var body_attach: String = ""
-//                                            try {
-//                                                body_attach =
-//                                                    convertRawDataToPlainText(part.body.data)!!
-//                                            } catch (e: java.lang.Exception) {
-//
-//                                            }
-//
-//                                            article4.description = body_attach
-//                                            arrayList.add(article4)
-//                                            Log.d(TAG, "fetchAndProcess: " + body_attach)
-//                                            getCallData()
-//                                            break
-//
-//
-//                                        }
-//                                    }
-//                                }
-//
-//                                // Process the retrieved email header and body as needed
-//                                // ...
-//
-//
-//                            } catch (e: SocketTimeoutException) {
-//                                // Process eventual failures.
-//                                // Restart request on socket timeout.
-//                                e.printStackTrace()
-//                                fetchAndProcess()
-//                            } catch (e: Exception) {
-//                                // Process eventual failures.
-//                                e.printStackTrace()
-//                            }
-//                        }
-//                        fetchAndProcess()
-//                    }
-//                }
-                    } else if (label.equals("Spam")) {
-
-                    }
 
                 }
             }
         }
 
 
-//    fun  Gmail.ExtractLablesData(user: String, label: Label, process: (String) -> Unit)
-//
-//    {
-//        runBlocking(dispatcher) {
-//            processMessages(user, label) { m ->
-//                launch {
-//                    fun fetchAndProcess() {
-//                        try {
-//                            var message1: Message
-//
-//                            message1 =
-//                                users().messages().get(user, m.id).apply { format = "METADATA" }
-//                                    .execute()
-//                            message1.payload.headers.find { it.name == "From" }?.let { from ->
-//                                process(from.value.parseAddress())
-//                            }
-//
-//                            var article4: Article = Article()
-//                            val messageId = m.id
-//                            val fullMessage: Message =
-//                                users().messages().get(user, messageId)
-//                                    .setFormat("full").execute()
-//
-//                            // Retrieve email header information
-//                            val subject = fullMessage.payload.headers.stream()
-//
-////                                .filter { header: MessagePartHeader -> header.name == "Subject" }
-//                                .findFirst()
-//                                .map { obj: MessagePartHeader ->
-//                                    Log.d(
-//                                        TAG,
-//                                        "fetchAndProcess: " + obj.name + "??" + obj.value
-//                                    )
-//                                    obj.value
-//
-//                                }
-//                                .orElse("")
-//
-//                            // Retrieve email body content
-//                            var body: String? = ""
-//                            if (fullMessage.payload.mimeType == "text/plain") {
-//                                body = fullMessage.payload.body.data
-//                            } else if (fullMessage.payload.mimeType == "multipart/alternative") {
-//                                val parts = fullMessage.payload.parts
-//                                for (part in parts) {
-//                                    if (part.mimeType == "text/plain") {
-//
-//                                        Log.d("TAG", "fetchAndProcess: " + "excutee")
-//
-//                                        var source = Source()
-//                                        source.id = "2"
-//                                        source.name = "Hey this is to inform you about event!!"
-//
-//                                        article4.type = 1
-//                                        article4.title = subject
-//                                        article4.author =
-//                                            "This is a sample news title which has no intent"
-//                                        var body_attach: String = ""
-//                                        try {
-//                                            body_attach =
-//                                                convertRawDataToPlainText(part.body.data)!!
-//                                        } catch (e: java.lang.Exception) {
-//
-//                                        }
-//
-//                                        article4.description = body_attach
-//                                        arrayList.add(article4)
-//                                        Log.d(TAG, "fetchAndProcess: " + body_attach)
-//                                        getCallData()
-//                                        break
-//
-//
-//                                    }
-//                                }
-//                            }
-//
-//                            // Process the retrieved email header and body as needed
-//                            // ...
-//
-//
-//                        } catch (e: SocketTimeoutException) {
-//                            // Process eventual failures.
-//                            // Restart request on socket timeout.
-//                            e.printStackTrace()
-//                            fetchAndProcess()
-//                        } catch (e: Exception) {
-//                            // Process eventual failures.
-//                            e.printStackTrace()
-//                        }
-//                    }
-//                    fetchAndProcess()
-//                }
-//            }
-//        }
-//    }
+
+
+    }
+    fun getFormattedDate(context: Context, smsTimeInMilis: Long): String {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = smsTimeInMilis
+
+        val now = Calendar.getInstance()
+
+        val timeFormatString = "h:mm aa"
+        val dateTimeFormatString = " MMM"
+        val HOURS = 60 * 60 * 60
+        if (now.get(Calendar.DATE) == smsTime.get(Calendar.DATE)) {
+            return "Today "
+        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) == 1) {
+            return "Yesterday "
+        } else
+            return DateFormat.format(dateTimeFormatString, smsTime).toString()
+
+
     }
 
-//    private fun extractUrlsFromMessage(message: Message) {
-//        val bodyData: String = message.getPayload().getBody().getData()
-//        if (bodyData != null) {
-//            val decodedBody =
-//                String(Base64.getUrlDecoder().decode(bodyData), StandardCharsets.UTF_8)
-//            val urls = decodedBody.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }
-//                .toTypedArray() // Split by whitespace
-//            for (url in urls) {
-//                if (isUrl(url)) {
-//                    // Process the URL
-//                    println("URL: $url")
-//                    Log.d(TAG, "extractUrlsFromMessage: " + url)
-//                }
-//            }
-//        }
-//    }
 
-    private fun isUrl(text: String): Boolean {
-        // Check if the given text is a valid URL
-        // You can use a regular expression or URL validation library for more accurate URL detection
-        // This is a simple example to check if the text starts with "http://" or "https://"
-        return text.startsWith("http://") || text.startsWith("https://")
-    }
 
-    val imageUrls = ArrayList<Bitmap>()
 
-    private fun convertByteArrayToBitmap(byteArray: ByteArray): Bitmap? {
-        var bitmap: Bitmap? = null
-        try {
-            bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-            // Handle the exception if the byte array cannot be decoded into a bitmap
-        }
-        return bitmap
-    }
 
-//    private fun getTextFromMessageParts(part: MessagePart): String? {
-//        val sb = StringBuilder()
-//
-//        if (part.mimeType == "text/plain") {
-//            val partData = part.body.data
-//            if (partData != null) {
-//                sb.append(String(Base64.getDecoder().decode(partData), StandardCharsets.UTF_8))
-//            }
-//        } else if (part.mimeType == "text/html") {
-//            val partData = part.body.data
-//            if (partData != null) {
-//                val htmlContent =
-//                    String(Base64.getDecoder().decode(partData), StandardCharsets.UTF_8)
-//                sb.append(Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_LEGACY).toString())
-//            }
-//        } else if (part.parts != null) {
-//            //sb.append(getTextFromMessageParts(part.parts.))
-//        } else if (part.filename != null && part.filename.length > 0) {
-//            val attachmentText = """
-//                Attachment: ${part.filename}
-//
-//                """.trimIndent()
-//            sb.append(attachmentText)
-//        }
-//
-//        return sb.toString()
-//    }
 
     private fun String.parseAddress(): String {
         return if (contains("<")) {
@@ -586,7 +294,7 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
     }
 
     fun convertRawDataToPlainText(binaryData: String): String? {
-        val decodedBytes: ByteArray =Base64.getUrlDecoder().decode(binaryData)
+        val decodedBytes: ByteArray = Base64.getUrlDecoder().decode(binaryData)
 
         // Convert the decoded bytes to a string
         val decodedString = String(decodedBytes)
@@ -601,7 +309,7 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         }
     }
 
-    fun extract(activity: Activity, ac: String, accontname: String,labelid:Int) {
+    fun ExtractMails(activity: Activity, ac: String, accontname: String, labelid: Int) {
 
         // Build a new authorized API client service.
         val httpTransport =
@@ -628,49 +336,26 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         )
             .setApplicationName("Spark")
             .build()
-//        val credential = GoogleCredential.Builder()
-//            .setTransport(httpTransport)
-//            .setJsonFactory(JSON_FACTORY)
-//            .setServiceAccountId("service_account")
-//            // .setServiceAccountPrivateKeyFromP12File(new
-//            // File(certLocation))
-//            .setServiceAccountPrivateKey(serviceAccountPrivateKey)
-//            .setServiceAccountUser(ac).build()
-//
-//            val service= Gmail.Builder(httpTransport, JSON_FACTORY, credential)
-//                .setApplicationName("Google-TasksAndroidSample/1.0").build()
 
-//            val service =
-//                Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(resources, httpTransport))
-//                    .setApplicationName(APPLICATION_NAME)
-//                    .build()
-
-        // Find the requested label
         val user = ac
 
         val labelList = gmailService.users().labels().list(user).execute()
         val label = labelList.labels
+        Log.d(TAG, "extract: " + label)
 //                .find { it.id == labelName } ?: error("Label `$labelName` is unknown.")
 
 
         // Process all From headers.
         val senders = mutableSetOf<String>()
-//        for(labellist in label) {
-        Log.d(TAG, "extract: " + label)
+
+
         gmailService.processFroms(user, label.get(labelid)) {
 
             senders += it
 
         }
 
-        // }
 
-        // senders.forEach(::println)
-        //Log.d("TAG", "extract: "+senders.size)
-//        } catch (e: Exception) {
-        // Log.e("getCredentials", "extract: "+e.message)
-
-        // }
     }
 
     private tailrec fun Gmail.processMessages(
@@ -681,7 +366,7 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
     ) {
 
 
-        val messages = users().messages().list(user).apply {
+        val messages = users().messages().list().apply {
             labelIds = listOf(label.id)
             pageToken = nextPageToken
             includeSpamTrash = true
@@ -702,22 +387,7 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         }
     }
 
-    private fun convertRawToPlainText(rawEmailBody: String): String? {
-        try {
-            val properties = Properties()
-            val session = Session.getDefaultInstance(properties, null)
-            val mimeMessage = MimeMessage(session, ByteArrayInputStream(rawEmailBody.toByteArray()))
-            val content = mimeMessage.content
-            if (content is String) {
-                return content
-            } else if (content is MimeMultipart) {
-                return getTextFromMultipart(content)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return ""
-    }
+
 
     @Throws(MessagingException::class, IOException::class)
     private fun getTextFromMultipart(multipart: MimeMultipart): String? {
@@ -735,8 +405,4 @@ class fetchRepository(private val foodItemDao: CategoryDao, var page: Int = 1) {
         return plainText.toString()
     }
 
-    private fun getEmailUrl(messageId: String): String? {
-        val baseUrl = "https://mail.google.com/mail/u/0/#inbox/"
-        return baseUrl + messageId
-    }
 }

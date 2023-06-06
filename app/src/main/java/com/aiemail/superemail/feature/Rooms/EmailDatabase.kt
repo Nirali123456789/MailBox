@@ -3,27 +3,27 @@ package com.example.myapplication.RoomDatabase
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.aiemail.superemail.feature.Models.Article
-import com.aiemail.superemail.feature.Rooms.CategoryDao
+import com.aiemail.superemail.feature.Models.Email
+import com.aiemail.superemail.feature.Rooms.EmailDao
 import com.aiemail.superemail.feature.utilis.StringArrayConverter
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [Article::class], version = 1,exportSchema = false)
+@Database(entities = [Email::class], version = 1,exportSchema = false)
 @TypeConverters(StringArrayConverter::class)
-abstract class CallDatabase : RoomDatabase() {
+abstract class EmailDatabase : RoomDatabase() {
 
-    abstract val categorydao: CategoryDao
+    abstract val categorydao: EmailDao
 
 
     companion object {
         @Volatile
-        public var INSTANCE: CallDatabase? = null
+        public var INSTANCE: EmailDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope):CallDatabase{
+        fun getDatabase(context: Context, scope: CoroutineScope):EmailDatabase{
             return INSTANCE ?: synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    CallDatabase::class.java,
+                    EmailDatabase::class.java,
                     "food_item_database"
                 ).addCallback(FoodItemCallback(scope))
                     .build()

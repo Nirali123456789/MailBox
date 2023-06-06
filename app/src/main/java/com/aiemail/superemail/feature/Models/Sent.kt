@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import io.github.muhammadmuzammilsharif.interfaces.SectionalUniqueObject
 
-@Entity(tableName = "Article")
-data class Article(
-    @PrimaryKey
+@Entity(tableName = "Sent")
+data class Sent(
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ) : SectionalUniqueObject<String> {
 
@@ -91,7 +91,7 @@ data class Article(
     }
 
     override fun equals(other: Any?)
-            = (other is Article)
+            = (other is Sent)
             && date == other.date
             && title == other.title
 

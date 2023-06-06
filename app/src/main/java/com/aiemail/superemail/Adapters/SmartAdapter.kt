@@ -13,28 +13,29 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aiemail.superemail.Activities.ComposeActivity
 import com.aiemail.superemail.R
-import com.aiemail.superemail.feature.Models.Article
+import com.aiemail.superemail.feature.Models.Email
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 
 
-class NewsAdapter(
+class SmartAdapter(
     context: Activity,
-    sourceList: ArrayList<Article>,
+    sourceList: ArrayList<Email>,
     var showselect: (Boolean) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var isEnable = false
     private var fromlongclick = false
-    private val itemselectedList = mutableListOf<Article>()
+    private val itemselectedList = mutableListOf<Email>()
     private var checkedPosition = 0
     val CITY_TYPE = 0
     val COUNTRY_TYPE = 1
+    val MORE = 3
     private var context: Activity
-    private var sourceList: ArrayList<Article> = arrayListOf()
-    private var sourceListselect: ArrayList<Article> = arrayListOf()
-    private lateinit var mRecentlyDeletedItem: Article
+    private var sourceList: ArrayList<Email> = arrayListOf()
+    private var sourceListselect: ArrayList<Email> = arrayListOf()
+    private lateinit var mRecentlyDeletedItem: Email
     var mRecentlyDeletedItemPosition = 0
 
     init {
@@ -94,6 +95,11 @@ class NewsAdapter(
                     .inflate(R.layout.outer_layout, parent, false)
                 return SectionItemVH(view)
             }
+            MORE -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.show_all_layout, parent, false)
+                return SectionItemVH(view)
+            }
         }
         //  return null
         view = LayoutInflater.from(parent.context)
@@ -106,9 +112,10 @@ class NewsAdapter(
 
         if (`object` != null) {
             when (`object`.type) {
-                CITY_TYPE -> (holder as SectionHeaderVH?)!!.tvHeader.text = "" + `object`.title
+                CITY_TYPE -> (holder as SectionHeaderVH?)!!.tvHeader.text = "" + `object`.date
                 COUNTRY_TYPE -> {
                     sourceListselect.add(`object`)
+                    if (!`object`.title.equals(null))
                     (holder as SectionItemVH?)!!.textView.text =spiltString(`object`.title!!)
                     (holder as SectionItemVH?)!!.txtSourceName.text = `object`.content
                     (holder as SectionItemVH?)!!.txtsubtitle.text = `object`.author
@@ -212,11 +219,11 @@ class NewsAdapter(
 
     }
 
-    private fun getCategoryPos(category: Article): Int {
+    private fun getCategoryPos(category: Email): Int {
         return itemselectedList.indexOf(category)
     }
 
-    private fun selectItem(holder: SectionItemVH, article: Article, position: Int) {
+    private fun selectItem(holder: SectionItemVH, article: Email, position: Int) {
         isEnable = true
         itemselectedList.add(article)
         article.isselected = true
@@ -240,8 +247,8 @@ class NewsAdapter(
         return 0
     }
 
-    fun adddata(articles: MutableList<Article>?) {
-        sourceList= articles as ArrayList<Article>
+    fun adddata(articles: MutableList<Email>?) {
+        sourceList= articles as ArrayList<Email>
         //notifyItemInserted((sourceList.size-1))
         notifyDataSetChanged()
 

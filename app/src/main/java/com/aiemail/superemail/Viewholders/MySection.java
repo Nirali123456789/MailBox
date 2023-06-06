@@ -5,7 +5,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aiemail.superemail.R;
-import com.aiemail.superemail.feature.Models.Article;
+import com.aiemail.superemail.feature.Models.Email;
 
 import java.util.ArrayList;
 
@@ -13,9 +13,9 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 
 public class MySection extends Section {
-    ArrayList<Article> itemList = new ArrayList<>();
+    ArrayList<Email> itemList = new ArrayList<>();
 
-    public MySection(ArrayList<Article> articles) {
+    public MySection(ArrayList<Email> articles) {
 
         // call constructor with layout resources for this Section header and items
         super(SectionParameters.builder()

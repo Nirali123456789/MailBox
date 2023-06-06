@@ -1,15 +1,19 @@
 /*
- * Created by Inuwa Ibrahim on 17/03/2022, 7:43 PM
- *     https://linktr.ee/Ibrajix
+ * Created by Nirali Pandya on 26/04/2023, 8:00 AM
  *     Copyright (c) 2022.
  *     All rights reserved.
  */
 
 package com.aiemail.superemail.Activities
 
+
 import android.app.ActivityOptions
 import android.app.Dialog
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -17,6 +21,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
+import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,8 +30,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -37,81 +41,103 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aiemail.superemail.Activities.LoginActivity.Companion.newsList1
+import com.aiemail.superemail.Adapters.ListEmailAdapter
+import com.aiemail.superemail.Bottomsheet.ActionBottomDialogFragment
+import com.aiemail.superemail.Fragments.SearchFragment
+import com.aiemail.superemail.MyApplication
+import com.aiemail.superemail.R
+import com.aiemail.superemail.databinding.ActivityMain1Binding
+import com.aiemail.superemail.feature.Models.Email
+
+import com.aiemail.superemail.feature.Models.Source
+import com.aiemail.superemail.feature.utilis.Constant
+import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
+import com.ashraf007.expandableselectionview.ExpandableSingleSelectionView
 import com.ashraf007.expandableselectionview.adapter.BasicStringAdapter
 import com.ashraf007.expandableselectionview.view.ExpandableSelectionView
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.ibrajix.nftapp.utilis.Utility.setTransparentStatusBar
-import com.aiemail.superemail.Activities.LoginActivity.Companion.newsList1
-import com.aiemail.superemail.Bottomsheet.ActionBottomDialogFragment
-import com.aiemail.superemail.Fragments.SearchFragment
-import com.aiemail.superemail.R
-import com.aiemail.superemail.databinding.ActivityMain1Binding
-import com.aiemail.superemail.Adapters.NewsAdapter
-import com.aiemail.superemail.MyApplication
-import com.aiemail.superemail.feature.Models.Article
-import com.aiemail.superemail.feature.Models.News
-import com.aiemail.superemail.feature.Models.Source
-import com.aiemail.superemail.feature.utilis.Constant
-import com.aiemail.superemail.feature.viewmodel.CategoryViewModel
-import com.aiemail.superemail.ui.gallery.GalleryViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 
 //@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickListener {
-    lateinit var expandableListView: ExpandableListView
+
     private lateinit var navigation_view: NavigationView
     lateinit var drawer: DrawerLayout
     private lateinit var binding: ActivityMain1Binding
-    private var newsList: List<News> = arrayListOf()
-    private var listofmail: ArrayList<Article> = arrayListOf()
-    lateinit var compose: FloatingActionButton
-    private lateinit var adapter1: NewsAdapter
-    var country = arrayOf("Smart Inbox", "Smart 2.0", "Classic")
+
+    private var listofmail: ArrayList<Email> = arrayListOf()
+
+    private lateinit var listAdapter: ListEmailAdapter
+
     lateinit var groupList: ArrayList<String>
     lateinit var childList: ArrayList<String>
     lateinit var childListicon: ArrayList<Int>
     var mobileCollection: Map<String, List<String>> = hashMapOf()
     var searchFragment: SearchFragment = SearchFragment()
     private var mActive = false
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var p = Paint()
-    val model: CategoryViewModel by viewModels() {
-        CategoryViewModel.Factory(
+
+    val model: EmailViewmodel by viewModels() {
+        EmailViewmodel.Factory(
             (application as MyApplication),
             (application as MyApplication).repository
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-      Constant.SetUpFullScreen(window)
+        Constant.SetUpFullScreen(window)
         super.onCreate(savedInstanceState)
         setTransparentStatusBar()
         binding = ActivityMain1Binding.inflate(layoutInflater)
+        SetUp()
 
-        //navigation_view=binding.navigationView
-        // navigation_view.getMenu().getItem(0).setChecked(true);
-        newsList = ArrayList()
+
+    }
+
+    private fun SetUp() {
+
         drawer = binding.drawer
         setContentView(binding.root)
+        if (!isNotificationServiceEnabled()) {
+            showPermissionDialog()
+        }
         setSupportActionBar(findViewById(R.id.toolbar))
 
         createGroupList();
         createCollection();
         onclick()
+        ExpandableUi()
+
+//        listofmail= arrayListOf()
+        fetchData()
+        Register()
+        UISetup()
+
+    }
+
+    private fun ExpandableUi() {
+
+//       * Array for Expandable icons .
+//        *SetUp ExpandableAdapter when List CLick It will Expand
+
         var icons = arrayListOf<Int>()
         icons = arrayListOf(
             R.drawable.ic_draft,
@@ -125,78 +151,83 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         var expandableListAdapter = BasicStringAdapter(childList, icons, "nehavaidya86@gmail.com")
         binding.root.findViewById<ExpandableSelectionView>(R.id.expandableListViewdrawer)
             .setAdapter(expandableListAdapter)
+        var expandableSelectionView: ExpandableSingleSelectionView =
+            binding.root.findViewById(R.id.expandableListViewdrawer)
+        expandableSelectionView.selectionListener = { index: Int? ->
+            binding.Title.visibility = View.VISIBLE
+            binding.spinner.visibility = View.GONE
+            binding.drop.visibility = View.GONE
+            drawer.closeDrawers()
+            when (index) {
 
-        model.getEmailList()
-        model.listdata.observe(this)
-        {
+                0 -> {
 
-            listofmail= arrayListOf()
-            listofmail.addAll(it)
+                    TypesData(5)
+                    binding.Title.setText("Drafts")
+                }
+
+                1 -> {
+                    TypesData(1)
+                    binding.Title.setText("Sent")
+                }
+
+                2 -> {
+                    TypesData(4)
+                    binding.Title.setText("Trash")
+                }
+
+                3 -> {
+                    TypesData(6)
+                    binding.Title.setText("Spam")
+                }
+
+                4 -> {
+                    TypesData(1)
+                    binding.Title.setText("Archive")
+                }
+
+                5 -> {
+                    TypesData(3)
+                    binding.Title.setText("Important")
+                }
+
+                else -> {
+                    TypesData(0)
+                    binding.Title.setText("Smart")
+                }
+
+
+            }
+
         }
-        adapter1 = NewsAdapter(this@MainActivity, listofmail){ select->
-            visibleSelectall(select)
+
+//        *Set EmailList Adapter To Recyclerview
+
+        binding.list.apply {
+
+            listAdapter = ListEmailAdapter(this@MainActivity, listofmail) { select ->
+                visibleSelectall(select)
+            }
+            adapter = listAdapter
         }
-        binding.rcvNft.adapter = adapter1
-        listofmail= arrayListOf()
-        model.maildata.observe(this) {
+    }
 
+    private fun TypesData(index: Int) {
+        var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+        var username = myPref.getString("username", "");
+        var acc = GoogleSignIn.getLastSignedInAccount(this)
+        model.DeleteMails()
+        model.insertMail()
+        (application as MyApplication).repository.fetchMails(
+            this,
+            username!!,
+            username!!,
+            acc!!,
+            index
+        )
+    }
 
-
-            listofmail.addAll(it)
-            adapter1.adddata(it)
-
-                //  enableSwipe(adapter1,arlist)
-                //  val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter1,this))
-                // itemTouchHelper.attachToRecyclerView(binding.rcvNft)
-
-
-
-
-
-        }
-
-
-        //var listAdapter = CustomAdapter(this@MainActivity1)
-        // attach the adapter to the expandable list view
-        // attach the adapter to the expandable list view
-        //binding.root.findViewById<ExpandableListView>(R.id.expandableListViewdrawer).setAdapter(listAdapter)
-//        navigation_view.setNavigationItemSelectedListener{
-//            when (it.itemId) {
-//                R.id.nav_home -> {
-//                    Handler(Looper.myLooper()!!).postDelayed(Runnable {
-//                        drawer.closeDrawers()
-//                    },200)
-//
-//                    true
-//                }
-//                R.id.pre->
-//                {
-//                    Handler(Looper.myLooper()!!).postDelayed(Runnable {
-//                        drawer.closeDrawers()
-//                    },200)
-//                    showBottomSheet(binding.root)
-//                }
-//                R.id.settings->
-//                {
-//                    Handler(Looper.myLooper()!!).postDelayed(Runnable {
-//                        drawer.closeDrawers()
-//                    },200)
-//                    startActivity(Intent(this@MainActivity1,SettingsActivity::class.java))
-//                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
-//                }
-//            }
-//            true
-//        }
-        //binding.swiperefresh.layoutParams.width = getOptimalDrawerWidth(this)
-
-
-//        model.allFoodItems.observe(
-//            this
-//        ) {
-//            var arrlist = it as ArrayList<Category>
-//            // adapter1.setData(arrlist)
-//        }
-
+    private fun UISetup() {
         val drawerToggle = ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close)
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
@@ -207,6 +238,39 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         // popup.setOnMenuItemClickListener(this@MainActivity1)
         popup.inflate(R.menu.popup_menu)
         setspinner()
+
+    }
+
+    private fun Register() {
+        var nReceiver = NotificationReceiver()
+        val filter = IntentFilter()
+        filter.addAction("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE")
+        registerReceiver(nReceiver, filter)
+    }
+
+    private val ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners"
+    private fun isNotificationServiceEnabled(): Boolean {
+        val pkgName = packageName
+        val flat: String = Settings.Secure.getString(
+            contentResolver,
+            ENABLED_NOTIFICATION_LISTENERS
+        )
+        if (!TextUtils.isEmpty(flat)) {
+            val names = flat.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
+            for (i in names.indices) {
+                val cn = ComponentName.unflattenFromString(names[i])
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.packageName)) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    private fun onclick() {
         binding.more.setOnClickListener {
             setupmenu()
         }
@@ -220,11 +284,6 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
 
         }
-
-
-    }
-
-    private fun onclick() {
         binding.included.setting.setOnClickListener {
             binding.trashBin.visibility = View.GONE
             updateUi()
@@ -247,42 +306,85 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             binding.included.inbox.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+            var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+            var username = myPref.getString("username", "");
+            var acc = GoogleSignIn.getLastSignedInAccount(this)
+            model.DeleteMails()
+            model.insertMail()
+            (application as MyApplication).repository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                2
+            )
 
         }
         binding.included.sent.setOnClickListener {
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
+            binding.drop.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
             binding.Title.setText("Sent")
             updateUi()
             binding.included.sent.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+            var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+            var username = myPref.getString("username", "");
+            var acc = GoogleSignIn.getLastSignedInAccount(this)
+            model.DeleteMails()
+            model.insertMail()
+            (application as MyApplication).repository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                1
+            )
         }
         binding.included.draft.setOnClickListener {
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
+            binding.drop.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
             binding.Title.setText("Draft")
             updateUi()
             binding.included.draft.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+
+            var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+            var username = myPref.getString("username", "");
+            var acc = GoogleSignIn.getLastSignedInAccount(this)
+            model.DeleteMails()
+            model.insertMail()
+            (application as MyApplication).repository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                5
+            )
         }
         binding.included.pins.setOnClickListener {
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
+            binding.drop.visibility = View.GONE
             binding.Title.setText("Pins")
             updateUi()
             binding.included.pins.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+
+
         }
         binding.included.archive.setOnClickListener {
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
+            binding.drop.visibility = View.GONE
             binding.Title.setText("Archived")
             updateUi()
             binding.included.archive.background =
@@ -293,11 +395,24 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             binding.trashBin.visibility = View.VISIBLE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
+            binding.drop.visibility = View.GONE
             binding.Title.setText("Trash")
             updateUi()
             binding.included.trash.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
+            var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
             drawer.closeDrawer(GravityCompat.START)
+            var username = myPref.getString("username", "");
+            var acc = GoogleSignIn.getLastSignedInAccount(this)
+            model.DeleteMails()
+            model.insertMail()
+            (application as MyApplication).repository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                4
+            )
         }
         binding.included.snoozelayout.setOnClickListener {
             binding.trashBin.visibility = View.GONE
@@ -320,6 +435,31 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         binding.included.archive.background = null
         binding.included.trash.background = null
         binding.included.snoozelayout.background = null
+    }
+
+    private fun fetchData() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = model.getEmailList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+
+                    Log.d("TAG", "fetchAndProcess: " + it)
+                    listofmail = arrayListOf()
+                    listofmail.addAll(it)
+                    listAdapter.adddata(listofmail)
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
     }
 
     private fun createCollection() {
@@ -373,24 +513,6 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         }
     }
 
-    protected fun animateView(v: View, animResId: Int, endVisibility: Int) {
-        val anim: Animation = AnimationUtils.loadAnimation(
-            applicationContext,
-            animResId
-        )
-        anim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-                v.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-                v.visibility = endVisibility
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-        v.startAnimation(anim)
-    }
 
     private fun createGroupList() {
         groupList = ArrayList()
@@ -400,23 +522,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
     lateinit var fm: FragmentManager
     lateinit var fragmentTransaction: FragmentTransaction
-    public fun closefragment() {
-        binding.compose.visibility = View.VISIBLE
-        fragmentTransaction.remove(searchFragment)
-        fragmentTransaction.commit()
 
-    }
-
-    private fun loadFragment(fragment: Fragment) {
-        binding.compose.visibility = View.GONE
-// create a FragmentManager
-        fm = supportFragmentManager
-        // create a FragmentTransaction to begin the transaction and replace the Fragment
-        fragmentTransaction = fm!!.beginTransaction()
-        // replace the FrameLayout with new Fragment
-        fragmentTransaction.replace(R.id.container, fragment)
-        fragmentTransaction.commit() // save the changes
-    }
 
     private fun setspinner() {
         val spin = findViewById<LinearLayout>(R.id.drop_layout)
@@ -424,7 +530,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         val spintextview = findViewById<TextView>(R.id.spinner)
         spin.setOnClickListener {
             var dialog = Dialog(this, R.style.DialogStyle);
-           dialog!!.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_popup);
+            dialog!!.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_popup);
 
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.layout_choose);
@@ -475,11 +581,11 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
                         }
                         if (tab!!.position == 1) {
-                           tabOne.setImageResource(R.drawable.smart_2)
+                            tabOne.setImageResource(R.drawable.smart_2)
 
                             // tabLayout.getTabAt(0)!!.customView=tabOne
-                         tabTwo.setImageResource(R.drawable.smart_selection)
-                           tabThree.setImageResource(R.drawable.classic)
+                            tabTwo.setImageResource(R.drawable.smart_selection)
+                            tabThree.setImageResource(R.drawable.classic)
 
                         }
                         if (tab!!.position == 2) {
@@ -512,49 +618,17 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             window.attributes = params
             //ChooseDialog().show(supportFragmentManager, "MyCustomFragment")
         }
-        //  spin.setOnItemSelectedListener(this)
-
-        //Creating the ArrayAdapter instance having the country list
-
-        //Creating the ArrayAdapter instance having the country list
-//        val aa: ArrayAdapter<*> =
-//            ArrayAdapter<Any?>(this, android.R.layout.simple_spinner_item, country)
-//        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        //Setting the ArrayAdapter data on the Spinner
-//        //Setting the ArrayAdapter data on the Spinner
 
 
     }
 
-    private fun createTabIcons(tabLayout: TabLayout) {
-        val layout =
-            LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-        // tabOne.text = "Tab 1"
-        var tabOne = layout.findViewById<ImageView>(R.id.image)
-        tabOne.setImageResource(R.drawable.smart2_selected)
-        var tabOnetext = layout.findViewById<TextView>(R.id.tab)
-        tabOnetext.setText("Smart 2.0")
-        tabLayout.getTabAt(0)!!.customView = layout
 
-        val layout2 =
-            LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-        var tabTwo = layout2.findViewById<ImageView>(R.id.image)
-        tabTwo.setImageResource(R.drawable.smart)
-        var tabTwotext = layout.findViewById<TextView>(R.id.tab)
-        tabTwotext.setText("Smart 2.0")
-
-        tabLayout.getTabAt(1)!!.customView = layout2
-        val layout3 =
-            LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-        var tabThree = layout3.findViewById<ImageView>(R.id.image)
-        // tabTwo.text = "Tab 2"
-        tabThree.setImageResource(R.drawable.classic)
-        tabLayout.getTabAt(2)!!.customView = layout3
-        var tabThreetext = layout.findViewById<TextView>(R.id.tab)
-        tabThreetext.setText("Smart 2.0")
-
-
-        // tabLayout.getTabAt(2)!!.customView = tabThree
+    fun showPermissionDialog() {
+        applicationContext.startActivity(
+            Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS").addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            )
+        )
     }
 
     override fun onBackPressed() {
@@ -577,7 +651,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         }
     }
 
-    private fun enableSwipe(adapter: NewsAdapter, arlist: ArrayList<Article>) {
+    private fun enableSwipe(adapter: ListEmailAdapter, arlist: ArrayList<Email>) {
         val simpleItemTouchCallback =
             object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -694,22 +768,18 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
                 }
             }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(binding.rcvNft)
+        itemTouchHelper.attachToRecyclerView(binding.list)
     }
 
     private fun setUpAdapterAndGetData() {
 
         //set up recycler view
-
-
         val gridLayoutManager = LinearLayoutManager(this@MainActivity)
-
-
-        binding.rcvNft.layoutManager = gridLayoutManager
+        binding.list.layoutManager = gridLayoutManager
         Thread()
         {
             // binding.rcvNft.setHasFixedSize(true)
-            var article: Article = Article()
+            var article: Email = Email()
             var source = Source()
             source.id = "1"
             source.name = "Hey this is to inform you about event!!"
@@ -718,7 +788,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             article.title = "Today "
             article.author = "Author1"
             article.description = "This is first email"
-            var article2: Article = Article()
+            var article2: Email = Email()
             source.id = "2"
             source.name = "Hey this is to inform you about event!!"
 
@@ -728,7 +798,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             article2.description = "This is second email"
 
 
-            var article3: Article = Article()
+            var article3: Email = Email()
             source.id = "2"
             source.name = "Hey this is to inform you about event!!"
 
@@ -736,11 +806,11 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             article3.title = "This is a sample news title which has no intent2"
             article3.author = "This is a sample news title which has no intent"
             article3.description = "This is second email"
-            var arlist: ArrayList<Article> = arrayListOf()
+            var arlist: ArrayList<Email> = arrayListOf()
             arlist.add(article)
             arlist.add(article3)
             arlist.add(article2)
-            var article4: Article = Article()
+            var article4: Email = Email()
             source.id = "2"
             source.name = "Hey this is to inform you about event!!"
 
@@ -750,7 +820,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             article4.description = "This is second email"
             arlist.add(article4)
 
-            var article5: Article = Article()
+            var article5: Email = Email()
             source.id = "2"
             source.name = "Hey this is to inform you about event!!"
 
@@ -761,93 +831,34 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             arlist.add(article5)
 
 
-//            for (i in 1..4) {
-//                var article6: Article = Article()
-//                source.id = "2"
-//                source.name = "Hey this is to inform you about event!!"
-//                article6.source = source
-//                article6.type = 1
-//                article6.title = "This is a sample news title which has no intent44"+i
-//                article6.author = "This is a sample news title which has no intent"
-//                article6.description = "This is second email"
-//                arlist.add(article6)
-//            }
-//            var articles: Article = Article()
-//            articles.type = 0
-//            articles.title = "January 2023"
-//            arlist.add(articles)
-//            for (i in 1..3) {
-//                var article6: Article = Article()
-//                source.id = "2"
-//                source.name = "Hey this is to inform you about event!!"
-//                article6.source = source
-//                article6.type = 1
-//                article6.title = "This is a sample news title which has no intent5"+i
-//                article6.author = "This is a sample news title which has no intent"
-//                article6.description = "This is second email"
-//                arlist.add(article6)
-//            }
+
+
             arlist.addAll(newsList1)
-            val newlist: ArrayList<News> = arrayListOf()
-            newlist.add(News("Person1", arlist))
-            newlist.add(News("Person2", arlist))
-            newlist.add(News("Person3", arlist))
-            newlist.add(News("Item4", arlist))
-            newlist.add(News("Item5", arlist))
+
 
         }.start()
 
 
-
-
-//        binding.rcvNft.multiSwiping(object : MultiSwipeListener {
-//
-//            override fun swiping(direction: SwipeDirection, swipeListSize: Int) {
-//                // here i hide FAB when user is swiping actively
-//                if (direction == SwipeDirection.END)
-//                    return
-//            }
-//
-//            override fun onSwipeDone(swipeId: Int, data: Any?) {
-//                // holder has reacted to swipeDone event and has returned data
-//                // to this method. I returned viewHolder itself from onSwipeDone at viewHolder
-//                val holder = data as NewsAdapter.SectionItemVH
-////                        when (swipeId) {
-////                            SwipeCreatorBase.SWIPE_TO_SHARE_ID -> shareItem(holder)
-////                            SwipeCreatorBase.SWIPE_TO_COPY_ID -> copyItem(holder)
-////                            SwipeCreatorBase.SWIPE_TO_CUT_ID -> cutItem(holder)
-////                            SwipeCreatorBase.SWIPE_TO_LIKE_ID -> toggleLike(holder)
-////                            SwipeCreatorBase.SWIPE_TO_EDIT_ID -> editItem(holder)
-////                            SwipeCreatorBase.SWIPE_TO_DEL_ID -> deleteItem(holder)
-////                        }
-//            }
-//
-//        })
-
-
-
     }
-    var first:Boolean=false
-    fun visibleSelectall(visibility:Boolean)
-    {
+
+    var first: Boolean = false
+    fun visibleSelectall(visibility: Boolean) {
         if (visibility) {
             binding.select.visibility = View.VISIBLE
-            binding.search.visibility=View.GONE
-        }
-        else {
+            binding.search.visibility = View.GONE
+        } else {
             binding.select.visibility = View.INVISIBLE
-            binding.search.visibility=View.VISIBLE
+            binding.search.visibility = View.VISIBLE
         }
         binding.select.setOnClickListener {
             if (!first) {
                 binding.select.setText("Deselect all")
-                first=!first
-                adapter1.getAllList(first)
-            }else
-            {
+                first = !first
+                listAdapter.getAllList(first)
+            } else {
                 binding.select.setText("select all")
-                first=!first
-                adapter1.getAllList(first)
+                first = !first
+                listAdapter.getAllList(first)
 
             }
         }
@@ -907,12 +918,26 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
     override fun onStop() {
         super.onStop()
-       // model.insertbody()
+        // model.insertbody()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        model.insertbody()
+        coroutineScope.cancel()
+
+    }
+
+
+    class NotificationReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val temp = """
+            ${intent.getStringExtra("notification_event")}
+            ${">>"}
+            """.trimIndent()
+            Log.d("TAG", "onReceive: " + "" + temp)
+
+
+        }
     }
 
 }

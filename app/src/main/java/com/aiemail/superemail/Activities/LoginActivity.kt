@@ -4,64 +4,40 @@ package com.aiemail.superemail.Activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
+import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.StrictMode
 import android.util.Log
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import com.aiemail.superemail.MyApplication
+import com.aiemail.superemail.R
+import com.aiemail.superemail.databinding.ActivityLoginBinding
+import com.aiemail.superemail.feature.Models.Email
+import com.aiemail.superemail.feature.Slideshow.OnBoardingActivity
+import com.aiemail.superemail.feature.utilis.Constant
+import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
+import com.aiemail.superemail.prefs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
-import com.google.api.client.auth.oauth2.Credential
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.client.googleapis.json.GoogleJsonResponseException
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest
-import com.google.api.client.googleapis.services.CommonGoogleClientRequestInitializer
-import com.google.api.client.http.HttpRequest
-import com.google.api.client.http.HttpRequestInitializer
-import com.google.api.client.http.HttpTransport
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
-import com.google.api.client.util.store.FileDataStoreFactory
 import com.google.api.services.gmail.Gmail
 import com.google.api.services.gmail.GmailScopes
-import com.google.api.services.gmail.model.Label
 import com.google.api.services.gmail.model.ListMessagesResponse
 import com.google.api.services.gmail.model.Message
-import com.google.api.services.gmail.model.MessagePartHeader
-import com.aiemail.superemail.MyApplication
-
-import com.aiemail.superemail.feature.Slideshow.OnBoardingActivity
-import com.aiemail.superemail.feature.Models.Article
-import com.aiemail.superemail.feature.Models.Source
-import com.aiemail.superemail.feature.utilis.Constant
-import com.aiemail.superemail.feature.viewmodel.CategoryViewModel
-import com.aiemail.superemail.prefs
-
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-
 import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
 import org.apache.http.client.ClientProtocolException
@@ -71,22 +47,14 @@ import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.message.BasicNameValuePair
 import org.apache.http.util.EntityUtils
-import java.io.File
+import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InputStreamReader
-import java.net.SocketTimeoutException
-
 import java.util.*
-import java.util.concurrent.Executors
-import kotlin.coroutines.CoroutineContext
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import kotlin.collections.ArrayList
-import android.net.Uri
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import com.aiemail.superemail.R
-import com.aiemail.superemail.databinding.ActivityLoginBinding
+import javax.mail.Session
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeBodyPart
+import javax.mail.internet.MimeMessage
+import javax.mail.internet.MimeMultipart
 
 
 class LoginActivity : AppCompatActivity() {
@@ -94,19 +62,26 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val TIMEOUT = 1500
     private var TOKENS_DIRECTORY_PATH = "tokens/gmail"
-    val model: CategoryViewModel by viewModels() {
-        CategoryViewModel.Factory(
+    val model: EmailViewmodel by viewModels() {
+        EmailViewmodel.Factory(
             (application as MyApplication),
             (application as MyApplication).repository
         )
     }
 
 
-
     companion object {
-        public var newsList1: ArrayList<Article> = arrayListOf()
+        public var newsList1: ArrayList<Email> = arrayListOf()
     }
 
+    val scopes =
+        GmailScopes.GMAIL_READONLY + " " + GmailScopes.GMAIL_SEND + " " + GmailScopes.GMAIL_LABELS
+    private val SCOPES = setOf(
+        GmailScopes.GMAIL_LABELS,
+        GmailScopes.GMAIL_READONLY,
+        GmailScopes.GMAIL_METADATA,
+        GmailScopes.GMAIL_SEND
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Constant.SetUpFullScreen(window)
@@ -118,7 +93,12 @@ class LoginActivity : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(Scope(GmailScopes.GMAIL_READONLY))
+                .requestScopes(
+                    Scope("https://mail.google.com/"),
+                    Scope(GmailScopes.GMAIL_READONLY),
+                    Scope(GmailScopes.GMAIL_SEND),
+                    Scope(GmailScopes.GMAIL_LABELS)
+                )
                 .requestIdToken(resources.getString(R.string.web_id))
                 .requestEmail()
                 .build()
@@ -165,19 +145,19 @@ class LoginActivity : AppCompatActivity() {
         wv1.getSettings().setJavaScriptEnabled(true);
 
 
-       // wv1.loadData(html, "text/html", "UTF-8");
+        // wv1.loadData(html, "text/html", "UTF-8");
     }
+
     private val getResult =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(it.data)
                 handleSignInResult(task)
             }
         }
-
-
 
 
     val httpTransport =
@@ -187,11 +167,7 @@ class LoginActivity : AppCompatActivity() {
                 request.readTimeout = TIMEOUT
             }.transport
     val JSON_FACTORY: JsonFactory = JacksonFactory.getDefaultInstance()
-    private val SCOPES = setOf(
-        GmailScopes.GMAIL_LABELS,
-        GmailScopes.GMAIL_READONLY,
-        GmailScopes.GMAIL_METADATA
-    )
+
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
 
@@ -238,16 +214,27 @@ class LoginActivity : AppCompatActivity() {
             var emailVerified = payload.getEmailVerified();
             var name = payload.get("name");
             Log.i("TAG33", "Signed in as: " + account.givenName)
+            // updateUI()
+
+
+            (application as MyApplication).repository.fetchMails(
+                this@LoginActivity,
+                email,
+                email,
+                acct,
+                2
+            )
+            model.DeleteMails()
+            model.insertMail()
+            val editor: SharedPreferences.Editor =
+                applicationContext.getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE)
+                    .edit()
+            editor.putString("username", acct.email)
+            editor.putString("account", "")
+            editor.commit()
             updateUI()
 
-
-                (application as MyApplication).repository.fetchMails(this@LoginActivity, email, email, acct,4)
-                model.insertMail()
-
-
-        } else {
-            System.out.println("Invalid ID token.");
-        }
+            //encript if you need to secure it
 
 
 //        var manager: GmailManager
@@ -259,8 +246,8 @@ class LoginActivity : AppCompatActivity() {
 
 
 //            Log.d("TAG", "handleSignInResult: "+idToken1)
-        //  var em= EmailExtractor()
-        //  EmailExtractor().extract("Inbox",resources)
+            //  var em= EmailExtractor()
+            //  EmailExtractor().extract("Inbox",resources)
 //var gmailQuickstart:GmailQuickstart=GmailQuickstart()
 //        gmailQuickstart.AuthMethod(resources)
 
@@ -326,8 +313,8 @@ class LoginActivity : AppCompatActivity() {
 
 
 // (Receive idTokenString by HTTPS POST)\
-        // Log.e("TAG", "handleSignInResult:2 "+token_id)
-        // val idToken: GoogleIdToken = verifier.verify(token_id)
+            // Log.e("TAG", "handleSignInResult:2 "+token_id)
+            // val idToken: GoogleIdToken = verifier.verify(token_id)
 
 //
 //            TOKENS_DIRECTORY_PATH= token_id!!
@@ -341,9 +328,9 @@ class LoginActivity : AppCompatActivity() {
 //            val userId: String = payload.getSubject()
 //            println("User ID: $userId")
 
-        // Get profile information from payload
+            // Get profile information from payload
 
-        // Get profile information from payload
+            // Get profile information from payload
 //            val email: String = payload.getEmail()
 //            val emailVerified: Boolean = java.lang.Boolean.valueOf(payload.getEmailVerified())
 //            val name = payload.get("name") as String
@@ -368,9 +355,9 @@ class LoginActivity : AppCompatActivity() {
 //                }
 //            }
 
-        // Signed in successfully, show authenticated UI.
-        //updateUI()
-
+            // Signed in successfully, show authenticated UI.
+            //updateUI()
+        }
     }
 
     fun getEmails(gmail: Gmail): ListMessagesResponse {
@@ -382,7 +369,35 @@ class LoginActivity : AppCompatActivity() {
         return response
     }
 
+    private fun createEmail(to: String, subject: String, messageBody: String): MimeMessage {
+        val props = Properties()
+        val session = Session.getDefaultInstance(props, null)
 
+        val email = MimeMessage(session)
+        email.setFrom(InternetAddress("nehavaidya95@gmail.com"))
+        email.addRecipient(javax.mail.Message.RecipientType.TO, InternetAddress(to))
+        email.subject = subject
+
+        val bodyPart = MimeBodyPart()
+        bodyPart.setContent(messageBody, "text/plain")
+
+        val multipart = MimeMultipart()
+        multipart.addBodyPart(bodyPart)
+
+        email.setContent(multipart)
+
+        return email
+    }
+
+    private fun createMessageWithEmail(email: MimeMessage): Message {
+        val buffer = ByteArrayOutputStream()
+        email.writeTo(buffer)
+        val bytes = buffer.toByteArray()
+        val encodedEmail = Base64.getUrlEncoder().encodeToString(bytes)
+        val message = Message()
+        message.raw = encodedEmail
+        return message
+    }
 
 
     private fun updateUI() {

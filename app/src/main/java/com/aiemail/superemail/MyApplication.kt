@@ -11,7 +11,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import com.aiemail.superemail.feature.Repository.fetchRepository
-import com.example.myapplication.RoomDatabase.CallDatabase
+import com.example.myapplication.RoomDatabase.EmailDatabase
 import com.aiemail.superemail.feature.utilis.Prefs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -36,7 +36,7 @@ private val applicationScope = CoroutineScope(SupervisorJob())
         context = applicationContext
         prefs1 = Prefs(applicationContext)
     }
-    private val database by lazy { CallDatabase.getDatabase(this,applicationScope) }
+    private val database by lazy { EmailDatabase.getDatabase(this,applicationScope) }
     val repository by lazy { fetchRepository(database.categorydao) }
 }
 

@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aiemail.superemail.R;
 import com.aiemail.superemail.Viewholders.HeadlineViewHolder;
-import com.aiemail.superemail.feature.Models.Article;
+import com.aiemail.superemail.feature.Models.Email;
 
 import java.util.List;
 
 public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineViewHolder> {
 
 	private final Context context;
-	private final List<Article> articleList;
+	private final List<Email> articleList;
 
 	private static final String TAG = "HeadlineAdapter";
 
-	public HeadlineAdapter(Context context, List<Article> articleList) {
+	public HeadlineAdapter(Context context, List<Email> articleList) {
 		this.context = context;
 		this.articleList = articleList;
 	}
@@ -36,7 +36,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineViewHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull HeadlineViewHolder holder, int position) {
-		Article article = articleList.get(position);
+		Email article = articleList.get(position);
 		//holder.setSourceName(article.getSource().getName());
 		holder.setTitle(article.getTitle());
 		holder.setDate("Yesterday");

@@ -30,17 +30,17 @@
                     app:civ_border_width="0dp" />
 
             <ImageView
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:visibility="gone"
                     android:id="@+id/selection"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:background="@drawable/ic_bg_select"
                     android:padding="@dimen/_8sdp"
                     android:src="@drawable/ic_check"
-                    android:background="@drawable/ic_bg_select"
-                    app:tint="@color/colorWhite"
-                    app:civ_border_width="0dp" />
+                    android:visibility="gone"
+                    app:civ_border_width="0dp"
+                    app:tint="@color/colorWhite" />
         </RelativeLayout>
 
 
@@ -57,7 +57,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                <View
+                        android:layout_centerVertical="true"
+                        android:id="@+id/view"
+                        android:layout_width="@dimen/_4sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:background="@drawable/line"
+                        android:backgroundTint="@color/colorPurple"/>
+
                 <TextView
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/view"
                         android:id="@+id/txt_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -94,12 +104,12 @@
                     android:layout_marginStart="1dp">
 
                 <TextView
-                        android:layout_toStartOf="@+id/star"
                         android:id="@+id/txt_source_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_1sdp"
                         android:layout_marginBottom="@dimen/_1sdp"
+                        android:layout_toStartOf="@+id/star"
                         android:fontFamily="@font/regular"
                         android:maxLines="1"
                         android:text="Washington Post"
@@ -107,19 +117,19 @@
                         android:textSize="@dimen/_11sdp" />
 
                 <TextView
-                        android:layout_toStartOf="@+id/star"
                         android:id="@+id/txt_source_name_sub"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txt_source_name"
+                        android:layout_toStartOf="@+id/star"
                         android:layout_weight="2"
                         android:ellipsize="end"
                         android:fontFamily="@font/regular"
                         android:maxLines="1"
-                        android:visibility="visible"
                         android:text="Washington Post"
                         android:textColor="@color/darkgrey"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="visible" />
 
                 <ImageView
                         android:id="@+id/star"

@@ -21,7 +21,6 @@ import com.aiemail.superemail.R
 import com.aiemail.superemail.Activities.TeamActivity
 import com.aiemail.superemail.feature.FragmentAdapter.main.FragmentAdapterSchedule
 import com.aiemail.superemail.feature.FragmentAdapter.main.FragmentpageAdapter
-import com.aiemail.superemail.feature.viewmodel.MainViewModel
 
 
 class SettingSubcomponentFragment : Fragment(),TabLayoutMediator.TabConfigurationStrategy {
@@ -39,11 +38,11 @@ class SettingSubcomponentFragment : Fragment(),TabLayoutMediator.TabConfiguratio
         }
     }
  var layout:Int=R.layout.fragment_main
-    private lateinit var viewModel: MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         val args = arguments
         layout = args?.getInt("layout", 0)!!
         // TODO: Use the ViewModel

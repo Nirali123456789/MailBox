@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.aiemail.superemail.R
 import com.aiemail.superemail.databinding.LayoutRecentBinding
-import com.aiemail.superemail.databinding.LayoutSearchBinding
 
-class FirstFragment : Fragment() {
+class RecentFrament : Fragment() {
  
     private lateinit var binding: LayoutRecentBinding
  

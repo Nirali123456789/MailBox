@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.aiemail.superemail.Activities.LoginActivity
 import com.aiemail.superemail.core.setParallaxTransformation
 import com.aiemail.superemail.databinding.OnboardingViewBinding
-import com.aiemail.superemail.domain.OnBoardingPrefManager
+import com.aiemail.superemail.startup.OnBoardingPrefManager
 import com.aiemail.superemail.Activities.MainActivity
 import com.aiemail.superemail.feature.Slideshow.OnBoardingActivity
 import com.aiemail.superemail.feature.Slideshow.OnBoardingPagerAdapter

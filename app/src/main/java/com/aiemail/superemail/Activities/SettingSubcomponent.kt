@@ -11,33 +11,14 @@ import com.aiemail.superemail.Dialog.MyCustomDialog
 import com.aiemail.superemail.R
 import com.aiemail.superemail.databinding.ActivitySettingSubcomponentBinding
 import com.aiemail.superemail.Fragments.SettingSubcomponentFragment
+import com.aiemail.superemail.feature.utilis.Constant
 
 class SettingSubcomponent : AppCompatActivity() {
      var value:Int=0
     var title:String=""
     private lateinit var binding: ActivitySettingSubcomponentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        val windowInsetsController =
-            WindowCompat.getInsetsController(window, window.decorView)
-        // Configure the behavior of the hidden system bars.
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        // Add a listener to update the behavior of the toggle fullscreen button when
-        // the system bars are hidden or revealed.
-        window.decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
-            // You can hide the caption bar even when the other system bars are visible.
-            // To account for this, explicitly check the visibility of navigationBars()
-            // and statusBars() rather than checking the visibility of systemBars().
-            if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
-                || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())
-            ) {
-                windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
-
-            } else {
-            }
-            view.onApplyWindowInsets(windowInsets)
-        }
+        Constant.SetUpFullScreen(window)
         super.onCreate(savedInstanceState)
         binding = ActivitySettingSubcomponentBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -61,7 +42,7 @@ class SettingSubcomponent : AppCompatActivity() {
             R.anim.slide_out);
     }
 
-    private fun FragmentSetup() {
+    private fun FragmentSetup() {432
         when(value)
         {
             1->

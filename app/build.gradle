@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.aiemail.superemail"
         minSdkVersion 26
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -57,9 +57,7 @@ android {
 
     }
 
-//    lint {
-//        baseline = file("lint-baseline.xml")
-//    }
+
 
 }
 
@@ -187,6 +185,10 @@ dependencies {
     implementation 'com.sun.mail:android-mail:1.6.4'
     implementation 'com.sun.mail:android-activation:1.6.4'
     implementation group: 'org.apache.james', name: 'apache-mime4j', version: '0.6.1'
+    implementation 'com.google.http-client:google-http-client-gson:1.39.1'
+    implementation "io.karn:notify:1.4.0"
+    implementation "com.google.accompanist:accompanist-permissions:0.27.1"
+
 
 
 

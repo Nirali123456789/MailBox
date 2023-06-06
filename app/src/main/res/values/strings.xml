@@ -87,5 +87,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="web_id">390762603984-lbdjhgffolaq6eb6jemsljand6orptqs.apps.googleusercontent.com</string>
+    <string name="collapsed_notification_title">collasped\n</string>
+    <string name="collapsed_notification_info">collasped info\n</string>
+    <string name="channel_name">channel\n</string>
+    <string name="channel_description">description</string>
+    <string name="service_label">label\n</string>
+    <string name="service_name">service\n</string>
 
 </resources>

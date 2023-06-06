@@ -1,4 +1,4 @@
-package com.aiemail.superemail.domain
+package com.aiemail.superemail.startup
 
 import android.content.Context
 import android.content.SharedPreferences
