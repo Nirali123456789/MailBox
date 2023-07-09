@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_bottom_bg">
+
+    <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/app_name"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_10sdp" />
+
+    <TextView
+            android:id="@+id/subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/verify"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/_20sdp" />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/grey" />
+
+    <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/from"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_12sdp" />
+
+    <RelativeLayout
+            android:id="@+id/account_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/iconmail"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_account"
+                app:tint="@color/colorPurple" />
+
+        <TextView
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/iconmail"
+                android:fontFamily="@font/regular"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@string/api"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+        <TextView
+                android:id="@+id/from_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/account"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/iconmail"
+                android:background="@null"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="@string/reply_Auth"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/_13sdp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:fontFamily="@font/medium"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/To"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_12sdp" />
+
+    <RelativeLayout
+            android:id="@+id/To_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/Tomail"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_account"
+                app:tint="@color/colorPurple" />
+
+        <TextView
+                android:id="@+id/TO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/Tomail"
+                android:fontFamily="@font/regular"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@string/app_name"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+        <TextView
+                android:id="@+id/to_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TO"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/Tomail"
+                android:background="@null"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="@string/app_name"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/_13sdp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

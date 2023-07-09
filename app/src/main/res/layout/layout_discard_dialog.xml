@@ -25,7 +25,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/regular"
-                android:text="Save this message as a draft?"
+                android:text="@string/save_draft"
                 android:textSize="@dimen/_16sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +41,7 @@
                 android:layout_toStartOf="@+id/timew"
                 android:fontFamily="@font/regular"
                 android:padding="@dimen/_5sdp"
-                android:text="This message has not been sent and contains unsaved changes.
-You can save it as a draft to work on later."
+                android:text="@string/notsent"
                 android:textColor="@color/grey_regular"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +65,7 @@ You can save it as a draft to work on later."
                     android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textColor="@color/colorPurple" />
 
             <TextView
@@ -78,7 +77,7 @@ You can save it as a draft to work on later."
                     android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="Discard"
+                    android:text="@string/discard"
                     android:textColor="@android:color/holo_red_dark" />
 
             <TextView
@@ -90,7 +89,7 @@ You can save it as a draft to work on later."
                     android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="Save draft"
+                    android:text="@string/Savedraft"
                     android:textColor="@color/colorPurple" />
         </LinearLayout>
 

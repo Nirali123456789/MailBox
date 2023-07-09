@@ -2,56 +2,97 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.aiemail.superemail">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+            android:name="android.hardware.camera"
+            android:required="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-
-    <uses-sdk android:minSdkVersion="26" />
-
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- Add permission for the badge count update -->
+    <uses-permission android:name="com.android.launcher.permission.UPDATE_COUNT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-
-            android:name="com.aiemail.superemail.MyApplication"
+            android:name=".MyApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
+            android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppThemedrawer"
-            android:usesCleartextTraffic="true"
+            android:usesCleartextTraffic="true">
 
-            android:requestLegacyExternalStorage="true">
+        <activity android:name=".Activities.PrivacyPolicyActivty"
+            android:screenOrientation="portrait"/>
+        <activity
+                android:name=".Activities.PassCodeActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".Activities.FullMailShowActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".Activities.TemplateActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+        <activity
+                android:name=".Activities.SendActivity"
+                android:exported="false"
+                android:launchMode="singleInstance"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".Activities.EditToolbarActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"/>
+
         <uses-library
                 android:name="org.apache.http.legacy"
                 android:required="false" />
 
         <activity
-                android:name="com.aiemail.superemail.Activities.TeamActivity"
-                android:exported="false"></activity>
-        <activity android:name="com.aiemail.superemail.Activities.ColorCodeActivity" />
-        <activity android:name="com.aiemail.superemail.Activities.SnoozeActivity" />
+                android:name=".Activities.TeamActivity"
+                android:exported="false"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ColorCodeActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.SnoozeActivity"
+                android:screenOrientation="portrait"/>
         <activity
-                android:name="com.aiemail.superemail.Activities.SettingSubcomponent"
+                android:name=".Activities.SettingSubcomponentActivity"
                 android:exported="false" />
         <activity
-                android:name="com.aiemail.superemail.Activities.DirectComposeActivity"
+                android:name=".Activities.DirectComposeActivity"
+                android:screenOrientation="portrait"
+                android:exported="false"
+                android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+        <activity
+                android:name=".Activities.ComposeActivity"
+                android:screenOrientation="portrait"
                 android:exported="false" />
         <activity
-                android:name="com.aiemail.superemail.Activities.ComposeActivity"
-                android:exported="false" />
-        <activity
-                android:name="com.aiemail.superemail.Activities.SettingsActivity"
+                android:name=".Activities.SettingsActivity"
+                android:screenOrientation="portrait"
                 android:exported="false"
                 android:label="@string/title_activity_settings" />
         <activity
-                android:name="com.aiemail.superemail.feature.Slideshow.OnBoardingActivity"
+                android:name=".Slideshow.OnBoardingActivity"
+                android:configChanges="orientation|screenSize"
                 android:exported="false"
+                android:screenOrientation="portrait"
                 android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,8 +101,9 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.aiemail.superemail.Activities.LoginActivity"
+                android:name=".Activities.LoginActivity"
                 android:exported="true"
+                android:screenOrientation="portrait"
                 android:launchMode="singleInstance">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -70,9 +112,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                        android:scheme="http"
-                        android:host="www.supermail.com"
-                        android:path="/mailbox" />
+                        android:host="superemail.page.link"
+                        android:path="/mailbox"
+                        android:scheme="https" />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
@@ -81,13 +123,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "example://gizmos” -->
                 <data
-                        android:scheme="supermail"
-                        android:host="mailbox" />
+                        android:host="mailbox"
+                        android:scheme="supermail" />
             </intent-filter>
         </activity>
         <activity
-                android:name="com.aiemail.superemail.Activities.FirstScreen"
-                android:exported="true">
+                android:name=".Activities.SplashScreenActivity"
+                android:exported="true"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,8 +138,9 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.aiemail.superemail.Activities.MainActivity"
-                android:exported="true">
+                android:name=".Activities.MainActivity"
+                android:exported="true"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -104,9 +148,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                        android:scheme="http"
                         android:host="www.mail1.com"
-                        android:pathPattern="/mailbox" />
+                        android:pathPattern="/mailbox"
+                        android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -115,24 +159,50 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                        android:scheme="http"
                         android:host="www.supermail.com"
-                        android:pathPattern="/supermail" />
+                        android:pathPattern="/supermail"
+                        android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinTopActivity" />
-        <activity android:name="com.aiemail.superemail.Activities.SearchActivity" />
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinHideActivity" />
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_MinTopActivity" />
+        <activity android:name=".Activities.SearchActivity" />
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_MinHideActivity" />
         <activity android:name="com.chinalwb.are.demo.ARE_MultiInstanceActivity" />
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_DefaultToolbarActivity" />
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_FullBottomActivity" />
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_FullTopActivity" />
-        <activity android:name="com.aiemail.superemail.chinalwb.are.Text_Operations.ARE_MinBottomActivity" />
-        <!-- BroadcastReceiver declaration -->
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_DefaultToolbarActivity" />
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_FullBottomActivity" />
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_FullTopActivity" />
 
+        <activity android:name=".Activities.PasscodeActivity2"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.PasscodeActivity3"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".chinalwb.are.Text_Operations.ARE_MinBottomActivity"
+                android:screenOrientation="portrait"/> <!-- BroadcastReceiver declaration -->
+        <receiver
+                android:name=".Receivers.YourDeviceAdminReceiver"
+                android:description="@string/app_name"
+                android:exported="true"
+                android:label="@string/app_name"
+                android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                    android:name="android.app.device_admin"
+                    android:resource="@xml/device_admin_receiver" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+                android:name=".Snooze.AlarmReceiver"
+                android:enabled="true"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <service
-                android:name="com.aiemail.superemail.Notification.NotificationListenerExampleService"
+                android:name=".Notification.NotificationListenerExampleService"
                 android:exported="true"
                 android:label="@string/service_name"
                 android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
@@ -141,6 +211,19 @@
             </intent-filter>
         </service>
 
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="com.aiemail.superemail.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/providers" />
+        </provider>
+
+        <service
+                android:name=".Service.BadgeIntentService"
+                android:exported="false" />
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.aiemail.superemail.databinding.LayoutSearchBinding
 import com.aiemail.superemail.Activities.MainActivity
-import com.aiemail.superemail.feature.utilis.ViewPagerAdapter
+import com.aiemail.superemail.utilis.ViewPagerAdapter
 
 class SearchFragment : Fragment() {
 

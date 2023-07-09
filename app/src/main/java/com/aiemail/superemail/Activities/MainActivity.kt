@@ -2,25 +2,31 @@
  * Created by Nirali Pandya on 26/04/2023, 8:00 AM
  *     Copyright (c) 2022.
  *     All rights reserved.
+ * 3 different views with observer and roomdatabase
  */
 
 package com.aiemail.superemail.Activities
 
 
+import android.accounts.Account
 import android.app.ActivityOptions
 import android.app.Dialog
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
@@ -30,7 +36,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -39,6 +44,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -49,51 +55,88 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aiemail.superemail.Activities.LoginActivity.Companion.newsList1
 import com.aiemail.superemail.Adapters.ListEmailAdapter
+import com.aiemail.superemail.Adapters.PinAdapter
+import com.aiemail.superemail.Adapters.ScrollAdapter
 import com.aiemail.superemail.Bottomsheet.ActionBottomDialogFragment
-import com.aiemail.superemail.Fragments.SearchFragment
+import com.aiemail.superemail.Fragments.AsideFragment
+import com.aiemail.superemail.Fragments.FragmentChanger
+import com.aiemail.superemail.Models.AllMails
+import com.aiemail.superemail.Models.Email
+import com.aiemail.superemail.Models.Pin
+import com.aiemail.superemail.Models.Source
 import com.aiemail.superemail.MyApplication
 import com.aiemail.superemail.R
+import com.aiemail.superemail.Repository.DraftRepository
+import com.aiemail.superemail.Repository.SentRepository
+import com.aiemail.superemail.Repository.SpamRepository
+import com.aiemail.superemail.Repository.TrashRepository
+import com.aiemail.superemail.Service.BadgeIntentService
+import com.aiemail.superemail.Viewholders.MailSection
 import com.aiemail.superemail.databinding.ActivityMain1Binding
-import com.aiemail.superemail.feature.Models.Email
-
-import com.aiemail.superemail.feature.Models.Source
-import com.aiemail.superemail.feature.utilis.Constant
-import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
-import com.ashraf007.expandableselectionview.ExpandableSingleSelectionView
+import com.aiemail.superemail.utilis.Helpers
+import com.aiemail.superemail.utilis.PeopleHelper
+import com.aiemail.superemail.utilis.PeopleHelper.setUp
+import com.aiemail.superemail.utilis.PreferenceManager
+import com.aiemail.superemail.viewmodel.AllEmailViewmodel
+import com.aiemail.superemail.viewmodel.EmailViewmodel
+import com.aiemail.superemail.viewmodel.PinViewmodel
 import com.ashraf007.expandableselectionview.adapter.BasicStringAdapter
-import com.ashraf007.expandableselectionview.view.ExpandableSelectionView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
+import com.google.api.client.http.HttpTransport
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.jackson2.JacksonFactory
+import com.google.api.services.people.v1.PeopleService
+import com.google.api.services.people.v1.model.Person
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLink
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.iosParameters
+import com.google.firebase.ktx.Firebase
 import com.ibrajix.nftapp.utilis.Utility.setTransparentStatusBar
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
+import me.leolin.shortcutbadger.ShortcutBadger
 
 
 //@AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickListener {
+class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickListener,
+    MailSection.ClickListener, ListEmailAdapter.ClickListenerData, PinAdapter.ClickListenerPin,ScrollAdapter.ClickListenerData {
 
-    private lateinit var navigation_view: NavigationView
+    private var position: Int = 0
     lateinit var drawer: DrawerLayout
     private lateinit var binding: ActivityMain1Binding
-
     private var listofmail: ArrayList<Email> = arrayListOf()
-
+    private var listofunread: ArrayList<Email> = arrayListOf()
+    private var asideList: ArrayList<Email> = arrayListOf()
+    private var pinlist: ArrayList<Pin> = arrayListOf()
     private lateinit var listAdapter: ListEmailAdapter
-
+    private  lateinit var scrollAdapter: ScrollAdapter
+    private lateinit var pinAdapter: PinAdapter
     lateinit var groupList: ArrayList<String>
-    lateinit var childList: ArrayList<String>
+    var childList: ArrayList<String> = arrayListOf()
     lateinit var childListicon: ArrayList<Int>
-    var mobileCollection: Map<String, List<String>> = hashMapOf()
-    var searchFragment: SearchFragment = SearchFragment()
-    private var mActive = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var p = Paint()
+    val sectionAdapter = SectionedRecyclerViewAdapter()
+    var inbox: Boolean = true
+    lateinit var preferenceManager: PreferenceManager
+
+    companion object {
+        var adapter_set: Boolean = false
+    }
+
 
     val model: EmailViewmodel by viewModels() {
         EmailViewmodel.Factory(
@@ -101,35 +144,82 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             (application as MyApplication).repository
         )
     }
+    val Allmodel: AllEmailViewmodel by viewModels() {
+        AllEmailViewmodel.Factory(
+            (application as MyApplication),
+            (application as MyApplication).allrepository
+        )
+    }
+
+    val pinmodel: PinViewmodel by viewModels() {
+        PinViewmodel.Factory(
+            (application as MyApplication),
+            (application as MyApplication).pinrepository
+        )
+    }
+    var sentRepository: SentRepository? = null
+    var spamRepository: SpamRepository? = null
+    var draftRepository: DraftRepository? = null
+    var trashRepository: TrashRepository? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Constant.SetUpFullScreen(window)
+        Helpers.SetUpFullScreen(window)
         super.onCreate(savedInstanceState)
         setTransparentStatusBar()
         binding = ActivityMain1Binding.inflate(layoutInflater)
         SetUp()
+        DynamicLink()
 
 
     }
 
     private fun SetUp() {
+        spamRepository = (application as MyApplication).spamRepository
+        sentRepository = (application as MyApplication).sentRepository
+        draftRepository = (application as MyApplication).draftRepository
+        trashRepository = (application as MyApplication).trashRepository
+
+        preferenceManager = PreferenceManager(this)
+        preferenceManager.SetUpPreference()
 
         drawer = binding.drawer
         setContentView(binding.root)
-        if (!isNotificationServiceEnabled()) {
-            showPermissionDialog()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val intent = Intent()
+            val packageName = packageName
+            val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                intent.data = Uri.parse("package:$packageName")
+                startActivityForResult(intent,200)
+            }
+        }else{
+            if (!isNotificationServiceEnabled()) {
+                showPermissionDialog()
+            }
         }
-        setSupportActionBar(findViewById(R.id.toolbar))
+        val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        toolbar.setNavigationIcon(
+            resources.getDrawable(
+                R.drawable.ic_menu,
+                null
+            )
+        )
+        setSupportActionBar(toolbar);
+
 
         createGroupList();
-        createCollection();
         onclick()
         ExpandableUi()
-
-//        listofmail= arrayListOf()
         fetchData()
         Register()
         UISetup()
+        fetchasideListData()
+        fetchDataSent()
+        fetchDataSpam()
+        fetchDataDraft()
+        fetchTrash()
 
     }
 
@@ -148,12 +238,20 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             R.drawable.ic_imp
         )
 
-        var expandableListAdapter = BasicStringAdapter(childList, icons, "nehavaidya86@gmail.com")
-        binding.root.findViewById<ExpandableSelectionView>(R.id.expandableListViewdrawer)
+        childList.add(resources.getString(R.string.draft))
+        childList.add(resources.getString(R.string.sent))
+        childList.add(resources.getString(R.string.trash))
+        childList.add(resources.getString(R.string.spam))
+        childList.add(resources.getString(R.string.archive))
+        childList.add(resources.getString(R.string.important))
+
+        var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+        var username = myPref.getString("username", "");
+        var expandableListAdapter = BasicStringAdapter(childList, icons, username)
+        binding.included.expandableListViewdrawer
             .setAdapter(expandableListAdapter)
-        var expandableSelectionView: ExpandableSingleSelectionView =
-            binding.root.findViewById(R.id.expandableListViewdrawer)
-        expandableSelectionView.selectionListener = { index: Int? ->
+
+        binding.included.expandableListViewdrawer.selectionListener = { index: Int? ->
             binding.Title.visibility = View.VISIBLE
             binding.spinner.visibility = View.GONE
             binding.drop.visibility = View.GONE
@@ -204,30 +302,102 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 //        *Set EmailList Adapter To Recyclerview
 
         binding.list.apply {
-
-            listAdapter = ListEmailAdapter(this@MainActivity, listofmail) { select ->
-                visibleSelectall(select)
-            }
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            listAdapter =
+                ListEmailAdapter(this@MainActivity, listofmail, this@MainActivity) { select ->
+                    visibleSelectall(select)
+                }
             adapter = listAdapter
         }
+
+
+    }
+
+    var arlist: HashMap<Int, List<AllMails>> = hashMapOf()
+    fun SetUpAdapter() {
+
+
+// Add your Sections
+
+// Add your Sections
+        //sectionAdapter.addSection(MailSection(arrayListOf(), "", this, this))
+
+// Set up your RecyclerView with the SectionedRecyclerViewAdapter
+
+// Set up your RecyclerView with the SectionedRecyclerViewAdapter
+
+        binding.list.layoutManager = LinearLayoutManager(this)
+        binding.list.adapter = sectionAdapter
+
+//        binding.list.apply {
+//            layoutManager = LinearLayoutManager(this@MainActivity)
+//
+//            smartAdapter = MainAdapter(smartlist)
+//            adapter = smartAdapter
+//        }
     }
 
     private fun TypesData(index: Int) {
         var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
         var username = myPref.getString("username", "");
         var acc = GoogleSignIn.getLastSignedInAccount(this)
-        model.DeleteMails()
-        model.insertMail()
-        (application as MyApplication).repository.fetchMails(
-            this,
-            username!!,
-            username!!,
-            acc!!,
-            index
-        )
+//        model.DeleteMails()
+//        model.insertMail()
+        if (index == 1) {
+
+            sentRepository!!.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                index
+            )
+        }
+        if (index == 6) {
+            spamRepository!!.deletedata()
+            spamRepository!!.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                index
+            )
+        }
+        if (index == 5) {
+            draftRepository!!.deletedata()
+            draftRepository!!.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                index
+            )
+        }
+        if (index == 3) {
+            (application as MyApplication).importantRepository.deletedata()
+            (application as MyApplication).importantRepository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                index
+            )
+        }
+        if (index == 4) {
+            trashRepository!!.deletedata()
+            (application as MyApplication).trashRepository.fetchMails(
+                this,
+                username!!,
+                username!!,
+                acc!!,
+                index
+            )
+        }
+
     }
 
     private fun UISetup() {
+        enableSwipe(listAdapter, listofmail)
         val drawerToggle = ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close)
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
@@ -238,7 +408,23 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         // popup.setOnMenuItemClickListener(this@MainActivity1)
         popup.inflate(R.menu.popup_menu)
         setspinner()
+        val apiKey = getString(R.string.Api_Key)
+        val emailList = "swainfo.nirali@gmail.com" // Add your email addresses here
 
+
+    }
+
+
+
+
+    fun SetUpPinAdapter() {
+        binding.list.apply {
+
+            pinAdapter = PinAdapter(this@MainActivity, pinlist, this@MainActivity) { select ->
+                visibleSelectall(select)
+            }
+            adapter = pinAdapter
+        }
     }
 
     private fun Register() {
@@ -303,24 +489,30 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             binding.spinner.visibility = View.VISIBLE
             // binding.Title.setText("Sent")
             updateUi()
+            SetMainAdapter()
             binding.included.inbox.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
             var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
             var username = myPref.getString("username", "");
             var acc = GoogleSignIn.getLastSignedInAccount(this)
-            model.DeleteMails()
-            model.insertMail()
-            (application as MyApplication).repository.fetchMails(
-                this,
-                username!!,
-                username!!,
-                acc!!,
-                2
-            )
+//            model.DeleteMails()
+//            model.insertMail()
+            coroutineScope.launch(Dispatchers.Main) {
+
+                model.getEmailList().observe(this@MainActivity)
+                {
+
+                    listofmail = arrayListOf()
+                    listofmail.addAll(it)
+                    listAdapter.adddata(listofmail)
+                    binding.included.count.setText(" " + listofmail.size)
+                }
+            }
 
         }
         binding.included.sent.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.drop.visibility = View.GONE
@@ -333,9 +525,8 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
             var username = myPref.getString("username", "");
             var acc = GoogleSignIn.getLastSignedInAccount(this)
-            model.DeleteMails()
-            model.insertMail()
-            (application as MyApplication).repository.fetchMails(
+
+            (application as MyApplication).sentRepository.fetchMails(
                 this,
                 username!!,
                 username!!,
@@ -344,6 +535,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             )
         }
         binding.included.draft.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.drop.visibility = View.GONE
@@ -357,9 +549,8 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
             var username = myPref.getString("username", "");
             var acc = GoogleSignIn.getLastSignedInAccount(this)
-            model.DeleteMails()
-            model.insertMail()
-            (application as MyApplication).repository.fetchMails(
+
+            (application as MyApplication).draftRepository.fetchMails(
                 this,
                 username!!,
                 username!!,
@@ -368,19 +559,40 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             )
         }
         binding.included.pins.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
             binding.drop.visibility = View.GONE
             binding.Title.setText("Pins")
             updateUi()
+            SetUpPinAdapter()
             binding.included.pins.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                // Fetch data from Room database on a background thread
+                val pin = pinmodel.FetchPinList()
+
+                // Perform additional background fetch or processing
+                // ...
+
+                withContext(Dispatchers.Main) {
+
+                    pin.observe(this@MainActivity)
+                    {
+                        Log.d("TAG", "onclick: " + it)
+//                        pinlist.add(it)
+                        pinlist.addAll(it)
+                        pinAdapter.adddata(pinlist)
+                    }
+                }
 
 
+            }
         }
         binding.included.archive.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
@@ -390,8 +602,30 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             binding.included.archive.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
+
+            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                // Fetch data from Room database on a background thread
+                val pin = pinmodel.getArchive()
+
+                // Perform additional background fetch or processing
+                // ...
+
+                withContext(Dispatchers.Main) {
+
+                    pin.observe(this@MainActivity)
+                    {
+                        Log.d("TAG", "onclick: " + it)
+//                        pinlist.add(it)
+                        pinlist.addAll(it)
+                        pinAdapter.adddata(pinlist)
+                    }
+                }
+
+
+            }
         }
         binding.included.trash.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.VISIBLE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
@@ -404,9 +638,9 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             drawer.closeDrawer(GravityCompat.START)
             var username = myPref.getString("username", "");
             var acc = GoogleSignIn.getLastSignedInAccount(this)
-            model.DeleteMails()
-            model.insertMail()
-            (application as MyApplication).repository.fetchMails(
+            trashRepository!!.deletedata()
+
+            (application as MyApplication).trashRepository.fetchMails(
                 this,
                 username!!,
                 username!!,
@@ -415,15 +649,28 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             )
         }
         binding.included.snoozelayout.setOnClickListener {
+            binding.container.visibility = View.GONE
             binding.trashBin.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.Title.visibility = View.VISIBLE
+            binding.drop.visibility = View.GONE
             binding.Title.setText("Snoozed")
             updateUi()
             binding.included.snoozelayout.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_drawer_select)
             drawer.closeDrawer(GravityCompat.START)
         }
+        binding.aside.setOnClickListener {
+            binding.container.visibility = View.VISIBLE
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_up, R.anim.slide_out_up,
+                    R.anim.slide_out_up, R.anim.slide_in_up
+                )
+                .replace(R.id.container, AsideFragment())
+                .commit()
+        }
+
     }
 
     fun updateUi() {
@@ -439,6 +686,17 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
     private fun fetchData() {
 
+
+//        binding.container.visibility = View.VISIBLE
+//        supportFragmentManager.beginTransaction()
+//            .setCustomAnimations(
+//                R.anim.slide_in_up, R.anim.slide_out_up,
+//                R.anim.slide_out_up, R.anim.slide_in_up
+//            )
+//            .replace(R.id.container, FragmentChanger())
+//            .commit()
+        fetchunread()
+        setupData()
         coroutineScope.launch(Dispatchers.IO) {
             // Fetch data from Room database on a background thread
             val userList = model.getEmailList()
@@ -450,55 +708,155 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
                 userList.observe(this@MainActivity)
                 {
 
-                    Log.d("TAG", "fetchAndProcess: " + it)
+
                     listofmail = arrayListOf()
                     listofmail.addAll(it)
                     listAdapter.adddata(listofmail)
+
+                    if (inbox) {
+                        inbox = false
+
+                        if (preferenceManager.getBoolean("Allmessage") && listofmail.size != 0) {
+                            //  getBadgeCount(this@MainActivity, listofmail.size)
+
+
+                        }
+                        binding.included.count.setText(" " + listofmail.size)
+                        ShortcutBadger.applyCount(this@MainActivity, listofmail.size)
+                    }
+
 
                 }
                 // Update UI with the fetched data
 
             }
         }
-    }
 
-    private fun createCollection() {
-        val samsungModels = arrayOf(
-            "Drafts", "Sent",
-            "Trash", "Spam", "Archive", "Important"
+        //setBadgeCount(this@MainActivity,5)
+
+
+        startService(
+            Intent(this@MainActivity, BadgeIntentService::class.java).putExtra(
+                "badgeCount",
+                listofmail.size
+            )
         )
-        val samsungModelsicon = arrayOf(
-            R.drawable.ic_folder, R.drawable.ic_send,
-            R.drawable.ic_bin, R.drawable.ic_send, R.drawable.ic_archive, R.drawable.ic_clock
-        )
-        val googleModels = arrayOf(
-            "Pixel 4 XL", "Pixel 3a", "Pixel 3 XL", "Pixel 3a XL",
-            "Pixel 2", "Pixel 3"
-        )
-        val redmiModels = arrayOf("Redmi 9i", "Redmi Note 9 Pro Max", "Redmi Note 9 Pro")
-        val vivoModels = arrayOf("Vivo V20", "Vivo S1 Pro", "Vivo Y91i", "Vivo Y12")
-        val nokiaModels = arrayOf("Nokia 5.3", "Nokia 2.3", "Nokia 3.1 Plus")
-        val motorolaModels = arrayOf("Motorola One Fusion+", "Motorola E7 Plus", "Motorola G9")
-        mobileCollection = HashMap()
-        for (group in groupList!!) {
-            if (group == "nehavaidya96@gmail.com") {
-                loadChild(samsungModels, samsungModelsicon)
-            } else if (group == "Google") loadChild(
-                googleModels,
-                samsungModelsicon
-            ) else if (group == "Redmi") loadChild(
-                redmiModels,
-                samsungModelsicon
-            ) else if (group == "Vivo") loadChild(
-                vivoModels,
-                samsungModelsicon
-            ) else if (group == "Nokia") loadChild(
-                nokiaModels,
-                samsungModelsicon
-            ) else loadChild(motorolaModels, samsungModelsicon)
-            (mobileCollection as HashMap<String, List<String>>).put(group, childList!!)
+
+//        ShortcutBadger.with(applicationContext).count(badgeCount) //for 1.1.3
+
+
+    }
+    private fun setupData() {
+
+//        *Set EmailList Adapter To Recyclerview
+
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            scrollAdapter = ScrollAdapter(this@MainActivity!!, listofunread, this@MainActivity) { select ->
+//                visibleSelectall(select)
+            }
+            adapter = scrollAdapter
         }
     }
+
+    private fun fetchunread() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = model.getUnreadEmailList()
+
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+
+                    userList.observe(this@MainActivity)
+                    {
+                        Log.d("TAG", "fetchunread: "+it.size)
+//                    if (it.size < 6) {
+
+                        listofunread = arrayListOf()
+                        listofunread.addAll(it)
+                        scrollAdapter.adddata(listofunread)
+                        //}
+
+
+                    }
+                    // Update UI with the fetched data
+
+
+            }
+            // Access the LifecycleOwner of the View as needed
+        }
+
+    }
+
+    fun getBadgeCount(context: Context, count: Int) {
+        ShortcutBadger.applyCount(context, count)
+    }
+
+    var smartlist: java.util.HashMap<String, List<AllMails>> = hashMapOf()
+    var array: ArrayList<AllMails> = arrayListOf()
+    var value: ArrayList<AllMails> = arrayListOf()
+    private fun fetchAllData() {
+        val userList = Allmodel.maildata
+        var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+        drawer.closeDrawer(GravityCompat.START)
+        var username = myPref.getString("username", "");
+        var acc = GoogleSignIn.getLastSignedInAccount(this)
+        SetUpAdapter()
+
+        if (!adapter_set) {
+            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                // Fetch data from Room database on a background thread
+
+
+                withContext(Dispatchers.Main) {
+                    userList.observe(this@MainActivity)
+                    {
+                        // smartlist = hashMapOf()
+                        // smartlist.putAll(it)
+
+                        for (key in it.keys) {
+
+                            value = arrayListOf()
+                            value = it.get(key) as ArrayList<AllMails>
+
+
+//                        if(value.size<=15) {
+
+
+                            if (!value.isEmpty() && !adapter_set) {
+                                //Log.d("TAG", "ITERSTAOT: "+key+">>"+value)
+                                var mailsection = MailSection(
+                                    value,
+                                    key,
+                                    this@MainActivity,
+                                    this@MainActivity, {
+                                        visibleSelectall(it)
+
+                                    }
+
+                                )
+                                sectionAdapter.addSection(mailsection)
+                                binding.list.adapter = sectionAdapter
+                            }
+                        }
+                        // }
+                        //SetUpAdapter()
+                        //  smartAdapter.adddata(smartlist)
+
+
+                    }
+                    // Update UI with the fetched data
+
+                    // }
+                }
+            }
+        }
+    }
+
 
     private fun loadChild(mobileModels: Array<String>, samsungModelsicon: Array<Int>) {
         childList = ArrayList()
@@ -513,6 +871,18 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
         }
     }
 
+    private fun DynamicLink() {
+        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
+            link = Uri.parse("https://www.example.com/")
+            domainUriPrefix = "https://superemail.page.link/mailbox"
+            // Open links with this app on Android
+            androidParameters { }
+            // Open links with com.example.ios on iOS
+            iosParameters("com.example.ios") { }
+        }
+
+        val dynamicLinkUri = dynamicLink.uri
+    }
 
     private fun createGroupList() {
         groupList = ArrayList()
@@ -525,6 +895,7 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
 
     private fun setspinner() {
+
         val spin = findViewById<LinearLayout>(R.id.drop_layout)
         val drop = findViewById<ImageView>(R.id.drop)
         val spintextview = findViewById<TextView>(R.id.spinner)
@@ -534,92 +905,238 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.layout_choose);
+
+            var myPref =
+                getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+
             var tabLayout = dialog.findViewById(R.id.tabLayout_choose) as TabLayout
-
-            tabLayout.addTab(tabLayout.newTab())
-            tabLayout.addTab(tabLayout.newTab())
-            tabLayout.addTab(tabLayout.newTab())
-
             val layout =
                 LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-            // tabOne.text = "Tab 1"
-            var tabOne = layout.findViewById<ImageView>(R.id.image)
-            tabOne.setImageResource(R.drawable.smart2_selected)
-            var tabOnetext = layout.findViewById<TextView>(R.id.tab)
-            tabOnetext.setText("Smart 2.0")
-            tabLayout.getTabAt(0)!!.customView = layout
-
             val layout2 =
                 LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-            var tabTwo = layout2.findViewById<ImageView>(R.id.image)
-            tabTwo.setImageResource(R.drawable.smart)
-            var tabTwotext = layout2.findViewById<TextView>(R.id.tab)
-            tabTwotext.setText("Smart")
-
-            tabLayout.getTabAt(1)!!.customView = layout2
             val layout3 =
                 LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
-            var tabThree = layout3.findViewById<ImageView>(R.id.image)
-            // tabTwo.text = "Tab 2"
-            tabThree.setImageResource(R.drawable.classic)
-            tabLayout.getTabAt(2)!!.customView = layout3
-            var tabThreetext = layout3.findViewById<TextView>(R.id.tab)
-            tabThreetext.setText("Classic")
+//            var tabOne = layout.findViewById<ImageView>(R.id.image)
+//            var tabTwo = layout2.findViewById<ImageView>(R.id.image)
+//            var tabThree = layout3.findViewById<ImageView>(R.id.image)
+//            Log.d("setspinner", "setspinner: " + myPref.getInt("position", 0))
+//            when (myPref.getInt("position", 0)) {
+//                0 -> tabOne.setImageResource(R.drawable.smart2_selected)
+//                1 -> tabTwo.setImageResource(R.drawable.smart_selection)
+//                2 -> tabThree.setImageResource(R.drawable.classic_selection)
+//            }
 
-
-            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    if (tab != null) {
-
-                        if (tab.position == 0) {
-
-
-                            tabOne.setImageResource(R.drawable.smart2_selected)
-
-                            tabTwo.setImageResource(R.drawable.smart)
-                            tabThree.setImageResource(R.drawable.classic)
-
-                        }
-                        if (tab!!.position == 1) {
-                            tabOne.setImageResource(R.drawable.smart_2)
-
-                            // tabLayout.getTabAt(0)!!.customView=tabOne
-                            tabTwo.setImageResource(R.drawable.smart_selection)
-                            tabThree.setImageResource(R.drawable.classic)
-
-                        }
-                        if (tab!!.position == 2) {
-                            tabOne.setImageResource(R.drawable.smart_2)
-
-                            // tabLayout.getTabAt(0)!!.customView=tabOne
-                            tabTwo.setImageResource(R.drawable.smart)
-                            tabThree.setImageResource(R.drawable.classic_selection)
-
-                        }
-                    }
-                }
-
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                }
-
-            })
 
             dialog.getWindow()!!
-                .setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                .setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                );
             dialog.show()
 
             val window: Window? = dialog.getWindow()
             val params = window!!.attributes
             params.gravity = Gravity.TOP
             window.attributes = params
-            //ChooseDialog().show(supportFragmentManager, "MyCustomFragment")
+            //ChooseDialog().show(supportFragmentMa nager, "MyCustomFragment")
+
+
+            // Add tabs with custom views
+            addTab(getString(R.string.smart2), R.drawable.smart_2, tabLayout)
+            addTab(getString(R.string.Smart), R.drawable.smart, tabLayout)
+            addTab(getString(R.string.Classic), R.drawable.classic, tabLayout)
+
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    dialog.dismiss()
+
+
+                    // Handle tab selection
+                    val tabView = tab.customView
+                    val tabIcon = tabView?.findViewById<ImageView>(R.id.image)
+                    val tabText = tabView?.findViewById<TextView>(R.id.tab)
+                    if (tab.position == 0) {
+
+                        binding.container.visibility = View.VISIBLE
+
+                        binding.accountLayout.visibility = View.GONE
+                        tabIcon!!.setImageResource(R.drawable.smart2_selected)
+                        tabText?.setTextColor(
+                            ContextCompat.getColor(applicationContext, R.color.colorPurple)
+                        )
+
+
+//                        var username = myPref.getString("username", "");
+//                        var acc = GoogleSignIn.getLastSignedInAccount(this@MainActivity)
+//
+//                        model.DeleteMails()
+//                        model.insertMail()
+//                        (application as MyApplication).repository.fetchMails(
+//                            this@MainActivity,
+//                            username!!,
+//                            username!!,
+//                            acc!!,
+//                            2
+//                        )
+
+                        fetchData()
+                    }
+                    if (tab!!.position == 1) {
+                        binding.container.visibility = View.GONE
+                        binding.accountLayout.visibility = View.GONE
+                        tabIcon!!.setImageResource(R.drawable.smart_selection)
+                        tabText?.setTextColor(
+                            ContextCompat.getColor(applicationContext, R.color.colorPurple)
+                        )
+                        // SetUpAdapter(Allmaillist)
+
+                        fetchAllData()
+                        Allmodel.AllInBox(this@MainActivity)
+
+
+                    }
+                    if (tab!!.position == 2) {
+                        binding.container.visibility = View.GONE
+                        binding.accountLayout.visibility = View.VISIBLE
+                        tabIcon!!.setImageResource(R.drawable.classic_selection)
+                        tabText?.setTextColor(
+                            ContextCompat.getColor(applicationContext, R.color.colorPurple)
+                        )
+
+                        SetMainAdapter()
+                        model.AllInBox(this@MainActivity)
+
+
+                    }
+
+                    val editor: SharedPreferences.Editor =
+                        applicationContext.getSharedPreferences(
+                            "APP_SHARED_PREF",
+                            Context.MODE_PRIVATE
+                        )
+                            .edit()
+                    editor.putInt("position", tab.position)
+                    editor.commit()
+//
+
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    // Handle tab unselection
+                    val tabView = tab.customView
+                    val tabIcon = tabView?.findViewById<ImageView>(R.id.image)
+                    val tabText = tabView?.findViewById<TextView>(R.id.tab)
+                    if (tab.position == 0) {
+                        // Reset the tab's appearance when unselected
+                        tabIcon!!.setImageResource(R.drawable.smart_2)
+                    }
+                    if (tab.position == 1) {
+                        // Reset the tab's appearance when unselected
+                        tabIcon!!.setImageResource(R.drawable.smart)
+                    }
+                    if (tab.position == 2) {
+                        // Reset the tab's appearance when unselected
+                        tabIcon!!.setImageResource(R.drawable.classic)
+                    }
+
+                    tabText?.setTextColor(
+                        ContextCompat.getColor(applicationContext, R.color.darkgrey)
+                    )
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab) {
+                    // Handle tab selection
+                    dialog.dismiss()
+                    val tabView = tab.customView
+                    val tabIcon = tabView?.findViewById<ImageView>(R.id.image)
+                    val tabText = tabView?.findViewById<TextView>(R.id.tab)
+                    if (tab != null) {
+                        if (tab.position == 0) {
+
+                            binding.container.visibility = View.VISIBLE
+
+                            binding.accountLayout.visibility = View.GONE
+                            tabIcon!!.setImageResource(R.drawable.smart2_selected)
+                            tabText?.setTextColor(
+                                ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.colorPurple
+                                )
+                            )
+
+
+                            var username = myPref.getString("username", "");
+                            var acc =
+                                GoogleSignIn.getLastSignedInAccount(this@MainActivity)
+
+                            model.DeleteMails()
+                            model.insertMail()
+                            (application as MyApplication).repository.fetchMails(
+                                this@MainActivity,
+                                username!!,
+                                username!!,
+                                acc!!,
+                                2
+                            )
+                        }
+                    }
+                    if (tab!!.position == 1) {
+                        binding.container.visibility = View.GONE
+                        binding.accountLayout.visibility = View.GONE
+                        tabIcon!!.setImageResource(R.drawable.smart_selection)
+                        tabText?.setTextColor(
+                            ContextCompat.getColor(applicationContext, R.color.colorPurple)
+                        )
+                        // SetUpAdapter(Allmaillist)
+
+                        fetchAllData()
+                        Allmodel.AllInBox(this@MainActivity)
+
+
+                    }
+                    if (tab!!.position == 2) {
+                        binding.container.visibility = View.GONE
+                        binding.accountLayout.visibility = View.VISIBLE
+                        tabIcon!!.setImageResource(R.drawable.classic_selection)
+                        tabText?.setTextColor(
+                            ContextCompat.getColor(applicationContext, R.color.colorPurple)
+                        )
+
+                        SetMainAdapter()
+                        model.AllInBox(this@MainActivity)
+
+
+                    }
+                }
+            })
         }
 
 
+    }
+
+    private fun addTab(title: String, iconResId: Int, tabLayout: TabLayout) {
+        val tabView = LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
+
+        val tabIcon = tabView.findViewById<ImageView>(R.id.image)
+        val tabText = tabView.findViewById<TextView>(R.id.tab)
+
+        tabIcon.setImageResource(iconResId)
+        tabText.text = title
+
+
+
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tabView))
+    }
+
+    private fun SetMainAdapter() {
+        binding.list.apply {
+
+            listAdapter =
+                ListEmailAdapter(this@MainActivity, listofmail, this@MainActivity) { select ->
+                    visibleSelectall(select)
+                }
+            adapter = listAdapter
+        }
     }
 
 
@@ -667,36 +1184,57 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
 
-                    if (direction == ItemTouchHelper.LEFT) {
-                        val deletedModel = arlist!![position]
-                        adapter!!.deleteItem(position, this@MainActivity)
-                        // showing snack bar with Undo option
+//                    if (direction == ItemTouchHelper.LEFT) {
+//                        val deletedModel = arlist!![position]
+//                        adapter!!.deleteItem(position, this@MainActivity)
+//                        // showing snack bar with Undo option
+//                        val snackbar = Snackbar.make(
+//                            window.decorView.rootView,
+//                            " removed from Recyclerview!",
+//                            Snackbar.LENGTH_LONG
+//                        )
+//                        snackbar.setAction("UNDO") {
+//                            // undo is selected, restore the deleted item
+//                            adapter!!.showUndoSnackbar(this@MainActivity)
+//                        }
+//                        snackbar.setActionTextColor(Color.YELLOW)
+//                        snackbar.show()
+//                    } else {
+//                        val deletedModel = arlist!![position]
+//                        adapter!!.deleteItem(position, this@MainActivity)
+//                        // showing snack bar with Undo option
+//                        val snackbar = Snackbar.make(
+//                            window.decorView.rootView,
+//                            " removed from Recyclerview!",
+//                            Snackbar.LENGTH_LONG
+//                        )
+//                        snackbar.setAction("UNDO") {
+//                            // undo is selected, restore the deleted item
+//                            adapter!!.showUndoSnackbar(this@MainActivity)
+//                        }
+//                        snackbar.setActionTextColor(Color.YELLOW)
+//                        snackbar.show()
+//                    }
+
+
+                    try {
+                        val position = viewHolder.adapterPosition
+                        val item: Email = listAdapter.removeItem(position)!!
                         val snackbar = Snackbar.make(
-                            window.decorView.rootView,
-                            " removed from Recyclerview!",
+                            viewHolder.itemView,
+                            "Item " + (if (R.string.direction == ItemTouchHelper.RIGHT) "deleted" else "archived") + ".",
                             Snackbar.LENGTH_LONG
                         )
-                        snackbar.setAction("UNDO") {
-                            // undo is selected, restore the deleted item
-                            adapter!!.showUndoSnackbar(this@MainActivity)
+                        snackbar.setAction(android.R.string.cancel) {
+                            try {
+                                listAdapter.addItem(item, position)
+                            } catch (e: Exception) {
+                                Log.e("MainActivity", e.message!!)
+                            }
                         }
-                        snackbar.setActionTextColor(Color.YELLOW)
                         snackbar.show()
-                    } else {
-                        val deletedModel = arlist!![position]
-                        adapter!!.deleteItem(position, this@MainActivity)
-                        // showing snack bar with Undo option
-                        val snackbar = Snackbar.make(
-                            window.decorView.rootView,
-                            " removed from Recyclerview!",
-                            Snackbar.LENGTH_LONG
-                        )
-                        snackbar.setAction("UNDO") {
-                            // undo is selected, restore the deleted item
-                            adapter!!.showUndoSnackbar(this@MainActivity)
-                        }
-                        snackbar.setActionTextColor(Color.YELLOW)
-                        snackbar.show()
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", e.message!!)
                     }
                 }
 
@@ -709,53 +1247,33 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
                     actionState: Int,
                     isCurrentlyActive: Boolean
                 ) {
-
-                    val icon: Bitmap
-                    if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
-                        val itemView = viewHolder.itemView
-                        val height = itemView.bottom.toFloat() - itemView.top.toFloat()
-                        val width = height / 3
-
-                        if (dX > 0) {
-                            p.color = Color.parseColor("#6c63ff")
-                            val background =
-                                RectF(
-                                    itemView.left.toFloat(),
-                                    itemView.top.toFloat(),
-                                    dX,
-                                    itemView.bottom.toFloat()
-                                )
-                            c.drawRect(background, p)
-                            icon =
-                                BitmapFactory.decodeResource(resources, R.drawable.ic_swipe_circle)
-                            val icon_dest = RectF(
-                                itemView.left.toFloat() + width,
-                                itemView.top.toFloat() + width,
-                                itemView.left.toFloat() + 2 * width,
-                                itemView.bottom.toFloat() - width
+                    RecyclerViewSwipeDecorator.Builder(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                        .addSwipeLeftBackgroundColor(
+                            ContextCompat.getColor(
+                                this@MainActivity,
+                                R.color.colorPurple
                             )
-                            c.drawBitmap(icon, null, icon_dest, p)
-                        } else {
-                            p.color = Color.parseColor("#D32F2F")
-                            val background = RectF(
-                                itemView.right.toFloat() + dX,
-                                itemView.top.toFloat(),
-                                itemView.right.toFloat(),
-                                itemView.bottom.toFloat()
-                            )
-                            c.drawRect(background, p)
-                            icon =
-                                BitmapFactory.decodeResource(resources, R.drawable.ic_swipe_delete)
-                            val icon_dest = RectF(
-                                itemView.right.toFloat() - 2 * width,
-                                itemView.top.toFloat() + width,
-                                itemView.right.toFloat() - width,
-                                itemView.bottom.toFloat() - width
-                            )
-                            c.drawBitmap(icon, null, icon_dest, p)
-                        }
-                    }
+                        )
+                        .addSwipeLeftActionIcon(R.drawable.ic_swipe_archive)
+                        .addSwipeRightBackgroundColor(Color.RED)
+                        .addSwipeRightActionIcon(R.drawable.ic_trash)
+                        .addSwipeRightLabel(getString(R.string.action_delete))
+                        .setSwipeRightLabelColor(Color.WHITE)
+                        .addSwipeLeftLabel(getString(R.string.archive))
+                        .setSwipeLeftLabelColor(Color.WHITE)
+                        //.addCornerRadius(TypedValue.COMPLEX_UNIT_DIP, 16)
+                        //.addPadding(TypedValue.COMPLEX_UNIT_DIP, 8, 16, 8)
+                        .create()
+                        .decorate()
+
                     super.onChildDraw(
                         c,
                         recyclerView,
@@ -769,7 +1287,10 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(binding.list)
+
+
     }
+
 
     private fun setUpAdapterAndGetData() {
 
@@ -829,10 +1350,6 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
             article5.author = "This is a sample news title which has no intent"
             article5.description = "This is second email"
             arlist.add(article5)
-
-
-
-
             arlist.addAll(newsList1)
 
 
@@ -844,9 +1361,13 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
     var first: Boolean = false
     fun visibleSelectall(visibility: Boolean) {
         if (visibility) {
+            binding.bottom.visibility = View.VISIBLE
             binding.select.visibility = View.VISIBLE
             binding.search.visibility = View.GONE
+            binding.compose.visibility = View.GONE
         } else {
+            binding.compose.visibility = View.VISIBLE
+            binding.bottom.visibility = View.GONE
             binding.select.visibility = View.INVISIBLE
             binding.search.visibility = View.VISIBLE
         }
@@ -861,6 +1382,9 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
                 listAdapter.getAllList(first)
 
             }
+        }
+        binding.archive.setOnClickListener {
+
         }
 
     }
@@ -924,6 +1448,14 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
     override fun onDestroy() {
         super.onDestroy()
         coroutineScope.cancel()
+        model.cancelJobs()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        if (listofmail.size!=0 && position<listofmail.size && ComposeActivity.isFromCompose)
+//        model.MailObject.postValue(listofmail.get(position+1))
 
     }
 
@@ -939,6 +1471,284 @@ class MainActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickLi
 
         }
     }
+
+    override fun onItemRootViewClicked(section: AllMails, itemAdapterPosition: Int) {
+        // what ever object you need to share between Activities and Fragments, it could be a data class or any object
+        Allmodel.allMails.postValue(section)
+        adapter_set = true
+        startActivity(
+            Intent(
+                this,
+                ComposeActivity::class.java
+            ).putExtra("id", itemAdapterPosition).putExtra("from_cat", true)
+        )
+        overridePendingTransition(
+            R.anim.slide_in_up,
+            R.anim.slide_out_up
+        )
+
+    }
+
+    override fun onFooterRootViewClicked(section: MailSection, itemAdapterPosition: String) {
+        model.SectionObject.postValue(section)
+        Log.d("TAG", "onFooterRoot: " + itemAdapterPosition)
+        startActivity(
+            Intent(
+                this,
+                FullMailShowActivity::class.java
+            ).putExtra("id", itemAdapterPosition)
+        )
+        overridePendingTransition(
+            R.anim.slide_in_up,
+            R.anim.slide_out_up
+        )
+    }
+
+    override fun onItemRootViewClicked(section: Email, itemAdapterPosition: Int) {
+        position = itemAdapterPosition
+        model.MailObject.postValue(section)
+        startActivity(
+            Intent(
+                this,
+                ComposeActivity::class.java
+            ).putExtra("id", itemAdapterPosition)
+        )
+        overridePendingTransition(
+            R.anim.slide_in_up,
+            R.anim.slide_out_up
+        )
+
+    }
+
+    override fun onItemRootViewClicked(section: Pin, itemAdapterPosition: Int) {
+        // section.isArchived = true
+        // pinmodel.insertpin(section)
+        startActivity(
+            Intent(
+                this,
+                ComposeActivity::class.java
+            ).putExtra("id", itemAdapterPosition)
+        )
+        overridePendingTransition(
+            R.anim.slide_in_up,
+            R.anim.slide_out_up
+        )
+    }
+
+
+    private fun fetchasideListData() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = model.FetchAsideList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+
+                    Log.d("TAG", "fetchAndProcess: " + it)
+                    asideList = arrayListOf()
+                    asideList.addAll(it)
+
+                    if (!asideList.isEmpty()) {
+                        binding.aside.visibility = View.VISIBLE
+                        binding.asideTotal.visibility = View.VISIBLE
+                        binding.asideTotal.setText("" + asideList.size)
+                    } else {
+                        binding.aside.visibility = View.GONE
+                        binding.asideTotal.visibility = View.GONE
+                    }
+
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
+    }
+
+
+    fun setBadgeCount(context: Context, count: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "badge_channel"
+            val channelName = "Badge Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val channel = NotificationChannel(channelId, channelName, importance)
+            channel.setShowBadge(true)
+            channel.lockscreenVisibility = NotificationManager.IMPORTANCE_DEFAULT
+            notificationManager.createNotificationChannel(channel)
+
+            val badgeNotification = Notification.Builder(context, channelId)
+                .setContentTitle("New Messages")
+                .setContentText("You've received 3 new messages.")
+                .setSmallIcon(R.drawable.ic_badge) // Replace with your app's icon
+                .setNumber(count)
+                .build()
+
+            notificationManager.notify(0, badgeNotification)
+        }
+    }
+
+    private fun fetchDataSpam() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = spamRepository!!.getSpamList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+
+                    listofmail = arrayListOf()
+                    for (emailField in it) {
+                        var email: Email = Email()
+                        email.sender = emailField.sender
+                        email.senderEmail = emailField.senderEmail
+                        email.body = emailField.body
+                        email.content = emailField.content
+                        email.description = emailField.description
+                        email.author = emailField.author
+                        email.sender = emailField.sender
+                        listofmail.add(email)
+                        listAdapter.adddata(listofmail)
+                    }
+
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
+    }
+
+    private fun fetchDataSent() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = sentRepository!!.getSentList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+                    listofmail = arrayListOf()
+
+                    Log.d("TAG", "fetchAndProcess>>>: " + it)
+                    for (emailField in it) {
+                        var email: Email = Email()
+                        email.sender = emailField.sender
+                        email.senderEmail = emailField.senderEmail
+                        email.body = emailField.body
+                        email.content = emailField.content
+                        email.description = emailField.description
+                        email.author = emailField.author
+                        email.sender = emailField.sender
+                        listofmail.add(email)
+                        listAdapter.adddata(listofmail)
+                    }
+
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
+    }
+
+    private fun fetchDataDraft() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = draftRepository!!.getDraftList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+                    listofmail = arrayListOf()
+
+                    Log.d("TAG", "fetchAndProcess>>>: " + it)
+                    for (emailField in it) {
+                        var email: Email = Email()
+                        email.sender = emailField.sender
+                        email.senderEmail = emailField.senderEmail
+                        email.body = emailField.body
+                        email.content = emailField.content
+                        email.description = emailField.description
+                        email.author = emailField.author
+                        email.sender = emailField.sender
+                        listofmail.add(email)
+                        listAdapter.adddata(listofmail)
+                    }
+
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
+    }
+
+    private fun fetchTrash() {
+
+        coroutineScope.launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val userList = trashRepository!!.getSentList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+                userList.observe(this@MainActivity)
+                {
+                    listofmail = arrayListOf()
+
+                    Log.d("TAG", "fetchAndProcess>>>: " + it)
+                    for (emailField in it) {
+                        var email: Email = Email()
+                        email.sender = emailField.sender
+                        email.senderEmail = emailField.senderEmail
+                        email.body = emailField.body
+                        email.content = emailField.content
+                        email.description = emailField.description
+                        email.author = emailField.author
+                        email.sender = emailField.sender
+                        listofmail.add(email)
+                        listAdapter.adddata(listofmail)
+                    }
+
+
+                }
+                // Update UI with the fetched data
+
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==200)
+        {
+            if (!isNotificationServiceEnabled()) {
+                showPermissionDialog()
+            }
+        }
+    }
+
+
 
 }
 

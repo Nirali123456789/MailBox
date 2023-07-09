@@ -3,7 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
 <TextView
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_10sdp"
@@ -13,7 +14,7 @@
         android:id="@+id/personalization"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inbox"
+        android:text="@string/inbox"
         android:paddingStart="@dimen/_5sdp"
         android:paddingTop="@dimen/_2sdp"
         android:paddingEnd="@dimen/_5sdp"
@@ -32,6 +33,7 @@ android:id="@+id/radioGroup"
         >
 
 <RadioButton
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:text="New Messages Only"
@@ -47,8 +49,9 @@ android:id="@+id/radioGroup"
         android:padding="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:text="All Messages"
+        android:text="@string/all_message"
         android:id="@+id/radioButton2"
+
         android:layout_gravity="center_horizontal"
         android:checked="false"
         android:textSize="@dimen/_14sdp"

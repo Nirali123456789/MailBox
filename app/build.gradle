@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.dokka' version '1.4.32'
 //    id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+
     id 'com.google.gms.google-services' version '4.3.15'
 
 }
@@ -21,7 +23,7 @@ android {
         //manifestPlaceholders = [namespace: applicationId.replace('.debug', '')]
 
         manifestPlaceholders = [appAuthRedirectScheme: "com.aiemail.superemail",
-                                applicationName: "com.aiemail.superemail.global.MyApplication"]
+                                applicationName      : "com.aiemail.superemail.global.MyApplication"]
     }
     signingConfigs {
         release {
@@ -54,10 +56,21 @@ android {
     }
     packagingOptions {
         exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/NOTICE.md")
+        exclude('licenses/javolution.license.TXT')
+        exclude('licenses/thoughtworks.TXT')
+        exclude('META-INF/plexus/components.xml')
+        exclude 'org/cyberneko/html/res/HTMLspecial.properties'
+        exclude 'org/apache/maven/project/pom-4.0.0.xml'
 
     }
 
-
+    configurations.all {
+        resolutionStrategy {
+            force 'org.apache.maven:maven-artifact:2.2.1'
+        }
+    }
 
 }
 
@@ -70,6 +83,10 @@ dependencies {
     implementation project(path: ':are')
 //    implementation project(path: ':multiswipe')
     implementation project(path: ':expandableselectionview')
+    //PASSCODE DEPENDENCY
+    implementation project(path: ':passcodeview')
+//    implementation project(path: ':library')
+//    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
 
     // implementation project(path: ':sectionaladapter')
@@ -178,16 +195,72 @@ dependencies {
     implementation 'com.google.apis:google-api-services-gmail:v1-rev110-1.25.0'
     //implementation 'com.google.api-client:google-api-client-auth-oauth2:1.31.5'
 
+
     implementation group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.38.0'
     implementation "net.openid:appauth:0.11.1"
 //    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
     implementation 'org.jsoup:jsoup:1.10.3'
-    implementation 'com.sun.mail:android-mail:1.6.4'
-    implementation 'com.sun.mail:android-activation:1.6.4'
-    implementation group: 'org.apache.james', name: 'apache-mime4j', version: '0.6.1'
+
+    implementation "com.sun.mail:android-mail:1.6.7"
+//    implementation 'com.sun.mail:android-mail:1.6.2'
+//    implementation 'com.sun.mail:android-activation:1.6.4'
+    implementation(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6.1') {
+        exclude module: 'org.apache.maven:maven-ant-tasks:2.1.3'
+        exclude module: 'org.apache.maven:maven-artifact-manager:2.2.1'
+    }
+
     implementation 'com.google.http-client:google-http-client-gson:1.39.1'
-    implementation "io.karn:notify:1.4.0"
+//    implementation "io.karn:notify:1.4.0"
     implementation "com.google.accompanist:accompanist-permissions:0.27.1"
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+
+    // Add the dependencies for the Dynamic Links and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
+    //For SectionRecyclerView
+    implementation 'com.github.luizgrp:SectionedRecyclerViewAdapter:v3.2.0'
+
+    //Print lib Dependency
+    implementation 'org.commonmark:commonmark:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-ins:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-autolink:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-task-list-items:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-gfm-strikethrough:0.19.0'
+
+//    // Worker dependencies...
+//    implementation "androidx.work:work-runtime:2.8.1"
+
+
+    implementation "me.leolin:ShortcutBadger:1.1.22"
+
+    //Swipe Recyclerview
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
+
+    //Dark WebView
+    implementation "androidx.webkit:webkit:1.2.0"
+
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
+
+   //ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.7'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.7'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+
+    // Other dependencies
+    implementation 'com.google.api-client:google-api-client-android:1.31.5'
+    implementation 'com.google.api-client:google-api-client-gson:1.31.5'
+    implementation("com.google.apis:google-api-services-people:v1-rev20220531-1.32.1")
+
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
+
+    // RxAndroid for Android-specific bindings
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'com.google.apis:google-api-services-plus:v1-rev436-1.22.0'
 
 
 
@@ -195,22 +268,5 @@ dependencies {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // implementation 'com.github.N7ghtm4r3:GoogleManager:1.0.2'
-//Thanks for using https://jar-download.com
 }
 
-//password  p12
-//
-//notasecret

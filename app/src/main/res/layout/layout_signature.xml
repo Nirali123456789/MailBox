@@ -1,64 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
+
     <androidx.appcompat.widget.SwitchCompat
-            android:theme="@style/ThemeOverlay.MySwitchCompat"
-            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/supermail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:fontFamily="@font/regular"
+            android:padding="@dimen/_5sdp"
             android:text="@string/display"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/regular"
             android:textColor="@color/black_med"
-            android:padding="@dimen/_5sdp"/>
-    <Switch
-            android:layout_margin="@dimen/_5sdp"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitchCompat" />
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/signature_custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Use email signatures"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/regular"
-            android:textColor="@color/black_med"
+            android:layout_margin="@dimen/_5sdp"
+            android:checked="false"
             android:enabled="true"
+            android:fontFamily="@font/regular"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/Useemailsignatures"
+            android:textColor="@color/black_med"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitch" />
+
+    <TextView
+            android:id="@+id/signature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
             android:checked="true"
-            android:theme="@style/ThemeOverlay.MySwitch"
-            android:padding="@dimen/_5sdp"/>
-    <RelativeLayout
+            android:enabled="true"
+            android:fontFamily="@font/regular"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/customsignature"
+            android:textColor="@color/black_med"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitch" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/add_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            android:orientation="vertical">
+
         <ImageView
-                android:layout_centerVertical="true"
-                android:id="@+id/add_acc"
+                android:id="@+id/ic_add"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_add"
                 app:tint="@color/colorPurple" />
+
         <TextView
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toEndOf="@+id/add_acc"
                 android:id="@+id/add_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add signature"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingEnd="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/ic_add"
+                android:background="@drawable/edittext_border"
                 android:fontFamily="@font/regular"
-                android:textStyle="bold"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="@string/Addsignature"
                 android:textColor="@color/colorPurple"
-                android:textSize="@dimen/_12sdp"/>
-
-
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
 
 
     </RelativeLayout>

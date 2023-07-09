@@ -23,19 +23,20 @@
         <item name="colorControlNormal">@color/colorGrey</item>
         <item name="colorControlActivated">@color/colorGrey</item>
     </style>
-    <style name="Widget.MaterialComponents.Button.TextButton.OnBoardTextButton"
-            parent="Widget.MaterialComponents.Button.TextButton">
+
+    <style name="Widget.MaterialComponents.Button.TextButton.OnBoardTextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorPurple</item>
     </style>
-    <style name="AppThemedrawer" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+    <style name="AppThemedrawer" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPurple</item>
         <item name="colorPrimaryDark">#E0DEFA</item>
         <item name="colorAccent">@color/colorPurple</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorControlNormal">@color/grey_regular</item>
-        <item name="android:navigationBarColor">#DDE3FA</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:textColorSecondary">@color/grey_regular</item>
 
         <item name="android:windowBackground">@color/colorWhite</item>
@@ -47,7 +48,8 @@
         <item name="colorNavigationItemSelected">@color/colorPurple</item>
         <item name="colorNavigationItemBackgroundSelected">@color/drawer_bg</item>
         <item name="colorNavigationItemBackgroundPressed">@color/colorPurple</item>
-        <item name="drawableNavigationItemBackground">@drawable/menu_item_background_color_state</item>
+        <item name="drawableNavigationItemBackground">@drawable/menu_item_background_color_state
+        </item>
         <item name="android:listDivider">@color/grey</item>
         <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
@@ -57,19 +59,24 @@
         <item name="android:checkboxStyle">@style/MyCheckBoxStyle</item>
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+
 
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/explode</item>
         <item name="android:windowExitTransition">@transition/explode</item>
 
     </style>
+
     <style name="MyToolbarStyle" parent="Theme.AppCompat">
         <item name="actionOverflowButtonStyle">@style/ActionButtonOverflowStyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
+
     <style name="ActionButtonOverflowStyle">
         <item name="android:color">@color/colorPrimary</item>
     </style>
+
     <style name="DrawerArrowStyle">
         <item name="android:color">@color/grey_regular</item>
     </style>
@@ -83,6 +90,7 @@
         <item name="android:textColor">@drawable/selector_radiobtn</item>
         <item name="buttonTint">@drawable/selector_radiobtn</item>
     </style>
+
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textSize">@dimen/_16sdp</item>
     </style>
@@ -92,6 +100,7 @@
         <item name="itemTextAppearance">@style/TextAppearance.Custom.Navigation.Item</item>
         <item name="itemTextColor">?attr/colorStateNavigationItem</item>
     </style>
+
     <style name="Theme.NavigationView" parent="AppThemedrawer">
         <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
@@ -101,9 +110,11 @@
         <item name="android:fontFamily">@font/regular</item>
         <item name="android:textSize">@dimen/_14sdp</item>
     </style>
+
     <style name="PreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
         <item name="android:tint">@color/colorPurple</item>
     </style>
+
     <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
     </style>
@@ -125,22 +136,37 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:backgroundTint">@android:color/transparent</item>
     </style>
+
     <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/_12sdp</item>
         <item name="android:fontFamily">@font/medium</item>
     </style>
+
     <style name="ThemeOverlay.MySwitch" parent="">
         <item name="android:colorControlActivated">@color/colorPurple</item>
     </style>
+
     <style name="ThemeOverlay.MySwitchCompat" parent="">
         <item name="android:colorControlActivated">@color/colorPurple</item>
     </style>
+
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/medium</item>
     </style>
+
     <style name="DialogStyle" parent="Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">97%</item>
         <item name="android:windowMinWidthMinor">97%</item>
+    </style>
+
+    <style name="intro_main_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
     </style>
 </resources>

@@ -1,64 +1,193 @@
 package com.aiemail.superemail.Activities
 
 
+
+import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.content.SharedPreferences
+import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import com.aiemail.superemail.Bottomsheet.ActionBottomDialogFragment
+import com.aiemail.superemail.Dialog.CustomListViewDialog
 import com.aiemail.superemail.Dialog.MyCommonDialog
 import com.aiemail.superemail.Dialog.MyCustomDialog
+import com.aiemail.superemail.Models.Email
+import com.aiemail.superemail.Models.Pin
 import com.aiemail.superemail.MyApplication
 import com.aiemail.superemail.R
+import com.aiemail.superemail.databinding.BottomOptionBinding
 import com.aiemail.superemail.databinding.LayoutComposeBinding
-import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
+import com.aiemail.superemail.utilis.Helpers
+import com.aiemail.superemail.utilis.PreferenceManager
+import com.aiemail.superemail.viewmodel.AllEmailViewmodel
+import com.aiemail.superemail.viewmodel.EmailViewmodel
+import com.aiemail.superemail.viewmodel.PinViewmodel
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
+import com.google.api.services.gmail.model.Message
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.mail.MessagingException
 import javax.mail.Session
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 
 
-class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickListener {
+class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClickListener,
+    MyCustomDialog.DialogListner {
 
-    lateinit var wv1: WebView
-    lateinit var wv2: WebView
+
+    lateinit var webView: WebView
     lateinit var back: ImageView
     lateinit var bottomNavigationView: BottomAppBar
     lateinit var prem: ImageView
     lateinit var contact: ImageView
     lateinit var pin: ImageView
     lateinit var binding: LayoutComposeBinding
+    var once: Boolean = false
     var id: Int = 0
+    var from_cat: Boolean = false
+    var section: Email = Email()
+    var currentObject: Pin = Pin()
+    lateinit var preferenceManager: PreferenceManager
+    private var listofmail: ArrayList<Email> = arrayListOf()
+    private var position: Int = 0
+    private var pinlist: ArrayList<Pin> = arrayListOf()
+    lateinit var myPref:SharedPreferences
+    lateinit  var username :String
+    lateinit  var display_name :String
+
+
+    val Allmodel: AllEmailViewmodel by viewModels() {
+        AllEmailViewmodel.Factory(
+            (application as MyApplication),
+            (application as MyApplication).allrepository
+        )
+    }
+    val model: EmailViewmodel by viewModels() {
+        EmailViewmodel.Factory(
+            (application as MyApplication),
+            (application as MyApplication).repository
+        )
+    }
+    val pinmodel: PinViewmodel by viewModels() {
+        PinViewmodel.Factory(
+            (application as MyApplication),
+            (application as MyApplication).pinrepository
+        )
+    }
+
+    companion object {
+        var isFromCompose: Boolean = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        wv1 = findViewById(R.id.webview)
-        wv2=binding.webview1
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        InitUi()
+//        ObserveList()
+        ObservePin()
+
+
+    }
+
+    private fun ObservePin() {
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            // Fetch data from Room database on a background thread
+            val pinList = pinmodel.FetchPinList()
+
+            // Perform additional background fetch or processing
+            // ...
+
+            withContext(Dispatchers.Main) {
+
+                pinList.observe(this@ComposeActivity)
+                {
+                    Log.d("TAG", "onclick: " + it)
+//                        pinlist.add(it)
+                    pinlist.addAll(it)
+                    if (pinlist.contains(currentObject)) {
+                        pin.setImageResource(R.drawable.ic_pin_set)
+
+                    } else {
+                        pin.setImageResource(R.drawable.ic_pin_notset)
+
+                    }
+
+                }
+            }
+
+
+        }
+    }
+
+//    private fun ObserveList() {
+//        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+//            model.getEmailList().observe(this@ComposeActivity)
+//            {
+//                Log.d("TAG", "onclick: " + it)
+//                listofmail = arrayListOf()
+//                listofmail.addAll(it)
+//
+//            }
+//        }
+//
+//
+//    }
+
+
+    private fun InitUi() {
+        preferenceManager = PreferenceManager(this)
+        preferenceManager.SetUpPreference()
+        myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+        username = myPref.getString("username", "")!!
+        display_name = myPref.getString("account", "")!!;
+
+        webView = binding.webview1
         back = findViewById(R.id.back)
-        bottomNavigationView = findViewById<BottomAppBar>(R.id.bottombar)
+
         prem = findViewById(R.id.premium)
         contact = findViewById(R.id.contact)
         pin = findViewById(R.id.pin)
         id = intent.getIntExtra("id", 0)
+        position = id
+        from_cat = intent.getBooleanExtra("from_cat", false)
+        if (from_cat) {
+            Allmodel.AllInBox(this@ComposeActivity)
+        }
 
         setupwebview()
+
         contact.setOnClickListener {
             MyCommonDialog("").show(supportFragmentManager, "MyCustomFragment")
         }
@@ -75,10 +204,18 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
             );
         }
         pin.setOnClickListener {
-            var bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogcustom);
-            bottomSheetDialog.setContentView(R.layout.layout_attachment);
-            //  bottomSheetDialog!!.getWindow()?.setBackgroundDrawableResource(R.drawable.round_corner);
-            bottomSheetDialog.show()
+            Log.d("TAG", "InitUi: "+currentObject+"??"+pinlist.contains(currentObject))
+            if (pinlist.contains(currentObject)) {
+                pin.setImageResource(R.drawable.ic_pin_notset)
+                currentObject.isPinned = false
+                pinmodel.delete(currentObject)
+            } else {
+                pin.setImageResource(R.drawable.ic_pin_set)
+                currentObject.isPinned = true
+                pinmodel.insertpin(currentObject)
+            }
+
+
         }
 
         binding.more.setOnClickListener {
@@ -88,11 +225,38 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
         }
         binding.home.setOnClickListener {
             finish()
-            overridePendingTransition(
-                R.anim.anim_slide_stay,
-                R.anim.slide_out_up
-            );
-            // Handle more item (inside overflow menu) press
+            if (preferenceManager.getBoolean("opennext")) {
+                if (listofmail.size != 0 && position < listofmail.size && isFromCompose) {
+                    Log.d(
+                        "TAG",
+                        "onclick: " + listofmail.size + ">>" + isFromCompose + ">>" + (listofmail.get(
+                            position + 1
+                        ))
+                    )
+                    model.MailObject.postValue(listofmail.get(position + 1))
+                }
+//
+                isFromCompose = true
+                startActivity(
+                    Intent(
+                        this,
+                        ComposeActivity::class.java
+                    )
+                )
+
+                overridePendingTransition(
+                    R.anim.slide_in_up,
+                    R.anim.slide_out_up
+                );
+            } else {
+                isFromCompose = false
+                finish()
+                overridePendingTransition(
+                    R.anim.anim_slide_stay,
+                    R.anim.slide_out_up
+                );
+                // Handle more item (inside overflow menu) press
+            }
 
         }
         binding.apply.setOnClickListener {
@@ -103,6 +267,7 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
             );
         }
         binding.reply.setOnClickListener {
+            model.MailObject.postValue(section)
             startActivity(
                 Intent(this, DirectComposeActivity::class.java).putExtra(
                     "data",
@@ -113,310 +278,306 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
 
         }
         binding.clock.setOnClickListener {
-            MyCustomDialog(R.layout.layout_snooze_dialog).show(
+            MyCustomDialog(R.layout.layout_snooze_dialog, "", this, this, Message()).show(
                 supportFragmentManager,
                 "MyCustomFragment"
             )
 
         }
-
-
     }
 
-    var once: Boolean = false
 
     private fun setupwebview() {
 
-
-        wv1.webViewClient = object : WebViewClient() {
+        if (preferenceManager.getBoolean("dark_html") || preferenceManager.getString("Theme").equals("Dark theme") && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            WebSettingsCompat.setForceDark(webView.settings, WebSettingsCompat.FORCE_DARK_ON)
+        }
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                // Open the URL in the default browser
+                // Open the URL in the default browser
 
-                // If you wnat to open url inside then use
-                view.loadUrl(url);
+                Log.d("TAG", "shouldOverrideUrlLoading: " + preferenceManager.getBoolean("browser"))
+                if (preferenceManager.getBoolean("browser")) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    view.context.startActivity(intent)
 
-                // if you wanna open outside of app
-                /*if (url.contains(URL)) {
-                        view.loadUrl(url)
-                        return false
-                    }else {
-                        // Otherwise, give the default behavior (open in browser)
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        startActivity(intent)
-                        return true
-                    }*/
+                } else {
 
-
+                    // If you wnat to open url inside then use
+                    view.loadUrl(url);
+                }
                 return true
             }
 
 
         }
-        wv1.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().useWideViewPort = true
+        webView.getSettings().loadWithOverviewMode = true
+        webView.setInitialScale(1);
 
 
-        wv2.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+//From Simple MailList
+        if (!from_cat) {
+            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                // Fetch data from Room database on a background thread
+                val userList = model.MailObject
 
-                // If you wnat to open url inside then use
-                view.loadUrl(url);
+                // Perform additional background fetch or processing
+                // ...
 
-                // if you wanna open outside of app
-                /*if (url.contains(URL)) {
-                        view.loadUrl(url)
-                        return false
-                    }else {
-                        // Otherwise, give the default behavior (open in browser)
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        startActivity(intent)
-                        return true
-                    }*/
+                withContext(Dispatchers.Main) {
+                    userList.observe(this@ComposeActivity)
+                    {
+                        section = it
+                        binding.title.setText("" + it.author)
+                        Log.d("TAG", "setupwebview: " + it.description)
+                        if (it.description != null && !once) {
+                            once = true
+                            //  val rawEmailString = it.get(id).description
+
+                            webView.loadDataWithBaseURL(
+                                null,
+                                it.description!!,
+                                "text/html",
+                                "UTF-8",
+                                null
+                            );
 
 
-                return true
+                        }
+                        var pin: Pin = Pin()
+                        pin.id = it.id
+                        pin.msgid=it.msgid
+                        pin.author = it.author
+                        pin.description = it.description
+                        pin.title = it.title
+                        pin.content = it.content
+                        pin.date = it.date
+                        pin.url = it.url
+                        pin.thread_id = it.thread_id
+
+
+                        currentObject = pin
+                        // Update UI with the fetched data
+
+                    }
+
+
+                }
+            }
+        }
+
+
+        //From CategoriesList
+        else {
+
+            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                // Fetch data from Room database on a background thread
+                val userList = Allmodel.allMails
+
+
+                // Perform additional background fetch or processing
+                // ...
+
+                withContext(Dispatchers.Main) {
+                    userList.observe(this@ComposeActivity)
+                    {
+                        binding.title.setText("" + it.author)
+
+
+                        if (!once) {
+                            once = true
+                            //  val rawEmailString = it.get(id).description
+
+                            webView.loadDataWithBaseURL(
+                                null,
+                                it.description!!,
+                                "text/html",
+                                "UTF-8",
+                                null
+                            );
+
+                            var pin: Pin = Pin()
+                            pin.id = it.id
+                            pin.author = it.author
+                            pin.description = it.description
+                            pin.title = it.title
+                            pin.content = it.content
+                            pin.date = it.date
+                            pin.url = it.url
+                            pin.thread_id = it.thread_id
+                            currentObject = pin
+
+
+                        }
+                    }
+                }
             }
 
-
         }
-        wv2.getSettings().setJavaScriptEnabled(true);
-        wv2.getSettings().useWideViewPort = true
-        wv2.getSettings().loadWithOverviewMode = true
 
 
-
-
-
-        val model: EmailViewmodel by viewModels() {
-            EmailViewmodel.Factory(
-                (application as MyApplication),
-                (application as MyApplication).repository
-            )
-        }
-        //  model.insertbody()
-        model.maildata.observe(this)
-        {
-            if (!once) {
-                once = true
-              //  val rawEmailString = it.get(id).description
-
-                wv2.loadDataWithBaseURL(null,it.get(id).description!!, "text/html", "UTF-8",null);
-                Log.d("setupwebview", it.get(id).description!!)
-
-
-//                Log.d("setupwebview", rawEmailString!!)
-//                val endingChar = '~'
-//
-//                val spannableString = SpannableString(rawEmailString)
-//                Linkify.addLinks(spannableString, Linkify.WEB_URLS)
-//               // binding.compose.setText(rawEmailString)
-//                val pattern =  "\\b(?:https?://|www\\.)\\S+\\b"
-//                val regex = Regex(pattern)
-//                val matches = regex.findAll(rawEmailString.toString())
-//               // Linkify.addLinks(binding.compose, matches, "");
-//                val lparams = LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-//                )
-//                lparams.setMargins(10,10,10,10)
-////             /  / val matcher = pattern.matcher(rawEmailString)
-//                for (matchResult in matches) {
-//                    val url = matchResult.value
-//                    // Process the link
-//                    val webView = WebView(this)
-//
-//                    webView.webViewClient = WebViewClient()
-//                    webView.loadUrl(url);
-//                    webView.setLayoutParams(lparams);
-//                    //binding.contentView.addView(webView);
-//
-//                        //matcher.replaceFirst("")
-//                }
-
-
-
-
-                //  wv1.loadDataWithBaseURL(null, rawEmailString!!, "text/html", "utf-8", null)
-                //wv1.loadUrl(rawEmailString!!)
-//                if (rawEmailString!!.startsWith("<")) {
-//                    // Load HTML content into the WebView
-//                      wv2.loadDataWithBaseURL(null, rawEmailString, "text/html", "UTF-8", null)
-//                } else {
-//                    // Convert plain text to HTML and load it into the WebView
-//
-//
-//                        val htmlContent: String = convertPlainTextToHtml(rawEmailString)!!
-//                    wv2.loadDataWithBaseURL(
-//                        null,
-//                        rawEmailString,
-//                        "text/html",
-//                        "UTF-8",
-//                        null
-//                    )
-//
-//
-//                    val language = it.get(id).getimagedata()
-//                    for (item in language.indices) {
-//                        var im = ImageView(this)
-//                        im.setImageURI(Uri.parse(language.get(item)))
-//
-////                        Glide.with(this)
-////                            .asBitmap()
-////                            .load(language.get(item))
-////                            .into(object : BitmapImageViewTarget(im) {
-////                                override fun onResourceReady(
-////                                    resource: Bitmap,
-////                                    transition: Transition<in Bitmap>?
-////                                ) {
-////                                    super.onResourceReady(resource, transition)
-////                                    Log.d("TAG", "onResourceReady: "+"reso")
-////                                }
-////
-////                                override fun onLoadFailed(errorDrawable: Drawable?) {
-////                                    super.onLoadFailed(errorDrawable)
-////                                    Log.d("TAG", "onResourceReady: "+"failed")
-////                                }
-////                            })
-////                        binding.container.addView(im)
-//
-//
-//                    }
-//
-//                }
-            }
-
-////        val htmlContent = ((((("<html><head><link rel=\\\"stylesheet\\\" type=\\\"text/css\\\" href=\\\"file:///android_asset/styles.css\\\"></head><body>"
-////                + "<h1>" + rawEmailString) + "</h1>"
-////                + "<div class=\"sender\">" + "me") + "</div>"
-////                + "<div class=\"date\">" + "me") + "</div>"
-////                + "<div class=\"content\">" + rawEmailString) + "</div>"
-////                + "</body></html>")
-//            // Display image URLs
-//
-//
-//
-//
-//// or
-//
-//
-//            //  wv1.loadUrl("https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmhWhPRfKWrxjjdfhpcfVNxGZ")
-//            //Log.d("TAG", "setupwebview: "+rawEmailString)
-//
-//
-        }
     }
 
-
-
-    val imageUrls = ArrayList<Bitmap>()
-
-    private fun convertByteArrayToBitmap(byteArray: ByteArray): Bitmap? {
-        var bitmap: Bitmap? = null
-        try {
-            bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            Log.d("TAG", "convertByteArrayToBitmap: " + bitmap)
-        } catch (e: java.lang.Exception) {
-            Log.d("TAG", "convertByteArrayToBitmap: " + e.message)
-            e.printStackTrace()
-            // Handle the exception if the byte array cannot be decoded into a bitmap
-        }
-        return bitmap
-    }
-
-    private fun convertPlainTextToHtml(plainText: String): String? {
-        Log.d("TAG", "URLlink: "+"")
-        val pattern: Pattern = Pattern.compile("\\\\b((http|https)://\\\\S+\\\\b)")
-
-
-
-
-// Matcher to find URLs in the text
-
-// Matcher to find URLs in the text
-        val matcher: Matcher = pattern.matcher(plainText)
-        val match: Matcher = pattern.matcher(plainText);
-// Iterate through the matches and extract the URLs
-        var urls: ArrayList<String> = arrayListOf()
-        val textWithoutUrls = matcher.replaceAll("")
-        val htmlBuilder = java.lang.StringBuilder()
-        htmlBuilder.append("<html><body><pre>")
-
-        // Iterate through the matches and extract the URLs
-
-
-        // Convert plain text to HTML format
-
-
-//            .append("<a href=\"").append(urls).append("\">").append(linkText).append("</a><br>")
-
-
-//        htmlBuilder
-//            .append("<span style='font-family: Arial; font-size: 13px; color: #000000;'>")
-//            .append(textWithoutUrls)
-//            .append("</span><br>")
-//
-//        val lparams = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-//        )
-//        lparams.setMargins(10,10,10,10)
-//
-//        while (match.find()) {
-//            val url = match.group()
-//            // Process the extracted URL as needed
-//            Log.d("URLlink: ", url)
-//            urls.add(url)
-//            matcher.replaceFirst("")
-
-//            htmlBuilder.append("<a href=\"").append(url).append("\">").append(url)
-//                .append("</a><br>");
-
-           // binding.webview1.loadUrl(url)
-//
-//
-//            val webView = WebView(this)
-//            webView.webViewClient = WebViewClient()
-//            webView.loadUrl(url);
-//            webView.setLayoutParams(lparams);
-//            binding.contentView.addView(webView);
-
-//            break
-//
-//        }
-
-//        runOnUiThread {
-//            if (urls.size!=0 && urls.size >= 0) {
-//              //  Log.d("TAG", "setupwebview: " + urls.get(0))
-//            }
-//
-//        }
-
-        htmlBuilder.append("</pre>")
-            .append("</body></html>");
-        return htmlBuilder.toString()
-    }
-
-    private fun extractTextContent(decodedMessage: String): String {
-        val document: Document = Jsoup.parse(decodedMessage)
-        document.outputSettings(Document.OutputSettings().prettyPrint(false))
-
-        // Extract the text from the parsed document
-        return document.text()
-    }
 
     fun showBottomSheet() {
+        //Inflate Dialog
+        var bottomSheetDialogbinding = BottomOptionBinding.inflate(layoutInflater)
+// Find the root layout of your custom layout
+        // Find the root layout of your custom layout
+       // bottomSheetDialogbinding.rootLayout.setBackgroundColor(Color.TRANSPARENT)
 
-        var bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogcustom);
-        bottomSheetDialog.setContentView(R.layout.bottom_option);
-        //  bottomSheetDialog!!.getWindow()?.setBackgroundDrawableResource(R.drawable.round_corner);
-        bottomSheetDialog.show()
 
-//        val addPhotoBottomDialogFragment = ActionBottomDialogFragment.newInstance(R.layout.bottom_option)
-//        addPhotoBottomDialogFragment.show(
-//            supportFragmentManager,
-//            ActionBottomDialogFragment.TAG)
+// Initialize dialog
+        var dialog = BottomSheetDialog(this ,R.style.BottomSheetDialogTheme);
+        // set background transparent
+        val window =  dialog.window
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            val lp = window.attributes
+            lp.alpha = 1.0f
+            lp.dimAmount = 0.0f
+            window.attributes = lp
+        }
 
+
+//        dialog.getWindow()!!.setBackgroundDrawable(
+//            ColorDrawable(
+//                Color.TRANSPARENT
+//            )
+//        );
+        // set view
+        dialog.setContentView(bottomSheetDialogbinding.getRoot())
+        if (!isFinishing && dialog != null) {
+            runOnUiThread {
+                dialog.show()
+                BottomSheetClick(bottomSheetDialogbinding, dialog)
+            }
+        }
+
+
+    }
+
+    private fun BottomSheetClick(
+        bottomSheetDialog: BottomOptionBinding,
+        dialog: BottomSheetDialog
+    ) {
+
+        Log.d("TAG", "BottomSheetClick: ")
+
+        bottomSheetDialog.forward.setOnClickListener {
+            dialog.dismiss()
+            model.MailObject.postValue(section)
+            startActivity(
+                Intent(this, DirectComposeActivity::class.java).putExtra(
+                    "data",
+                    "forward"
+                )
+            )
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+
+        }
+
+        bottomSheetDialog.move.setOnClickListener {
+
+            SetupMove()
+
+        }
+        bottomSheetDialog.delete.setOnClickListener {
+            dialog.dismiss()
+            Thread {
+                Helpers.DeleteMail(this, currentObject.msgid)
+            }.start()
+        }
+        bottomSheetDialog.mute.setOnClickListener {
+            dialog.dismiss()
+            Thread {
+                Helpers.MuteMail(this, currentObject.thread_id)
+            }.start()
+        }
+        bottomSheetDialog.moveSpam.setOnClickListener {
+            Helpers.MoveFolder(this, currentObject.msgid, "SPAM")
+        }
+        bottomSheetDialog.print.setOnClickListener {
+            dialog.dismiss()
+            Helpers.print(this, webView)
+
+        }
+        bottomSheetDialog.pdfConvert.setOnClickListener {
+            dialog.dismiss()
+            currentObject.description?.let { it1 -> Helpers.SaveAsPdf(webView, this) }
+        }
+        bottomSheetDialog.sendAgain.setOnClickListener {
+            dialog.dismiss()
+            model.MailObject.postValue(section)
+            startActivity(
+                Intent(this, DirectComposeActivity::class.java).putExtra(
+                    "data",
+                    "send"
+                )
+            )
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+
+        }
+        bottomSheetDialog.block.setOnClickListener {
+            dialog.dismiss()
+            Helpers.BlockSender(this, currentObject.msgid)
+        }
+        bottomSheetDialog.aside.setOnClickListener {
+            dialog.dismiss()
+            model.adddataAside(section)
+        }
+        bottomSheetDialog.editToolbar.setOnClickListener {
+            dialog.dismiss()
+            startActivity(
+                Intent(this, EditToolbarActivity::class.java)
+            )
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+        }
+        bottomSheetDialog.detail.setOnClickListener {
+            dialog.dismiss()
+            var bottomSheetDialog =
+                BottomSheetDialog(this, R.style.BottomSheetDialogcustom);
+            bottomSheetDialog.setContentView(R.layout.dialog_details);
+            bottomSheetDialog.findViewById<TextView>(R.id.date)!!.setText(section.date)
+            bottomSheetDialog.findViewById<TextView>(R.id.account)!!.setText(section.sender)
+            bottomSheetDialog.findViewById<TextView>(R.id.from_email)!!.setText(section.senderEmail)
+            bottomSheetDialog.findViewById<TextView>(R.id.TO)!!.setText(display_name)
+            bottomSheetDialog.findViewById<TextView>(R.id.to_email)!!.setText(username)
+            bottomSheetDialog.findViewById<TextView>(R.id.subject)!!.setText(section.author)
+            bottomSheetDialog.show()
+        }
+        bottomSheetDialog.tool.setOnClickListener {
+
+        }
+
+    }
+
+
+    private fun SetupMove() {
+        var pin: Email = Email()
+        pin.id = currentObject.id
+        pin.author = currentObject.author
+        pin.description = currentObject.description
+        pin.title = currentObject.title
+        pin.content = currentObject.content
+        pin.date = currentObject.date
+        pin.url = currentObject.url
+        pin.msgid = currentObject.msgid
+        Log.d("TAG", "SetupMove: "+currentObject.msgid)
+        var customDialog = CustomListViewDialog(this, pin)
+
+        //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+        customDialog!!.show()
+        customDialog!!.setCanceledOnTouchOutside(false)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && this.wv1.canGoBack()) {
-            this.wv1.goBack()
+        if (keyCode == KeyEvent.KEYCODE_BACK && this.webView.canGoBack()) {
+            this.webView.goBack()
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -469,6 +630,10 @@ class ComposeActivity : AppCompatActivity(), ActionBottomDialogFragment.ItemClic
             }
         }
         return plainText.toString()
+    }
+
+    override fun dialogClick(sender_id: String, dialog: MyCustomDialog) {
+        dialog.dismiss()
     }
 
 

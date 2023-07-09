@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
         android:background="@drawable/dialog_bottom_bg"
-
+        android:orientation="vertical"
         android:paddingBottom="@dimen/_20sdp">
+
     <RelativeLayout
-            android:layout_marginTop="@dimen/_15sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp">
 
         <ImageView
-                android:layout_marginStart="@dimen/_6sdp"
-                android:layout_centerVertical="true"
                 android:id="@+id/file"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_file" />
 
         <LinearLayout
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/file"
                 android:orientation="vertical">
 
@@ -40,7 +40,8 @@
                     android:lineSpacingExtra="@dimen/_1sdp"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp"
-                    android:text="Private email account"
+                    android:text="@string/private_email"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -50,12 +51,13 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/regular"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/regular"
+                    android:lineSpacingExtra="1dp"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp"
-                    android:lineSpacingExtra="1dp"
-                    android:text="Use it to add your work or personal email\naddress,visible only to you"
+                    android:text="@string/use_personal"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_11sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,30 +65,32 @@
 
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_5sdp"
 
-        android:backgroundTint="@color/grey_regular"/>
+            android:backgroundTint="@color/grey_regular" />
+
     <RelativeLayout
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
 
         <ImageView
-                android:layout_marginStart="@dimen/_6sdp"
-                android:layout_centerVertical="true"
                 android:id="@+id/file2"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_file" />
 
         <LinearLayout
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/file2"
                 android:orientation="vertical">
 
@@ -101,7 +105,7 @@
                     android:lineSpacingExtra="@dimen/_1sdp"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp"
-                    android:text="Shared email account"
+                    android:text="@string/shared"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -111,13 +115,14 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/regular"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/regular"
+                    android:lineSpacingExtra="1dp"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp"
-                    android:lineSpacingExtra="1dp"
-                    android:text="Allow multiple people to share access to an\n email address and work together"
+                    android:text="@string/allow_multiple_access"
                     android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/textColorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

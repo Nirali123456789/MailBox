@@ -5,5 +5,5 @@
         android:viewportHeight="195">
     <path
             android:pathData="M16,0L344,0A16,16 0,0 1,360 16L360,179A16,16 0,0 1,344 195L16,195A16,16 0,0 1,0 179L0,16A16,16 0,0 1,16 0z"
-            android:fillColor="#ECECEC"/>
+            android:fillColor="@color/drawer_bg"/>
 </vector>

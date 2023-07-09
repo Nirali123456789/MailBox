@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.aiemail.superemail.R
-import com.aiemail.superemail.Activities.SettingSubcomponent
+import com.aiemail.superemail.Activities.SettingSubcomponentActivity
 
 
 class MyCommonDialog(var from:String): DialogFragment() {
@@ -20,7 +20,7 @@ class MyCommonDialog(var from:String): DialogFragment() {
 
         v.findViewById<TextView>(R.id.team).setOnClickListener {
             dialog?.dismiss()
-            startActivity(Intent(activity, SettingSubcomponent::class.java).putExtra("Value",3).putExtra("Title","Teams"))
+            startActivity(Intent(activity, SettingSubcomponentActivity::class.java).putExtra("Value",3).putExtra("Title","Teams"))
            activity!!. overridePendingTransition(R.anim.anim_right, R.anim.anim_right)
             //activity!!.finish()
         }

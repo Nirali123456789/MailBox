@@ -5,4 +5,8 @@
 </style>
   <style name="AppThemedrawer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
   <style name="AppThemedrawer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+  <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+    <item name="android:windowBackground">@android:color/transparent</item>
+  </style>
+
 </resources>

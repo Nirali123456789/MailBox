@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                    android:visibility="gone"
                     android:id="@+id/img_thumbnail"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
@@ -63,12 +64,13 @@
                         android:layout_width="@dimen/_4sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:background="@drawable/line"
+                        android:visibility="gone"
                         android:backgroundTint="@color/colorPurple"/>
 
                 <TextView
                         android:layout_marginStart="@dimen/_2sdp"
                         android:layout_toEndOf="@+id/view"
-                        android:id="@+id/txt_title"
+                        android:id="@+id/sender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -104,7 +106,7 @@
                     android:layout_marginStart="1dp">
 
                 <TextView
-                        android:id="@+id/txt_source_name"
+                        android:id="@+id/subject"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_1sdp"
@@ -113,25 +115,27 @@
                         android:fontFamily="@font/regular"
                         android:maxLines="1"
                         android:text="Washington Post"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/_11sdp" />
 
                 <TextView
-                        android:id="@+id/txt_source_name_sub"
+                        android:id="@+id/body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/txt_source_name"
+                        android:layout_below="@+id/subject"
                         android:layout_toStartOf="@+id/star"
                         android:layout_weight="2"
                         android:ellipsize="end"
                         android:fontFamily="@font/regular"
-                        android:maxLines="1"
-                        android:text="Washington Post"
+
+                        android:text="Washington Post vbdjds fhjdsf ch.ds,fc dsc cx jdsc
+bjbkbkkbkkknnkknknknknknkn"
                         android:textColor="@color/darkgrey"
                         android:textSize="@dimen/_11sdp"
                         android:visibility="visible" />
 
                 <ImageView
+                        android:visibility="gone"
                         android:id="@+id/star"
                         android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_25sdp"

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aiemail.superemail.R;
 import com.aiemail.superemail.Viewholders.HeadlineViewHolder;
-import com.aiemail.superemail.feature.Models.Email;
+import com.aiemail.superemail.Models.Email;
 
 import java.util.List;
 

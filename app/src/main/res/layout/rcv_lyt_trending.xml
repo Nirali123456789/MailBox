@@ -13,7 +13,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:id="@+id/topNftContainer"
-    android:background="@color/colorWhite">
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/img_trending"

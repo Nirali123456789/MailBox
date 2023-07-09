@@ -12,7 +12,15 @@
     <color name="black_med">#393838</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="drawer_bg">#DDE3FA</color>
+    <color name="drawer_bgselect">#DDE3FA</color>
     <color name="grey">#D6D6D6</color>
     <color name="black">#000000</color>
     <color name="bg">#DEDDF1</color>
+    <color name="gnt_gray">#000000</color>
+    <color name="background">#ffffff</color>
+    <color name="dialog">#EDECF6</color>
+    <color name="textColorPrimary">#000000</color>
+    <color name="shade_bg">#DAD7F4</color>
+    <color name="icon">#000000</color>
+    <color name="icon_drawer">#4237F4</color>
 </resources>

@@ -5,8 +5,11 @@ pluginManagement {
         mavenCentral()
         jcenter()
 
+
         maven { url "https://jitpack.io" }
         maven { url "https://dl.bintray.com/muhammadmuzammilsharif/library" }
+
+
     }
 }
 dependencyResolutionManagement {
@@ -17,6 +20,8 @@ dependencyResolutionManagement {
         jcenter()
 
         maven { url "https://jitpack.io" }
+     
+
     }
 }
 
@@ -36,3 +41,4 @@ include ':main'
 //include ':build-plugin'
 //include ':build.gradle.kts'
 //include ':common'
+include ':passcodeview'

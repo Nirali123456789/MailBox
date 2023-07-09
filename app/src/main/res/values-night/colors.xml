@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#4237F4</color>
+    <color name="colorPurple">#4237F4</color>
+    <color name="colorIndigo">#4237F4</color>
+    <color name="colorBlueMidnight">#003366</color>
+    <color name="colorGrey">#C9C9C9</color>
+    <color name="darkgrey">#878686</color>
+    <color name="grey_regular">#F3F0F0</color>
+    <color name="black_med">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="drawer_bg">#3A3C3F</color>
+    <color name="drawer_bgselect">#BF5E5F60</color>
+    <color name="grey">#D6D6D6</color>
+    <color name="black">#000000</color>
+    <color name="bg">#19191A</color>
+    <color name="gnt_gray">#000000</color>
+    <color name="background">#292828</color>
+    <color name="dialog">#2F2F32</color>
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="shade_bg">#242425</color>
+    <color name="icon">#ECEAEA</color>
+    <color name="icon_drawer">#ffffff</color>
+</resources>

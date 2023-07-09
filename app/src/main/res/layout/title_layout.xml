@@ -26,11 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bold"
-            android:textColor="#636262"
+            android:textColor="@color/textColorPrimary"
             android:text="ABC News"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/_12sdp"
+            />
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/rv_headline"-->

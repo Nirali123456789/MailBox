@@ -4,43 +4,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-            android:layout_marginTop="@dimen/_60sdp"
             android:id="@+id/imgMain"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_60sdp"
             android:layout_marginBottom="20dp"
             android:contentDescription="@string/no_image"
+            android:padding="@dimen/_10sdp"
             android:src="@drawable/ic_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/darkgrey"
-            android:padding="@dimen/_10sdp"/>
+
+            app:layout_constraintTop_toBottomOf="@+id/list"
+            app:tint="@color/darkgrey" />
 
     <TextView
             android:id="@+id/headerLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/medium"
             android:text="@string/no_image"
             android:textColor="@color/darkgrey"
             android:textSize="@dimen/_18sdp"
-            android:fontFamily="@font/medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgMain"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/imgMain" />
 
 
     <TextView
             android:id="@+id/txtMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/darkgrey"
-            android:text="Try somthing like Pdf files last week"
-            android:textSize="17sp"
             android:fontFamily="@font/regular"
+            android:text="@string/search_hint"
+            android:textColor="@color/darkgrey"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/headerLabel" />

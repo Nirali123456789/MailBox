@@ -7,81 +7,84 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.main.SettingSubcomponentFragment">
-<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-  <de.hdodenhof.circleimageview.CircleImageView
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-          android:layout_centerHorizontal="true"
-          android:id="@+id/profile_pic"
-          android:layout_margin="@dimen/_20sdp"
-          android:layout_gravity="center"
-          android:layout_width="@dimen/_200sdp"
-          android:layout_height="@dimen/_200sdp"
-      android:src="@drawable/pic4"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile_pic"
+                android:layout_margin="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:src="@drawable/pic4" />
+
+        <TextView
+                android:layout_below="@+id/profile_pic"
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
+                android:text="nehavaidya76@gmail.com"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/bold"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+        <TextView
+                android:layout_below="@+id/email"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPurple"
+                android:text="@string/changeEmail"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/medium"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+
+    </RelativeLayout>
+
     <TextView
-            android:layout_below="@+id/profile_pic"
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:text="nehavaidya76@gmail.com"
-        android:textSize="@dimen/_12sdp"
-        android:fontFamily="@font/bold"
-        android:layout_gravity="center"
-        android:gravity="center"/>
-    <TextView
-            android:layout_below="@+id/email"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPurple"
-            android:text="Change email"
-            android:textSize="@dimen/_10sdp"
-            android:fontFamily="@font/medium"
+            android:id="@+id/remove"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Remove my data from Spark"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:background="@drawable/btn_bg"
+            android:fontFamily="@font/medium" />
 
-
-</RelativeLayout>
-  <TextView
-          android:id="@+id/remove"
-          android:layout_centerHorizontal="true"
-          android:layout_alignParentBottom="true"
-          android:paddingLeft="@dimen/_10sdp"
-          android:paddingRight="@dimen/_10sdp"
-          android:layout_marginBottom="@dimen/_15sdp"
-          android:layout_gravity="center"
-          android:gravity="center"
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/_35sdp"
-          android:text="Remove my data from Spark"
-          android:layout_margin="@dimen/_10sdp"
-          android:textColor="@color/colorWhite"
-          android:textSize="@dimen/_12sdp"
-          android:backgroundTint="@android:color/holo_red_dark"
-          android:background="@drawable/btn_bg"
-          android:fontFamily="@font/medium"
-          />
-  <TextView
-          android:id="@+id/restore"
-          android:layout_centerHorizontal="true"
-          android:layout_alignParentBottom="true"
-          android:paddingLeft="@dimen/_10sdp"
-          android:paddingRight="@dimen/_10sdp"
-          android:layout_marginBottom="@dimen/_15sdp"
-          android:layout_gravity="center"
-          android:gravity="center"
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/_35sdp"
-          android:text="Restore in-app purchases"
-          android:layout_marginStart="@dimen/_10sdp"
-          android:layout_marginEnd="@dimen/_10sdp"
-          android:textColor="@color/colorPurple"
-          android:textSize="@dimen/_12sdp"
-          android:background="@drawable/normal_corner_bg"
-          android:fontFamily="@font/medium"
-          />
+    <TextView
+            android:id="@+id/restore"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Restore in-app purchases"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textColor="@color/colorPurple"
+            android:textSize="@dimen/_12sdp"
+            android:background="@drawable/normal_corner_bg"
+            android:fontFamily="@font/medium" />
 
 </LinearLayout>

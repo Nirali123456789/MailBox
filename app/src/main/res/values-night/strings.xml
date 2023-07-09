@@ -1,0 +1,131 @@
+<resources>
+    <string name="app_name">Super Mail</string>
+
+    <string name="onboarding_slide1_title">Create an account</string>
+    <string name="onboarding_slide1_subtitle">Title one here</string>
+    <string name="onboarding_slide1_desc">Welcome onboard!!</string>
+
+    <string name="onboarding_slide2_title">Login to your account</string>
+    <string name="onboarding_slide2_subtitle">Title2 two here</string>
+    <string name="onboarding_slide2_desc" translatable="false">String 2 slide.</string>
+
+    <string name="onboarding_slide3_title" translatable="false">Login to your account </string>
+    <string name="onboarding_slide3_subtitle" translatable="false">Title3 three here</string>
+    <string name="onboarding_slide3_desc" translatable="false">String 3 side.</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get started</string>
+    <string name="setting">setting</string>
+
+    <string name="sign_in" translatable="false">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="remember_me" translatable="false">Remember me</string>
+    <string name="forgot_password" translatable="false">Forgot password?</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="new_user" translatable="false">New User?</string>
+    <string name="invalid_username" translatable="false">Invalid username</string>
+    <string name="invalid_password" translatable="false">Invalid password</string>
+
+    <string name="home_screen_title" translatable="false">Home</string>
+    <string name="home_screen_text" translatable="false">Can\'t walk? then fly!</string>
+    <string name="previous" translatable="false">Previous</string>
+    <string name="open" translatable="false">open</string>
+    <string name="close" translatable="false">close</string>
+    <string name="home" translatable="false">Home\n</string>
+    <string name="search" translatable="false">Search\n</string>
+    <string name="all_categories" translatable="false">Categories</string>
+    <string name="add_missing_place" translatable="false">Place</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title"> signature</string>
+    <string name="template">Templates</string>
+    <string name="badge">Badges</string>
+    <string name="schedule">Scheduling</string>
+    <string name="notification">Notification</string>
+    <string name="spark" translatable="false">Spark Cloud</string>
+    <string name="Sound_">Sound Prefrences</string>
+    <string name="security">Security</string>
+
+    <string name="reedle">Reddle</string>
+    <string name="help">Help </string>
+    <string name="wnew">What\'s new?</string>
+    <string name="support">Support</string>
+    <string name="policy">Default reply actionPrivacy Policy</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings">Settings</string>
+    <string name="account">Spark account</string>
+    <string name="subscription">Subscription</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="action_settings" translatable="false">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="snack_bar_undo">Undo\n</string>
+    <string name="snack_bar_text">Undo delete</string>
+    <string name="no_image">No recent Searches</string>
+    <string name="display" translatable="false">Display \"Sent with Supermail\" tagline</string>
+    <string name="privacy">Privacy policy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="web_id" translatable="false">390762603984-lbdjhgffolaq6eb6jemsljand6orptqs.apps.googleusercontent.com</string>
+    <string name="collapsed_notification_title" translatable="false">collasped\n</string>
+    <string name="collapsed_notification_info" translatable="false">collasped info\n</string>
+    <string name="channel_name" translatable="false">channel\n</string>
+    <string name="channel_description">description</string>
+    <string name="service_label" translatable="false">label\n</string>
+    <string name="service_name" translatable="false">service\n</string>
+    <string name="move_to">Move to</string>
+    <string name="suggestion">Suggestions</string>
+    <string name="important">Important</string>
+    <string name="spam">Spam</string>
+    <string name="draft">Drafts</string>
+    <string name="sent">Sent</string>
+    <string name="trash">Trash</string>
+    <string name="archive">Archive</string>
+    <string name="toolbar">Personalize toolbar</string>
+    <string name="personalise">Choose and arrange up to 6 actions that will appear on\n the toolbar</string>
+    <string name="main_action">Main action</string>
+    <string name="done">Done</string>
+    <string name="tool_option">Toolbar</string>
+    <string name="snooze">Snooze</string>
+    <string name="unread">Unread</string>
+    <string name="reply">Reply</string>
+    <string name="more_option">Rearrange actions in the More menu</string>
+    <string name="move">Move</string>
+    <string name="forward">Forward</string>
+    <string name="delete">Delete</string>
+    <string name="Restore">Restore default settings</string>
+    <string name="view">View Details</string>
+    <string name="move_spam">Move Conversation</string>
+    <string name="print">Print</string>
+    <string name="pdf">Save as PDF</string>
+    <string name="send_again">Send Again</string>
+    <string name="aside">Set aside</string>
+    <string name="verify">OAuth Verification Request</string>
+    <string name="from">From</string>
+    <string name="api">API OAuth Dev Verification</string>
+    <string name="reply_Auth" translatable="false">api-oauth-dev-verification-reply</string>
+    <string name="To">To</string>
+    <string name="mark_read">Mark as read</string>
+    <string name="privacy_policy" translatable="false">https://doc-hosting.flycricket.io/supermail/ccbe63d1-4392-4cd2-a372-386169443225/privacy</string>
+
+</resources>

@@ -3,7 +3,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="@dimen/_5sdp">
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@color/background">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -12,7 +13,7 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Open Help Center"
+                android:text="@string/OpenHelpCenter"
                 android:textSize="@dimen/_12sdp"
                 />
         <ImageView
@@ -34,7 +35,7 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Contact us"
+                android:text="@string/Contactus"
                 android:textSize="@dimen/_12sdp"
                 />
         <ImageView
@@ -57,7 +58,7 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Diagnostics"
+                android:text="@string/Diagnostics"
                 android:textSize="@dimen/_12sdp"
                 />
 
@@ -72,7 +73,7 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Legal Notes"
+                android:text="@string/LegalNotes"
                 android:textSize="@dimen/_12sdp"
                 />
         <ImageView
@@ -96,7 +97,7 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Resync Address Book"
+                android:text="@string/ResyncAddressBook"
                 android:textSize="@dimen/_12sdp"
                 />
         <ImageView
@@ -120,15 +121,17 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="App version"
+                android:text="@string/Appversion"
                 android:textSize="@dimen/_12sdp"
                 />
         <TextView
+                android:id="@+id/version"
                 android:layout_below="@+id/text"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1.0.1"
+                android:textColor="@color/textColorPrimary"
                 android:src="@drawable/ic_sharenew">
 
         </TextView>

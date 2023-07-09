@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/_5sdp"
+        android:background="@drawable/bg_drawable">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+        <RelativeLayout
+                android:id="@+id/icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/big_icon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@mipmap/ic_launcher" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/notification_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/icon_container"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="6dp">
+
+            <TextView
+                    android:id="@+id/content_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black_med"
+                    android:textSize="@dimen/_10sdp" />
+
+            <ImageView
+                    android:id="@+id/profile_icon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                    android:id="@+id/content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/content_title"
+                    android:fontFamily="@font/bold"
+                    android:text=""
+                    android:textSize="@dimen/_13sdp" />
+
+            <TextView
+                    android:id="@+id/subject_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/content_text"
+                    android:fontFamily="@font/medium"
+                    android:text="Subject Name"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                    android:id="@+id/body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subject_text"
+                    android:fontFamily="@font/medium"
+                    android:maxLines="2"
+                    android:text="body Name"
+                    android:textColor="@color/grey_regular"
+                    android:textSize="@dimen/_10sdp" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/notification_info"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_main"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toStartOf="@+id/timestamp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+            <TextView
+                    android:id="@+id/read"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text="@string/mark_read"
+                    android:textColor="@color/colorPurple"/>
+
+            <TextView
+                    android:id="@+id/done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text="@string/done"
+                    android:textColor="@color/colorPurple"/>
+
+            <TextView
+                    android:id="@+id/reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text="@string/reply"
+                    android:textColor="@color/colorPurple"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_info"
+                android:layout_centerInParent="true"
+                android:layout_toStartOf="@+id/timestamp"
+                android:visibility="gone">
+
+            <Button
+                    android:id="@+id/left_button"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CLICK ME" />
+
+            <Button
+                    android:id="@+id/right_button"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CLICK ME" />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:paddingTop="8dp"
+                android:paddingRight="3.5dp" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -42,7 +42,7 @@
             android:fontFamily="@font/medium"
             android:textColor="@color/black_med"
             android:lineSpacingExtra="@dimen/_1sdp"
-            android:text="Spark would like to access your photos"
+            android:text="@string/allow_access_supermail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,8 +63,7 @@
             android:fontFamily="@font/regular"
             android:textColor="@color/black_med"
             android:lineSpacingExtra="@dimen/_1sdp"
-            android:text="Allow Spark to access photos on your device."
-
+            android:text="@string/allow_subText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -85,7 +84,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
-            android:text="Continue"
+            android:text="@string/continue_"
             android:fontFamily="@font/medium"
             android:textSize="@dimen/_12sdp"
             android:textColor="@color/colorWhite"
@@ -116,7 +115,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="File"
+                    android:text="@string/file"
                     android:textSize="@dimen/_10sdp"
                     android:fontFamily="@font/regular"
                     android:textColor="@color/black_med"
@@ -130,6 +129,7 @@
                 android:layout_weight="1">
 
             <ImageView
+                    android:id="@+id/image"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
@@ -141,7 +141,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gallery"
+                    android:text="@string/gallery"
                     android:textSize="@dimen/_10sdp"
                     android:fontFamily="@font/regular"
                     android:textColor="@color/black_med"
@@ -150,6 +150,7 @@
 
         </LinearLayout>
         <LinearLayout
+                android:id="@+id/camera"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -167,7 +168,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Camera"
+                    android:text="@string/Camera"
                     android:textSize="@dimen/_10sdp"
                     android:fontFamily="@font/regular"
                     android:textColor="@color/black_med"

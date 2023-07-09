@@ -2,4 +2,6 @@
 <resources>
     <color name="colorPurple">#4237F4</color>
     <color name="black_med">#393838</color>
+    <color name="drawer_bg">#DDE3FA</color>
+    <color name="textColorPrimary">#000000</color>
 </resources>

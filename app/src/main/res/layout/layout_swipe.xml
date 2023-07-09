@@ -3,7 +3,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
     <RelativeLayout
             android:id="@+id/ls_layout"
             android:layout_margin="@dimen/_7sdp"
@@ -27,7 +28,7 @@
                 android:id="@+id/ls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Left short"
+                android:text="@string/Leftshort"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_5sdp"
@@ -41,7 +42,7 @@
                 android:layout_below="@+id/ls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Read/UnRead"
+                android:text="@string/Read_UnRead"
                 android:paddingStart="@dimen/_5sdp"
                 android:background="@null"
                 android:fontFamily="@font/regular"
@@ -57,7 +58,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+           >
         <ImageView
                 android:layout_centerVertical="true"
                 android:id="@+id/llicon"
@@ -72,7 +73,7 @@
                 android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Left long"
+                android:text="@string/Leftlong"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_5sdp"
@@ -86,7 +87,7 @@
                 android:layout_below="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Done/Not Done"
+                android:text="@string/Done_NotDone"
                 android:paddingStart="@dimen/_5sdp"
                 android:background="@null"
                 android:fontFamily="@font/regular"
@@ -102,7 +103,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            >
         <ImageView
                 android:layout_centerVertical="true"
                 android:id="@+id/rsicon"
@@ -117,7 +118,7 @@
                 android:id="@+id/rs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Right short"
+                android:text="@string/Rightshort"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_5sdp"
@@ -131,7 +132,7 @@
                 android:layout_below="@+id/rs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pin"
+                android:text="@string/Pins"
                 android:paddingStart="@dimen/_5sdp"
                 android:background="@null"
                 android:fontFamily="@font/regular"
@@ -147,7 +148,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            >
         <ImageView
                 android:layout_centerVertical="true"
                 android:id="@+id/rlicon"
@@ -162,7 +163,7 @@
                 android:id="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Right long"
+                android:text="@string/Rightlong"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_5sdp"
@@ -176,13 +177,10 @@
                 android:layout_below="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Read/UnRead"
+                android:text="@string/Read_UnRead"
                 android:paddingStart="@dimen/_5sdp"
                 android:background="@null"
                 android:fontFamily="@font/regular"
                 android:textSize="@dimen/_14sdp"/>
-
-
-
     </RelativeLayout>
 </LinearLayout>

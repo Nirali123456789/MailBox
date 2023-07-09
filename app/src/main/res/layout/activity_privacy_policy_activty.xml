@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <RelativeLayout
+                android:id="@+id/callerOptLay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
+
+
+            <TextView
+                    android:id="@+id/Splash_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:text="Welcome to"
+                    android:fontFamily="@font/medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="22sp" />
+
+            <TextView
+                    android:id="@+id/Splash_textview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Splash_textview"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_25sdp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/bold"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center">
+
+                <ImageView
+                        android:id="@+id/splash"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_launcher" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                    style="@style/intro_main_style"
+                    android:layout_above="@+id/btnGetStarted">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/chkByClick"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/black"
+                        android:lineSpacingExtra="@dimen/_3sdp"
+                        android:text="By clicking Get Started button, you are agree to the %1$s"
+                        android:textColorHighlight="@color/grey_regular"
+                        android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnGetStarted"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/round_corner"
+                    android:backgroundTint="@color/drawer_bg"
+                    android:clickable="false"
+                    android:text="Get started"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>

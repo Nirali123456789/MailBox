@@ -3,160 +3,174 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
+
     <TextView
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/team"
             android:id="@+id/personalization"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Color Mode"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/team"
+            android:fontFamily="@font/medium"
             android:paddingStart="@dimen/_5sdp"
             android:paddingTop="@dimen/_2sdp"
             android:paddingEnd="@dimen/_5sdp"
-            android:fontFamily="@font/medium"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/grey_regular"/>
+            android:text="@string/ColorMode"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_10sdp" />
+
     <RadioGroup
-
-
-            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView"
-            android:weightSum="1"
-            android:gravity="start"
             android:layout_gravity="start"
-            android:id="@+id/radioGroup"
-     >
+            android:layout_margin="@dimen/_5sdp"
+            android:gravity="start"
+            android:weightSum="1">
 
         <RadioButton
-                android:backgroundTint="@color/colorPurple"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:text="Set by battery saver"
+
+                android:visibility="gone"
                 android:id="@+id/radioButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/colorPurple"
                 android:checked="false"
-                android:textSize="@dimen/_14sdp"
                 android:fontFamily="@font/regular"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/Setbybatterysaver"
                 android:textColor="@color/black_med"
-                android:padding="@dimen/_5sdp"/>
+                android:textSize="@dimen/_14sdp" />
 
         <RadioButton
-                android:backgroundTint="@color/colorPurple"
-                android:padding="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:text="Light theme"
                 android:id="@+id/radioButton2"
-                android:layout_gravity="center_horizontal"
-                android:checked="false"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/regular"
-                android:textColor="@color/black_med"
-            />
-        <RadioButton
-                android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:text="Dark theme"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/colorPurple"
+                android:checked="false"
+                android:fontFamily="@font/regular"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/Lighttheme"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_14sdp" />
+
+        <RadioButton
                 android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
                 android:checked="false"
-                android:textSize="@dimen/_14sdp"
                 android:fontFamily="@font/regular"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/darktheme"
                 android:textColor="@color/black_med"
-               />
+                android:textSize="@dimen/_14sdp" />
     </RadioGroup>
+
     <androidx.appcompat.widget.SwitchCompat
-            android:layout_margin="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_14sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:checked="true"
+            android:enabled="true"
             android:fontFamily="@font/regular"
-            android:textColor="@color/black_med"
-        android:text="Match system colours"
             android:padding="@dimen/_5sdp"
-            android:theme="@style/ThemeOverlay.MySwitchCompat"
-            />
+            android:text="@string/match_system"
+            android:textColor="@color/black_med"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitchCompat" />
+
     <RelativeLayout
+            android:id="@+id/listpreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
-            android:padding="@dimen/_5sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    <TextView
-            android:textSize="@dimen/_14sdp"
-            android:textColor="@color/black_med"
-            android:fontFamily="@font/regular"
-            android:text="List preview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:padding="@dimen/_5sdp">
+
         <TextView
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_alignParentEnd="true"
-                android:text="1 line"
-                android:textSize="@dimen/_8sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/regular"
-                android:textColor="@color/colorPurple"
+                android:text="@string/Listpreview"
+                android:textColor="@color/black_med"
+                android:textSize="@dimen/_14sdp" />
+
+        <TextView
+                android:id="@+id/line"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/regular"
+                android:text="@string/Show_1_line"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/_8sdp" />
     </RelativeLayout>
+
     <androidx.appcompat.widget.SwitchCompat
-            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/dark_html"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dark mode in HTML emails"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/regular"
-            android:textColor="@color/black_med"
-            android:padding="@dimen/_5sdp"
-            android:theme="@style/ThemeOverlay.MySwitchCompat"/>
-    <androidx.appcompat.widget.SwitchCompat
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/regular"
-            android:textColor="@color/black_med"
             android:layout_margin="@dimen/_5sdp"
+            android:fontFamily="@font/regular"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/DarkmodeinHTMLemails"
+            android:textColor="@color/black_med"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitchCompat" />
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/avatars"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show avatars"
+            android:layout_margin="@dimen/_5sdp"
+            android:fontFamily="@font/regular"
             android:padding="@dimen/_5sdp"
-            android:theme="@style/ThemeOverlay.MySwitchCompat"/>
+            android:text="@string/Showavatars"
+            android:textColor="@color/black_med"
+            android:textSize="@dimen/_14sdp"
+            android:theme="@style/ThemeOverlay.MySwitchCompat" />
+
     <TextView
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_toEndOf="@+id/team"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Company logos provided by swaninfo"
+            android:fontFamily="@font/regular"
             android:paddingStart="@dimen/_5sdp"
             android:paddingTop="@dimen/_2sdp"
             android:paddingEnd="@dimen/_5sdp"
-            android:fontFamily="@font/regular"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/grey_regular"/>
+            android:text="Company logos provided by swaninfo"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_10sdp" />
+
     <TextView
             android:id="@+id/remove"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:paddingLeft="@dimen/_10sdp"
-            android:paddingRight="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:layout_gravity="start"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
-            android:text="Clear avatar cache"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="start"
             android:layout_margin="@dimen/_10sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_12sdp"
-            android:backgroundTint="@android:color/holo_red_dark"
+            android:layout_marginBottom="@dimen/_15sdp"
             android:background="@drawable/btn_bg"
+            android:backgroundTint="@android:color/holo_red_dark"
             android:fontFamily="@font/medium"
-            />
+            android:gravity="center"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:text="@string/clear_avtar"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp" />
 </LinearLayout>

@@ -48,7 +48,7 @@ open class BasicStringAdapter(
         if (selectedIndices.isEmpty()) {
             headerTV.text = null
         } else {
-            //headerTV.text = selectedIndices.joinToString { items[it] }
+            headerTV.text = selectedIndices.joinToString { items[it] }
         }
     }
 

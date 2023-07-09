@@ -2,7 +2,6 @@ package com.aiemail.superemail.Adapters
 
 
 import android.app.Activity
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,57 +10,51 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.aiemail.superemail.Activities.ComposeActivity
 import com.aiemail.superemail.R
-import com.aiemail.superemail.feature.Models.Email
+import com.aiemail.superemail.Models.AllMails
+import com.aiemail.superemail.prefs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SmartAdapter(
     context: Activity,
-    sourceList: ArrayList<Email>,
+    private val listName: List<AllMails>,
+
     var showselect: (Boolean) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var isEnable = false
     private var fromlongclick = false
-    private val itemselectedList = mutableListOf<Email>()
+    private val itemselectedList = mutableListOf<AllMails>()
     private var checkedPosition = 0
     val CITY_TYPE = 0
     val COUNTRY_TYPE = 1
     val MORE = 3
     private var context: Activity
-    private var sourceList: ArrayList<Email> = arrayListOf()
-    private var sourceListselect: ArrayList<Email> = arrayListOf()
-    private lateinit var mRecentlyDeletedItem: Email
+    private var sourceList: HashMap<Int, List<AllMails>> = hashMapOf()
+     var keys: List<Int> = listOf()
+    private var sourceListselect: ArrayList<AllMails> = arrayListOf()
+    private lateinit var mRecentlyDeletedItem: AllMails
     var mRecentlyDeletedItemPosition = 0
+    var value: ArrayList<AllMails> = arrayListOf()
 
     init {
 
         Log.d("TAG", "NewsAdapter: " + sourceList.size)
         this.context = context
         this.sourceList = sourceList
+        keys = ArrayList(sourceList!!.keys)
 
     }
 
-    fun deleteItem(position: Int, a: Activity) {
-        mRecentlyDeletedItem = sourceList!![position]
-        mRecentlyDeletedItemPosition = position
-        sourceList.removeAt(position)
-        notifyItemRemoved(position)
-        showUndoSnackbar(a)
-    }
 
     var isselectall: Boolean = false
-    fun getAllList(select: Boolean) {
-        isselectall = select
-        showselect(select)
-        isEnable = select
-        notifyDataSetChanged()
 
-    }
 
     fun showUndoSnackbar(activity: Activity) {
         val view = activity.findViewById<View>(R.id.appbar)
@@ -74,15 +67,16 @@ class SmartAdapter(
     }
 
     private fun undoDelete() {
-        sourceList.add(
-            mRecentlyDeletedItemPosition,
-            mRecentlyDeletedItem
-        )
-        notifyItemInserted(mRecentlyDeletedItemPosition)
+//        sourceList.add(
+//            mRecentlyDeletedItemPosition,
+//            mRecentlyDeletedItem
+//        )
+//        notifyItemInserted(mRecentlyDeletedItemPosition)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
+        Log.d("TAG", "onCreateViewHolder: " + viewType)
         when (viewType) {
             CITY_TYPE -> {
                 view = LayoutInflater.from(parent.context)
@@ -95,10 +89,11 @@ class SmartAdapter(
                     .inflate(R.layout.outer_layout, parent, false)
                 return SectionItemVH(view)
             }
+
             MORE -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.show_all_layout, parent, false)
-                return SectionItemVH(view)
+                return SectionMore(view)
             }
         }
         //  return null
@@ -107,89 +102,114 @@ class SmartAdapter(
         return SectionItemVH(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val `object` = sourceList!![position]
 
-        if (`object` != null) {
-            when (`object`.type) {
-                CITY_TYPE -> (holder as SectionHeaderVH?)!!.tvHeader.text = "" + `object`.date
+
+
+
+    fun getKey(position: Int): Int? {
+        Log.e("getKey", "getKey: "+position+"??"+keys)
+        return keys!!.get(position)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+
+
+        if (getItemViewType(position) != 4) {
+            val key: Int? = getKey(position)
+           // Log.e("TAG", "onBindViewHolder: " + sourceList)
+            val `object` = sourceList.get(key)
+            value = `object` as ArrayList<AllMails>
+            when (getKey(position)) {
+                CITY_TYPE -> (holder as SectionHeaderVH?)!!.tvHeader.text =
+                    "" + value!!.get(key!!).type
+
+                MORE -> (holder as SectionMore?)!!.showall.text = "Show More"
                 COUNTRY_TYPE -> {
-                    sourceListselect.add(`object`)
-                    if (!`object`.title.equals(null))
-                    (holder as SectionItemVH?)!!.textView.text =spiltString(`object`.title!!)
-                    (holder as SectionItemVH?)!!.txtSourceName.text = `object`.content
-                    (holder as SectionItemVH?)!!.txtsubtitle.text = `object`.author
-                    (holder as SectionItemVH?)!!.txtDate.text = `object`.date
+                    // sourceListselect.add(`object`)
+
+                    (holder as SectionItemVH?)!!.textView.text =
+                        spiltString(value!!.get(key!!).title!!)
+                    (holder as SectionItemVH?)!!.txtSourceName.text = value!!.get(key!!).content
+                    (holder as SectionItemVH?)!!.txtsubtitle.text = value!!.get(key!!).author
+                    (holder as SectionItemVH?)!!.txtDate.text = value!!.get(key!!).date
                     Glide.with(context)
-                        .load(`object`.url)
+                        .load(value!!.get(key!!).url)
                         .centerCrop()
                         .placeholder(R.drawable.pic4)
                         .apply(RequestOptions().override(100, 100))
                         .into((holder as SectionItemVH?)!!.img_thumbnail)
-                   // viewBinderHelper.bind(holder.swipe,  sourceList.get(position).title);
-                   // viewBinderHelper.setOpenOnlyOne(true)
-                   // viewBinderHelper.closeLayout( sourceList.get(position).title)
+                    // viewBinderHelper.bind(holder.swipe,  sourceList.get(position).title);
+                    // viewBinderHelper.setOpenOnlyOne(true)
+                    // viewBinderHelper.closeLayout( sourceList.get(position).title)
 
-                    (holder as SectionItemVH).outer.setOnLongClickListener {
-
-                        selectItem(holder, `object`, position)
-                        var index = getCategoryPos(`object`)
-
-
-                        showselect(true)
-                        holder.selection.visibility = View.VISIBLE
-                        isEnable = true
-                        fromlongclick = true
-                        notifyDataSetChanged()
-                        true
-
-                    }
-                    (holder as SectionItemVH).outer.setOnClickListener {
-                        Log.d(
-                            "TAG",
-                            "onBindViewHolder: " + itemselectedList.size + ">" + ">" +position+ ">>" + `object`.title)
-                        var index = getCategoryPos(`object`)
-                        if (itemselectedList.size != 0)
-                            Log.d(
-                                "TAG",
-                                "onBindViewHolder: " + itemselectedList.size + ">" + ">" + index + ">>" + `object`.title)
-
-                        if (itemselectedList.contains(`object`)) {
-                            itemselectedList.removeAt(index)
-                            holder.selection.visibility = View.GONE
-
-                            `object`.isselected = false
-                            if (itemselectedList.isEmpty()) {
-                                showselect(false)
-                                isEnable = false
-                            }
-                            Log.d(
-                                "TAG",
-                                "onBindViewHolder:itemselectedlist " + itemselectedList.size
-                            )
-                            if (itemselectedList.size == 0) {
-                                notifyDataSetChanged()
-                            }
-
-
-                        } else {
-                            if (isEnable) {
-                                isEnable = false
-
-                                selectItem(holder, `object`, position)
-                                holder.selection.visibility = View.VISIBLE
-                                showselect(true)
-                            } else {
-                                context.startActivity(Intent(context, ComposeActivity::class.java).putExtra("id",position))
-                                context.overridePendingTransition(
-                                    R.anim.slide_in_up,
-                                    R.anim.slide_out_up
-                                )
-                            }
-
-
-                        }
-                    }
+//                    (holder as SectionItemVH).outer.setOnLongClickListener {
+//
+//                        selectItem(holder, `object`, position)
+//                        var index = getCategoryPos(`object`)
+//
+//
+//                        showselect(true)
+//                        holder.selection.visibility = View.VISIBLE
+//                        isEnable = true
+//                        fromlongclick = true
+//                        notifyDataSetChanged()
+//                        true
+//
+//                    }
+//                    (holder as SectionItemVH).outer.setOnClickListener {
+//                        Log.d(
+//                            "TAG",
+//                            "onBindViewHolder: " + itemselectedList.size + ">" + ">" + position + ">>" + `object`.title
+//                        )
+//                        var index = getCategoryPos(`object`)
+//                        if (itemselectedList.size != 0)
+//                            Log.d(
+//                                "TAG",
+//                                "onBindViewHolder: " + itemselectedList.size + ">" + ">" + index + ">>" + `object`.title
+//                            )
+//
+//                        if (itemselectedList.contains(`object`)) {
+//                            itemselectedList.removeAt(index)
+//                            holder.selection.visibility = View.GONE
+//
+//                            `object`.isselected = false
+//                            if (itemselectedList.isEmpty()) {
+//                                showselect(false)
+//                                isEnable = false
+//                            }
+//                            Log.d(
+//                                "TAG",
+//                                "onBindViewHolder:itemselectedlist " + itemselectedList.size
+//                            )
+//                            if (itemselectedList.size == 0) {
+//                                notifyDataSetChanged()
+//                            }
+//
+//
+//                        } else {
+//                            if (isEnable) {
+//                                isEnable = false
+//
+//                              //  selectItem(holder, `object`, position)
+//                                holder.selection.visibility = View.VISIBLE
+//                                showselect(true)
+//                            } else {
+//                                context.startActivity(
+//                                    Intent(
+//                                        context,
+//                                        ComposeActivity::class.java
+//                                    ).putExtra("id", position)
+//                                )
+//                                context.overridePendingTransition(
+//                                    R.anim.slide_in_up,
+//                                    R.anim.slide_out_up
+//                                )
+//                            }
+//
+//
+//                        }
+//                    }
                     if (isEnable && isselectall) {
                         holder.selection.visibility = View.VISIBLE
                         holder.img_thumbnail.setImageResource(R.drawable.ic_unselect)
@@ -214,16 +234,17 @@ class SmartAdapter(
 
             }
 
-        }
+        }else
+        Log.e("TAG", "onBindViewHolder: "+"44")
 
 
     }
 
-    private fun getCategoryPos(category: Email): Int {
+    private fun getCategoryPos(category: AllMails): Int {
         return itemselectedList.indexOf(category)
     }
 
-    private fun selectItem(holder: SectionItemVH, article: Email, position: Int) {
+    private fun selectItem(holder: SectionItemVH, article: AllMails, position: Int) {
         isEnable = true
         itemselectedList.add(article)
         article.isselected = true
@@ -234,37 +255,39 @@ class SmartAdapter(
     }
 
     override fun getItemCount(): Int {
-        return sourceList?.size ?: 0
+        return sourceList.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (sourceList != null) {
-            val `object` = sourceList[position]
-            if (`object` != null) {
-                return `object`.type
+        if (keys.size!=0) {
+            return getKey(position)!!
+        }
+
+           return 4
+
+    }
+
+    fun adddata(articles: HashMap<Int, List<AllMails>>) {
+        keys = ArrayList(sourceList!!.keys)
+        Log.d("fetchAllData", "fetchAllData>>: " + articles.size)
+        sourceList = articles
+        //notifyItemInserted((sourceList.size-1))
+     notifyItemInserted(sourceList.size-1)
+
+    }
+
+    fun spiltString(someText: String): String {
+        var spiltString = someText.split("<")
+        Log.d("TAG", "spiltString: " + spiltString)
+        for (substring in spiltString) {
+            if (!substring.isEmpty()) {
+                return substring
             }
         }
-        return 0
+        return ""
     }
 
-    fun adddata(articles: MutableList<Email>?) {
-        sourceList= articles as ArrayList<Email>
-        //notifyItemInserted((sourceList.size-1))
-        notifyDataSetChanged()
-
-    }
-fun spiltString(someText:String):String
-{
-   var spiltString=  someText.split("<")
-    Log.d("TAG", "spiltString: "+spiltString)
-    for (substring in spiltString) {
-        if (!substring.isEmpty()) {
-          return substring
-        }
-    }
-    return ""
-}
-    internal inner class SectionItemVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class SectionItemVH(itemView: View) :  RecyclerView.ViewHolder(itemView) {
         var textView: TextView
         var img_thumbnail: ImageView
         var selection: ImageView
@@ -272,7 +295,7 @@ fun spiltString(someText:String):String
         val txtsubtitle: TextView
         val txtDate: TextView
         val outer: LinearLayout
-      //  lateinit var swipe: SwipeRevealLayout
+        //  lateinit var swipe: SwipeRevealLayout
 
         init {
 
@@ -280,10 +303,11 @@ fun spiltString(someText:String):String
             textView = itemView.findViewById(R.id.txt_title)
             img_thumbnail = itemView.findViewById(R.id.img_thumbnail)
             selection = itemView.findViewById(R.id.selection)
-            txtSourceName = itemView.findViewById(R.id.txt_source_name_sub)
+            txtSourceName = itemView.findViewById(R.id.sender)
             txtsubtitle = itemView.findViewById(R.id.txt_source_name)
+            txtsubtitle.minLines= prefs.NoOfLine!!
             txtDate = itemView.findViewById(R.id.txt_date)
-           // swipe = itemView.findViewById(R.id.swipe_layoutmain)
+            // swipe = itemView.findViewById(R.id.swipe_layoutmain)
             itemView.setLongClickable(true);
 
 
@@ -297,6 +321,8 @@ fun spiltString(someText:String):String
         }
 
 
+
+
     }
 
 
@@ -305,6 +331,14 @@ fun spiltString(someText:String):String
 
         init {
             tvHeader = itemView.findViewById(R.id.txt_source_name)
+        }
+    }
+
+    internal inner class SectionMore(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var showall: TextView
+
+        init {
+            showall = itemView.findViewById(R.id.showall)
         }
     }
 }

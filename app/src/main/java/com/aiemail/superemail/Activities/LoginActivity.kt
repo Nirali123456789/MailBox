@@ -1,43 +1,55 @@
 package com.aiemail.superemail.Activities
 
 
+import android.accounts.Account
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.StrictMode
 import android.util.Log
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.aiemail.superemail.Models.Email
 import com.aiemail.superemail.MyApplication
 import com.aiemail.superemail.R
+import com.aiemail.superemail.Slideshow.OnBoardingActivity
 import com.aiemail.superemail.databinding.ActivityLoginBinding
-import com.aiemail.superemail.feature.Models.Email
-import com.aiemail.superemail.feature.Slideshow.OnBoardingActivity
-import com.aiemail.superemail.feature.utilis.Constant
-import com.aiemail.superemail.feature.viewmodel.EmailViewmodel
 import com.aiemail.superemail.prefs
+import com.aiemail.superemail.utilis.Helpers
+import com.aiemail.superemail.utilis.PeopleHelper
+import com.aiemail.superemail.viewmodel.EmailViewmodel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
+import com.google.api.client.http.HttpTransport
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import com.google.api.client.json.gson.GsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.gmail.Gmail
 import com.google.api.services.gmail.GmailScopes
 import com.google.api.services.gmail.model.ListMessagesResponse
 import com.google.api.services.gmail.model.Message
+import com.google.api.services.people.v1.PeopleService
+import com.google.api.services.people.v1.model.ListConnectionsResponse
 import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
 import org.apache.http.client.ClientProtocolException
@@ -84,11 +96,43 @@ class LoginActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Constant.SetUpFullScreen(window)
+        Helpers.SetUpFullScreen(window)
+        //Hide navigation bar and status bar.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.let {
+                // Default behavior is that if navigation bar is hidden, the system will "steal" touches
+                // and show it again upon user's touch. We just want the user to be able to show the
+                // navigation bar by swipe, touches are handled by custom code -> change system bar behavior.
+                // Alternative to deprecated SYSTEM_UI_FLAG_IMMERSIVE.
+                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                // make navigation bar translucent (alternative to deprecated
+                // WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+                // - do this already in hideSystemUI() so that the bar
+                // is translucent if user swipes it up
 
+                // Finally, hide the system bars, alternative to View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                // and SYSTEM_UI_FLAG_FULLSCREEN.
+                it.hide(WindowInsets.Type.systemBars())
+            }
+        } else {
+            Helpers.hideSystemUI(this.window.decorView)
+
+
+
+
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SetUpUi()
+
+
+
+
+
+    }
+
+    private fun SetUpUi() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         val gso: GoogleSignInOptions =
@@ -97,55 +141,24 @@ class LoginActivity : AppCompatActivity() {
                     Scope("https://mail.google.com/"),
                     Scope(GmailScopes.GMAIL_READONLY),
                     Scope(GmailScopes.GMAIL_SEND),
-                    Scope(GmailScopes.GMAIL_LABELS)
+                    Scope(GmailScopes.GMAIL_LABELS),
+                    Scope("https://www.googleapis.com/auth/contacts.readonly")
+
+
                 )
                 .requestIdToken(resources.getString(R.string.web_id))
+                .requestServerAuthCode(resources.getString(R.string.web_id))
                 .requestEmail()
                 .build()
 
         var mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        //setGooglePlusButtonText(binding.login,"Sign up with Google")
         binding.login.setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             getResult.launch(signInIntent)
 
 
         }
-
-
-        // ATTENTION: This was auto-generated to handle app links.
-        val appLinkIntent: Intent = intent
-        val appLinkAction: String? = appLinkIntent.action
-        val appLinkData: Uri? = appLinkIntent.data
-        var wv1 = binding.webview1
-
-        wv1.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-
-                // If you wnat to open url inside then use
-                view.loadUrl(url);
-
-                // if you wanna open outside of app
-                /*if (url.contains(URL)) {
-                        view.loadUrl(url)
-                        return false
-                    }else {
-                        // Otherwise, give the default behavior (open in browser)
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        startActivity(intent)
-                        return true
-                    }*/
-
-
-                return true
-            }
-
-
-        }
-        wv1.getSettings().setJavaScriptEnabled(true);
-
-
-        // wv1.loadData(html, "text/html", "UTF-8");
     }
 
     private val getResult =
@@ -174,10 +187,15 @@ class LoginActivity : AppCompatActivity() {
         val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)!!
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         val idToken1 = account.idToken
+        var AuthCode:String=""
+        if (acct != null) {
+            AuthCode= account.getServerAuthCode()!!
+            Log.d("TAG", "auth Code:" + AuthCode)
+        };
 
         val personId = acct!!.id
         val personPhoto = acct!!.photoUrl
-        Log.d("TAG", "handleSignInResult: " + personId + "??" + idToken1)
+        Log.d("TAG", "handleSignInResult: " + personId + "??" + personPhoto)
 
 
 //        #Authnticate
@@ -207,20 +225,20 @@ class LoginActivity : AppCompatActivity() {
 
         var idToken = verifier.verify(idToken1);
         if (idToken1 != null) {
-            var payload = idToken.getPayload();
-            var userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
-            var email = payload.getEmail();
-            var emailVerified = payload.getEmailVerified();
-            var name = payload.get("name");
+         //   var payload = idToken.getPayload();
+//            var userId = payload.getSubject();
+//            System.out.println("User ID: " + userId);
+//            var email = payload.getEmail();
+//            var emailVerified = payload.getEmailVerified();
+//            var name = payload.get("name");
             Log.i("TAG33", "Signed in as: " + account.givenName)
             // updateUI()
 
 
             (application as MyApplication).repository.fetchMails(
                 this@LoginActivity,
-                email,
-                email,
+                acct.email!!,
+                acct.email!!,
                 acct,
                 2
             )
@@ -230,9 +248,22 @@ class LoginActivity : AppCompatActivity() {
                 applicationContext.getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE)
                     .edit()
             editor.putString("username", acct.email)
-            editor.putString("account", "")
+            editor.putString("account", acct.displayName)
+            editor.putString("AuthCode",AuthCode)
+            editor.putString("PersonPic",personPhoto.toString())
             editor.commit()
+            Thread {
+
+                // Fetch the user's profile picture URL
+                var myPref = getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE);
+                var Authcode = myPref.getString("AuthCode", "");
+                var username = myPref.getString("username", "");
+            //peopleApiCall(Authcode!!, acct.account!!)
+
+
+            }.start()
             updateUI()
+
 
             //encript if you need to secure it
 
@@ -359,6 +390,61 @@ class LoginActivity : AppCompatActivity() {
             //updateUI()
         }
     }
+//    public fun peopleApiCall(serverAuthCode: String,acc: Account) {
+//        val httpTransport: HttpTransport = NetHttpTransport()
+//        val jsonFactory = JacksonFactory.getDefaultInstance()
+//
+//        // Redirect URL for web based applications.
+//        // Can be empty too.
+//        val redirectUrl = "urn:ietf:wg:oauth:2.0:oob"
+//
+//
+//        // Exchange auth code for access token
+//        val tokenResponse = GoogleAuthorizationCodeTokenRequest(
+//            httpTransport,
+//            jsonFactory,
+//            "390762603984-lbdjhgffolaq6eb6jemsljand6orptqs.apps.googleusercontent.com",
+//            "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",
+//            serverAuthCode,
+//            redirectUrl
+//        ).execute()
+//
+//        // Then, create a GoogleCredential object using the tokens from GoogleTokenResponse
+//        val credential = GoogleCredential.Builder()
+//            .setClientSecrets(
+//                "390762603984-lbdjhgffolaq6eb6jemsljand6orptqs.apps.googleusercontent.com",
+//                "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"
+//            )
+//            .setTransport(httpTransport)
+//            .setJsonFactory(jsonFactory)
+//            .build()
+//        credential.setFromTokenResponse(tokenResponse)
+//        val peopleService = PeopleHelper.setUp(this, serverAuthCode, acc)
+//        val id= PeopleHelper.getPersonIdFromEmail("swainfo.nirali@gmail.com", credential,this)
+//        val peopleService1 = PeopleService.Builder(
+//            GoogleNetHttpTransport.newTrustedTransport(),
+//            GsonFactory.getDefaultInstance(),
+//            credential
+//        ).setApplicationName(getString(R.string.app_name)).build()
+//        // Retrieve the visible people
+//        // Retrieve the visible people
+//
+//        Log.d("TAG", "peopleApiCall: "+id)
+//        val response = peopleService1.people().get("people/102849317771326025140")
+//            .setPersonFields("photos")
+//
+//
+//            .execute()
+//
+//
+//        Log.d("TAG", "peopleApiCall: "+response)
+////        val people: MutableList<com.google.api.services.plus.model.Person>? = peopleFeed.items
+////        for (p in people?.indices!!) {
+////            Log.d("peopleApiCall", "peopleApiCall: " + people.get(p).url)
+////        }
+//
+//
+//    }
 
     fun getEmails(gmail: Gmail): ListMessagesResponse {
         val userId = "me" // 'me' represents the authenticated user
@@ -414,7 +500,17 @@ class LoginActivity : AppCompatActivity() {
             }, 3100)
         }
     }
-
+    protected fun setGooglePlusButtonText(signInButton: SignInButton, buttonText: String?) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (i in 0 until signInButton.childCount) {
+            val v: View = signInButton.getChildAt(i)
+            if (v is TextView) {
+                val tv = v as TextView
+                tv.text = buttonText
+                return
+            }
+        }
+    }
 
 //
 

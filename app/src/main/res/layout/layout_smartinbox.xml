@@ -4,7 +4,7 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:background="@color/colorWhite"
+        android:background="@color/background"
    >
     <TextView
             android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:fontFamily="@font/regular"
             android:gravity="start"
             android:lineSpacingExtra="@dimen/_1sdp"
-            android:text="Select the type of inbox you'd like to adjust.You can\nswitch between the types directly in your inbox."
+            android:text="@string/select_Inbox"
             android:textColor="@color/grey_regular"
             android:textSize="@dimen/_12sdp" />
     <LinearLayout

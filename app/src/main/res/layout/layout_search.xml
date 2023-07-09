@@ -4,33 +4,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+
         android:orientation="vertical">
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-<LinearLayout
-        android:background="#D7D5EF"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_5sdp">
-    <ImageView
-            android:id="@+id/back"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/ic_back"
-            app:tint="@color/darkgrey" />
-        <TextView
-                android:padding="@dimen/_8sdp"
-                android:textColor="@color/black_med"
-                android:textSize="@dimen/_12sdp"
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/medium"
-            android:text="Search in mail"/>
-</LinearLayout>
+                android:background="@color/bg"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+
+            <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_back"
+                    app:tint="@color/darkgrey" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/medium"
+                    android:padding="@dimen/_8sdp"
+                    android:text="@string/searchmail"
+                    android:textColor="@color/black_med"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone" />
+
+
+            <androidx.appcompat.widget.SearchView
+
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="end" />
+        </LinearLayout>
+        <FrameLayout
+                android:layout_below="@+id/appbar_layout"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         <com.google.android.material.tabs.TabLayout
+                android:visibility="gone"
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,29 +64,36 @@
 
 
                 >
-        <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recent"
-                />
 
-        <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saved" />
+            <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recent" />
+
+            <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saved" />
         </com.google.android.material.tabs.TabLayout>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-            android:background="@color/grey_regular"/>
+                android:background="@color/grey_regular" />
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-
+        <androidx.viewpager.widget.ViewPager
+                android:visibility="gone"
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     </LinearLayout>

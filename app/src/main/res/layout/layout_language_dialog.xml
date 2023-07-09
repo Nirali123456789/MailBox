@@ -17,6 +17,7 @@
 
 
         <RadioGroup
+                android:id="@+id/languges"
                 android:paddingBottom="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -40,8 +41,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
-                    android:text="English"
+                    android:text="@string/English"
                     android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/textColorPrimary"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -50,28 +52,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
-                    android:text="German"
+                    android:text="@string/German"
                     android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/regular"/>
-
-            <RadioButton
-                    style="@style/MyRadioButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:padding="@dimen/_8sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:text="Spanish(Spain)"
-                    android:fontFamily="@font/regular"/>
-
-            <RadioButton
-                    style="@style/MyRadioButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:padding="@dimen/_8sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:text="French"
+                    android:textColor="@color/textColorPrimary"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -81,7 +64,8 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Italian"
+                    android:textColor="@color/textColorPrimary"
+                    android:text="@string/spanish"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -91,7 +75,8 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Japanese"
+                    android:text="@string/French"
+                    android:textColor="@color/textColorPrimary"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -101,7 +86,8 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Portuguese"
+                    android:text="@string/Italian"
+                    android:textColor="@color/textColorPrimary"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -111,7 +97,8 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Russian"
+                    android:text="@string/Japanese"
+                    android:textColor="@color/textColorPrimary"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -121,7 +108,30 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Chinese"
+                    android:text="@string/Portuguese"
+                    android:textColor="@color/textColorPrimary"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="@string/Russian"
+                    android:fontFamily="@font/regular"/>
+
+            <RadioButton
+                    style="@style/MyRadioButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:textColor="@color/textColorPrimary"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="@string/Chinese"
                     android:fontFamily="@font/regular"/>
 
             <RadioButton
@@ -131,7 +141,8 @@
                     android:layout_margin="@dimen/_3sdp"
                     android:padding="@dimen/_8sdp"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Ukrainian"
+                    android:textColor="@color/textColorPrimary"
+                    android:text="@string/Ukrainian"
                     android:fontFamily="@font/regular"/>
 
         </RadioGroup>

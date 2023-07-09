@@ -6,7 +6,8 @@ import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import io.karn.notify.Notify
+import com.aiemail.superemail.notify.Notify
+
 
 /**
  * MIT License
@@ -62,17 +63,25 @@ class NotificationListenerExampleService : NotificationListenerService() {
 
         if (sbn.packageName.equals("com.google.android.gm") && !posted) {
             posted=true
-            Log.d("TAG", "onNotificationPosted: " + sbn.notification)
+
+            val extras = sbn.notification.extras
+            val sender = extras.getString("android.title")
+            val subject = extras.getCharSequence("android.text")
+            val message = extras.getCharSequence("android.bigText")
+            val subText_m = extras.getCharSequence("android.subText")
+            Log.d("TAG", "onNotificationPosted: " +extras.getString("android.subText"))
 //            val intent = Intent("com.github.chagall.notificationlistenerexample")
 //            intent.putExtra("Notification Code", notificationCode)
 //            sendBroadcast(intent)
             Notify
                 .with(this)
                 .content { // this: Payload.Content.Default
-                    title = sbn.notification.extras.getCharSequence(Notification.EXTRA_TITLE)
-                    text = sbn.notification.extras.getCharSequence(Notification.EXTRA_TEXT)
+                    title = sender
+                    text = subject
+                    body=message
+                    subText=subText_m
                 }
-                .show()
+                .show(this)
         }
     }
 

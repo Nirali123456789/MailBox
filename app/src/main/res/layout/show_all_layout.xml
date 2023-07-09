@@ -4,7 +4,12 @@
         android:id="@+id/showall"
         android:textColor="@color/colorPurple"
         android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/bold"
         android:padding="@dimen/_5sdp"
-        android:layout_height="match_parent">
+        android:gravity="center"
+        android:text="@string/ShowMore"
+        android:layout_gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
 
 </TextView>

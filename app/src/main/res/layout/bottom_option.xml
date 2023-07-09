@@ -5,7 +5,8 @@
         android:layout_height="@dimen/_350sdp"
         android:background="@drawable/dialog_bottom_bg"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/_20sdp">
+        android:paddingBottom="@dimen/_20sdp"
+        android:id="@+id/rootLayout">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -84,6 +85,7 @@
             android:weightSum="4">
 
         <LinearLayout
+                android:id="@+id/forward"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -109,6 +111,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/move"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -135,6 +138,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -162,6 +166,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -198,6 +203,7 @@
             android:weightSum="4">
 
         <LinearLayout
+                android:id="@+id/move_spam"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -223,6 +229,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/mute"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -250,6 +257,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/print"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -277,6 +285,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/pdfConvert"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -313,6 +322,7 @@
             android:weightSum="4">
 
         <LinearLayout
+                android:id="@+id/send_again"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -365,6 +375,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -392,6 +403,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/aside"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -428,6 +440,7 @@
             android:weightSum="4">
 
         <LinearLayout
+                android:visibility="gone"
                 android:layout_width="0dp"
 
                 android:layout_height="wrap_content"
@@ -454,6 +467,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/tool"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -481,8 +495,8 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/editToolbar"
                 android:layout_width="0dp"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"

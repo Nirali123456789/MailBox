@@ -37,6 +37,7 @@
     </RelativeLayout>
 
     <EditText
+            android:id="@+id/team_name"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
@@ -111,8 +112,7 @@
     </RelativeLayout>
     <TextView
             android:layout_marginTop="@dimen/_5sdp"
-            android:id="@+id/remove"
-
+            android:id="@+id/create_team"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_15sdp"

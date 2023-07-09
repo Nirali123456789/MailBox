@@ -2,223 +2,256 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
+
     <TextView
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_toEndOf="@+id/team"
             android:id="@+id/group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tune available Snooze times to your liking"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/team"
+            android:fontFamily="@font/medium"
             android:paddingStart="@dimen/_5sdp"
             android:paddingTop="@dimen/_2sdp"
             android:paddingEnd="@dimen/_5sdp"
-            android:fontFamily="@font/medium"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/grey_regular"/>
+            android:text="@string/TuneavailableSnoozetimestoyourliking"
+            android:textColor="@color/grey_regular"
+            android:textSize="@dimen/_10sdp" />
+
     <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="vertical">
+
         <LinearLayout
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
                 android:id="@+id/newsendr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:orientation="vertical">
 
-                android:layoutDirection="rtl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Later today"
-                android:gravity="start|center"
-                android:checkMark="@drawable/check_mark"
-                android:fontFamily="@font/regular"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
-                />
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkMark="@drawable/check_mark"
+                    android:checked="true"
+                    android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/Latertoday"
+                    android:editable="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"
+                    />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                android:text="+3 hr"
-                android:fontFamily="@font/regular"
-                android:textSize="@dimen/_10sdp"/>
+                    android:fontFamily="@font/regular"
+                    android:text="@string/Threehr"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
 
         <LinearLayout
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checkMark="@drawable/check_mark"
+                    android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
                     android:text="This evening"
-                    android:gravity="start|center"
-                    android:checkMark="@drawable/check_mark"
-                    android:fontFamily="@font/regular"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:textSize="@dimen/_13sdp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="08:00 pm"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/night"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tomorrow"
-                    android:gravity="start|center"
                     android:checkMark="@drawable/check_mark"
                     android:fontFamily="@font/regular"
+                    android:checked="true"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/tomorrow"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp"
-                    />
+                    android:editable="false"/>
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="09:00 am"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/morning"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check4"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tomorrow Eve"
-                    android:gravity="start|center"
                     android:checkMark="@drawable/check_mark"
                     android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/tomorrow_eve"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:textSize="@dimen/_13sdp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="08:00 pm"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/night"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check5"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Weekend"
-                    android:gravity="start|center"
                     android:checkMark="@drawable/check_mark"
                     android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/weekend"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:textSize="@dimen/_13sdp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="+3 hr"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/Threehr"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Next Week"
-                    android:gravity="start|center"
                     android:checkMark="@drawable/check_mark"
                     android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/NextWeek"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:textSize="@dimen/_13sdp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="09:00 am"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/morning"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatCheckBox
 
-                    android:layoutDirection="rtl"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/check7"
+                    android:checked="true"
+                    android:editable="false"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="In a Month"
-                    android:gravity="start|center"
                     android:checkMark="@drawable/check_mark"
                     android:fontFamily="@font/regular"
+                    android:gravity="start|center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/month"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:textSize="@dimen/_13sdp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="+3 hr"
                     android:fontFamily="@font/regular"
-                    android:textSize="@dimen/_10sdp"/>
+                    android:text="@string/Threehr"
+                    android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <androidx.appcompat.widget.SwitchCompat
-                android:theme="@style/ThemeOverlay.MySwitchCompat"
+                android:editable="false"
+                android:id="@+id/check8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pickdate"
@@ -230,9 +263,10 @@
                 android:fontFamily="@font/regular"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
-                android:text="Load Remote Images"
+                android:text="@string/loadremote"
                 android:textColor="@color/black_med"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_14sdp"
+                android:theme="@style/ThemeOverlay.MySwitchCompat" />
     </LinearLayout>
 
 </LinearLayout>

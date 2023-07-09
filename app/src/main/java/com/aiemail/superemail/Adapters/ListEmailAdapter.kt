@@ -2,7 +2,6 @@ package com.aiemail.superemail.Adapters
 
 
 import android.app.Activity
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aiemail.superemail.Activities.ComposeActivity
+import com.aiemail.superemail.Models.Email
 import com.aiemail.superemail.R
-import com.aiemail.superemail.feature.Models.Email
+import com.aiemail.superemail.prefs
+import com.aiemail.superemail.utilis.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 class ListEmailAdapter(
     context: Activity,
     sourceList: ArrayList<Email>,
+    clickListener: ClickListenerData,
     var showselect: (Boolean) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,12 +38,17 @@ class ListEmailAdapter(
     private var sourceListselect: ArrayList<Email> = arrayListOf()
     private lateinit var mRecentlyDeletedItem: Email
     var mRecentlyDeletedItemPosition = 0
+    private val clickListener: ClickListenerData
+    lateinit var preferenceManager: PreferenceManager
 
     init {
 
         Log.d("TAG", "NewsAdapter: " + sourceList.size)
         this.context = context
         this.sourceList = sourceList
+        this.clickListener = clickListener
+        preferenceManager = this.context?.let { PreferenceManager(it) }!!
+        preferenceManager.SetUpPreference()
 
     }
 
@@ -52,7 +59,25 @@ class ListEmailAdapter(
         notifyItemRemoved(position)
         showUndoSnackbar(a)
     }
-
+    fun addItem(item: Email?, position: Int) {
+        try {
+            sourceList.add(position, item!!)
+            notifyItemInserted(position)
+        } catch (e: Exception) {
+            Log.e("MainActivity", e.message!!)
+        }
+    }
+    fun removeItem(position: Int): Email? {
+        var item: Email? = null
+        try {
+            item = sourceList.get(position)
+            sourceList.removeAt(position)
+            notifyItemRemoved(position)
+        } catch (e: java.lang.Exception) {
+            Log.e("TAG", e.message!!)
+        }
+        return item
+    }
     var isselectall: Boolean = false
     fun getAllList(select: Boolean) {
         isselectall = select
@@ -110,19 +135,18 @@ class ListEmailAdapter(
                 COUNTRY_TYPE -> {
                     sourceListselect.add(`object`)
                     if (!`object`.title.equals(null))
-                    (holder as SectionItemVH?)!!.textView.text =spiltString(`object`.title!!)
-                    (holder as SectionItemVH?)!!.txtSourceName.text = `object`.content
-                    (holder as SectionItemVH?)!!.txtsubtitle.text = `object`.author
+                        (holder as SectionItemVH?)!!.sender.text = spiltString(`object`.sender!!)
+                    (holder as SectionItemVH?)!!.subject.text = `object`.author
+                    (holder as SectionItemVH?)!!.body.text = `object`.content
                     (holder as SectionItemVH?)!!.txtDate.text = `object`.date
+
                     Glide.with(context)
-                        .load(`object`.url)
+                        .load(`object`.urlToImage)
                         .centerCrop()
                         .placeholder(R.drawable.pic4)
                         .apply(RequestOptions().override(100, 100))
                         .into((holder as SectionItemVH?)!!.img_thumbnail)
-                   // viewBinderHelper.bind(holder.swipe,  sourceList.get(position).title);
-                   // viewBinderHelper.setOpenOnlyOne(true)
-                   // viewBinderHelper.closeLayout( sourceList.get(position).title)
+
 
                     (holder as SectionItemVH).outer.setOnLongClickListener {
 
@@ -141,12 +165,14 @@ class ListEmailAdapter(
                     (holder as SectionItemVH).outer.setOnClickListener {
                         Log.d(
                             "TAG",
-                            "onBindViewHolder: " + itemselectedList.size + ">" + ">" +position+ ">>" + `object`.title)
+                            "onBindViewHolder: " + itemselectedList.size + ">" + ">" + position + ">>" + `object`.title
+                        )
                         var index = getCategoryPos(`object`)
                         if (itemselectedList.size != 0)
                             Log.d(
                                 "TAG",
-                                "onBindViewHolder: " + itemselectedList.size + ">" + ">" + index + ">>" + `object`.title)
+                                "onBindViewHolder: " + itemselectedList.size + ">" + ">" + index + ">>" + `object`.title
+                            )
 
                         if (itemselectedList.contains(`object`)) {
                             itemselectedList.removeAt(index)
@@ -157,10 +183,7 @@ class ListEmailAdapter(
                                 showselect(false)
                                 isEnable = false
                             }
-                            Log.d(
-                                "TAG",
-                                "onBindViewHolder:itemselectedlist " + itemselectedList.size
-                            )
+
                             if (itemselectedList.size == 0) {
                                 notifyDataSetChanged()
                             }
@@ -174,11 +197,9 @@ class ListEmailAdapter(
                                 holder.selection.visibility = View.VISIBLE
                                 showselect(true)
                             } else {
-                                context.startActivity(Intent(context, ComposeActivity::class.java).putExtra("id",position))
-                                context.overridePendingTransition(
-                                    R.anim.slide_in_up,
-                                    R.anim.slide_out_up
-                                )
+                                Log.d("TAG", "onBindViewHolder: " + `object`)
+                                clickListener.onItemRootViewClicked(`object`, position)
+
                             }
 
 
@@ -190,8 +211,8 @@ class ListEmailAdapter(
 
                     } else {
                         if (isEnable) {
-                            //holder.selection.visibility = View.VISIBLE
-                            // holder.img_thumbnail.setImageResource(R.drawable.ic_unselect)
+                            holder.selection.visibility = View.VISIBLE
+                            holder.img_thumbnail.setImageResource(R.drawable.ic_unselect)
                             if (fromlongclick) {
                                 holder.img_thumbnail.setImageResource(R.drawable.ic_unselect)
                             }
@@ -208,6 +229,7 @@ class ListEmailAdapter(
 
             }
 
+
         }
 
 
@@ -222,7 +244,7 @@ class ListEmailAdapter(
         itemselectedList.add(article)
         article.isselected = true
         holder.selection.visibility = View.VISIBLE
-        Log.d("TAG", "onBindViewHolder: " + article.id)
+        Log.d("TAG", "onBindViewHolder: " + article.sender)
 
 
     }
@@ -242,50 +264,58 @@ class ListEmailAdapter(
     }
 
     fun adddata(articles: MutableList<Email>?) {
-        sourceList= articles as ArrayList<Email>
-        //notifyItemInserted((sourceList.size-1))
-        notifyDataSetChanged()
+//        sourceList = articles as ArrayList<Email>
+        val diffResult = DiffUtil.calculateDiff(ItemDiffCallback(sourceList, articles!!))
+        sourceList = articles as ArrayList<Email>
+        diffResult.dispatchUpdatesTo(this)
 
     }
-fun spiltString(someText:String):String
-{
-   var spiltString=  someText.split("<")
-    Log.d("TAG", "spiltString: "+spiltString)
-    for (substring in spiltString) {
-        if (!substring.isEmpty()) {
-          return substring
+
+    fun spiltString(someText: String): String {
+        var spiltString = someText.split("<")
+        Log.d("TAG", "spiltString: " + spiltString)
+        for (substring in spiltString) {
+            if (!substring.isEmpty()) {
+                return substring
+            }
         }
+        return ""
     }
-    return ""
-}
+
     internal inner class SectionItemVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textView: TextView
+        var sender: TextView
         var img_thumbnail: ImageView
         var selection: ImageView
-        val txtSourceName: TextView
-        val txtsubtitle: TextView
+        val subject: TextView
+        val body: TextView
         val txtDate: TextView
         val outer: LinearLayout
-      //  lateinit var swipe: SwipeRevealLayout
+        //  lateinit var swipe: SwipeRevealLayout
 
         init {
 
             outer = itemView.findViewById(R.id.outer_layout)
-            textView = itemView.findViewById(R.id.txt_title)
+            sender = itemView.findViewById(R.id.sender)
             img_thumbnail = itemView.findViewById(R.id.img_thumbnail)
             selection = itemView.findViewById(R.id.selection)
-            txtSourceName = itemView.findViewById(R.id.txt_source_name_sub)
-            txtsubtitle = itemView.findViewById(R.id.txt_source_name)
+            subject = itemView.findViewById(R.id.subject)
+            body = itemView.findViewById(R.id.body)
+            body.maxLines= prefs.NoOfLine!!
             txtDate = itemView.findViewById(R.id.txt_date)
-           // swipe = itemView.findViewById(R.id.swipe_layoutmain)
+            // swipe = itemView.findViewById(R.id.swipe_layoutmain)
             itemView.setLongClickable(true);
+            if (preferenceManager.getBoolean("avatars")){
+                img_thumbnail.visibility=View.VISIBLE
+            }else{
+                img_thumbnail.visibility=View.GONE
+            }
 
 
             itemView.setOnClickListener {
 
-                if (checkedPosition !== adapterPosition) {
+                if (checkedPosition !== absoluteAdapterPosition) {
                     notifyItemChanged(checkedPosition)
-                    checkedPosition = adapterPosition
+                    checkedPosition = absoluteAdapterPosition
                 }
             }
         }
@@ -299,6 +329,32 @@ fun spiltString(someText:String):String
 
         init {
             tvHeader = itemView.findViewById(R.id.txt_source_name)
+        }
+    }
+
+    interface ClickListenerData {
+        fun onItemRootViewClicked(
+            section: Email,
+            itemAdapterPosition: Int
+        )
+
+
+    }
+    private class ItemDiffCallback(
+        private val oldList: List<Email>,
+        private val newList: List<Email>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].msgid == newList[newItemPosition].msgid
         }
     }
 }

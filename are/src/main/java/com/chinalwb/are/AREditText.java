@@ -3,7 +3,9 @@ package com.chinalwb.are;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -65,6 +67,7 @@ public class AREditText extends AppCompatEditText {
 	private Context mContext;
 
 	private TextWatcher mTextWatcher;
+	private Paint signaturePaint;
 
 	public AREditText(Context context) {
 		this(context, null);
@@ -80,8 +83,20 @@ public class AREditText extends AppCompatEditText {
 		initGlobalValues();
 		init();
 		setupListener();
+		signaturePaint = new Paint();
+		signaturePaint.setStrokeWidth(5f);
+		signaturePaint.setStrokeCap(Paint.Cap.ROUND);
+		signaturePaint.setStrokeJoin(Paint.Join.ROUND);
+		signaturePaint.setAlpha(255);
+		signaturePaint.setAntiAlias(true);
+		signaturePaint.setStyle(Paint.Style.STROKE);
 	}
-
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		// Draw signature line
+		canvas.drawLine(0f, getHeight(), getWidth(), getHeight(), signaturePaint);
+	}
 	private void initGlobalValues() {
 		int[] wh = Util.getScreenWidthAndHeight(mContext);
 		Constants.SCREEN_WIDTH = wh[0];
@@ -406,6 +421,7 @@ public class AREditText extends AppCompatEditText {
         this.getEditableText().append(spanned);
         startMonitor();
     }
+
 
 	public String getHtml() {
 		StringBuffer html = new StringBuffer();

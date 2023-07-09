@@ -4,104 +4,107 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="@dimen/_10sdp"
-        android:padding="@dimen/_8sdp"
         android:background="@drawable/round_corner"
-        >
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
     <LinearLayout
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
         <ImageView
-                android:layout_margin="@dimen/_5sdp"
-            android:layout_gravity="center"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_5sdp"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_people"
                 app:tint="@color/colorPurple" />
-    <TextView
-
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:id="@+id/snooze"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:text="Share &amp; Discuss"
-            android:textSize="@dimen/_16sdp"
-            android:textColor="#2E2E2E"
-          android:fontFamily="@font/regular"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
         <TextView
-                android:layout_gravity="center"
-                android:gravity="start"
-                android:padding="@dimen/_5sdp"
-                android:layout_toStartOf="@+id/timew"
-                android:id="@+id/week"
-                android:layout_width="match_parent"
+
+                android:id="@+id/snooze"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:text="Invite teammates to discuss specific email conversations.Ask questions,and keep\neveryone in the loop."
-                android:lineSpacingExtra="@dimen/_1sdp"
-                android:textSize="@dimen/_10sdp"
-                android:textColor="#575656"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/regular"
+                android:text="@string/share_discuss"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/_16sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+                android:id="@+id/week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_toStartOf="@+id/timew"
+                android:fontFamily="@font/regular"
+                android:gravity="start"
+                android:lineSpacingExtra="@dimen/_1sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/Invite"
+                android:textColor="#575656"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
-                android:layout_gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            android:orientation="horizontal"
+                android:layout_gravity="end"
+                android:orientation="horizontal"
                 android:weightSum="2">
+
             <TextView
-                    android:layout_margin="@dimen/_5sdp"
                     android:id="@+id/team"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    android:textColor="@color/colorPurple"
-                    android:text="Create team"
-                    android:fontFamily="@font/medium"/>
-            <TextView
-                    android:visibility="gone"
-                    android:id="@+id/discard"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:text="Discard"
-                    android:fontFamily="@font/medium"/>
-            <TextView
                     android:layout_margin="@dimen/_5sdp"
-                    android:id="@+id/cancel"
-                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
+                    android:text="Create team"
+                    android:textColor="@color/colorPurple" />
+
+            <TextView
+                    android:id="@+id/discard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:textColor="@color/colorPurple"
-                    android:text="Cancel"
-                    android:fontFamily="@font/medium"/>
+                    android:fontFamily="@font/medium"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/discard"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+            <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/medium"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorPurple" />
         </LinearLayout>
 
 
